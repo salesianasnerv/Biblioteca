@@ -181,6 +181,8 @@
   .losa.peq-l b { font-size: 15px; margin: 0; }
   .nivel { margin-bottom: 8px; }
   .cuadros { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0 14px; }
+  .cuadros .tarjeta { display: flex; flex-direction: column; }
+  .cuadros .tarjeta > .fila { margin-top: auto; }
   button.b svg { width: 17px; height: 17px; vertical-align: -3px; margin-right: 2px; }
   .nivel-t { display: flex; align-items: center; gap: 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .07em; color: var(--suave); margin: 0 0 10px; }
   .nivel-t::before { content: ""; width: 5px; height: 16px; border-radius: 3px; background: var(--c); }
@@ -256,6 +258,44 @@
     .tejuelo .pie { font: 6pt sans-serif; text-align: center; color: #444; padding-bottom: 1mm; }
   }
   .tejuelo, .tejuelo .banda { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  /* Ayuda */
+  .guia { max-width: 820px; }
+  .guia .g-sec { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: var(--radio); padding: 4px 22px 14px; margin-bottom: 14px; }
+  .guia h2 { font-size: 19px; margin: 16px 0 10px; }
+  .guia h2::before { background: var(--verde); }
+  .guia h3 { font-size: 16px; }
+  .guia li { margin-bottom: 6px; }
+  .guia .g-dir { font-size: 18px; color: var(--azul); }
+  .guia .g-nota { background: var(--primario-claro); border-left: 4px solid var(--azul); padding: 10px 14px; border-radius: 8px; margin: 8px 0 12px; }
+  .guia .g-nota ul { margin-bottom: 0; }
+  .guia .g-c { display: inline-block; width: 22px; height: 8px; border-radius: 2px; vertical-align: middle; }
+  .guia .g-p { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: middle; }
+  .guia .g-tabla { width: 100%; border-collapse: collapse; margin: 6px 0 12px; }
+  .guia .g-tabla td { border-bottom: 1px solid var(--linea); padding: 8px 6px; }
+  .guia .g-faq dt { font-weight: 700; margin-top: 12px; }
+  .guia .g-faq dd { margin: 3px 0 0; color: var(--texto); }
+  .guia .g-peq { font-size: 13px; color: var(--suave); }
+  .guia .g-tecnico { background: var(--fondo); }
+  .paginas { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 10px 0; font-size: 14px; }
+  .paginas label { display: inline-flex; gap: 6px; align-items: center; margin: 0; font-size: 14px; color: var(--suave); }
+  .paginas select { width: auto; padding: 5px 8px; }
+  .paginas .botones { display: inline-flex; gap: 4px; align-items: center; margin-left: auto; }
+  .paginas .botones span { padding: 0 6px; }
+  .cand-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+  .cand { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: var(--radio); padding: 14px; display: flex; gap: 12px; flex-direction: column; }
+  .cand .arriba { display: flex; gap: 12px; }
+  .cand img, .cand .sinimg { width: 78px; height: 116px; object-fit: cover; border-radius: 3px 6px 6px 3px; box-shadow: 2px 3px 8px rgba(0,0,0,.2); flex: none; background: #fff; }
+  .cand .sinimg { display: grid; place-items: center; font-size: 11px; color: var(--suave); background: var(--fondo); box-shadow: none; border: 1px dashed var(--campo); text-align: center; }
+  .cand b { display: block; line-height: 1.25; }
+  .cand .dat { font-size: 13px; color: var(--suave); line-height: 1.35; }
+  .cand .sin { font-size: 13px; line-height: 1.4; max-height: 5.6em; overflow: hidden; color: var(--texto); }
+  .cand .fuente { font-size: 11px; color: var(--suave); }
+  .cand button { margin-top: auto; }
+  .rev-op { display: flex; gap: 16px; flex-wrap: wrap; font-size: 14px; margin: 10px 0; }
+  .rev-op label { display: inline-flex; gap: 6px; align-items: center; margin: 0; color: var(--texto); font-size: 14px; }
+  .mini-tej { display: inline-flex; flex-direction: column; width: 26px; height: 32px; border: 1px solid #bbb; border-radius: 3px; overflow: hidden; vertical-align: middle; margin-right: 6px; }
+  .mini-tej .banda { height: 8px; font-size: 0; }
+  .mini-tej .num { flex: 1; font: 700 9px 'Fira Sans', sans-serif; display: flex; align-items: center; justify-content: center; color: #111; background: #fff; }
   .muestra-tej { display: inline-flex; flex-direction: column; width: 90px; height: 112px; border: 1px solid #999; border-radius: 8px; overflow: hidden; vertical-align: top; }
   .muestra-tej .banda { color: #fff; font: 700 12px 'Fira Sans', sans-serif; text-align: center; padding: 6px 0; }
   .muestra-tej .num { flex: 1; display: flex; align-items: center; justify-content: center; font: 800 34px 'Fira Sans', sans-serif; color: #111; background: #fff; }
@@ -358,6 +398,219 @@
 <div id="velo"><div id="ventana"><button class="cerrar" aria-label="Cerrar" onclick="cerrarVentana()">×</button><div id="contenido"></div></div></div>
 <div id="aviso-flot"></div>
 <div id="imprimir"></div>
+<template id="t-guia-alumnado"><section class="g-sec">
+<h2>¿Qué es la web de la biblioteca?</h2>
+<p>Es el catálogo de la biblioteca del colegio en Internet. Desde el móvil, la tableta o el ordenador puedes ver <b>todos los libros que tenemos</b>, saber si están disponibles y <b>reservarlos</b> para recogerlos en la biblioteca.</p>
+<p class="g-dir">👉 <b>biblioteca-nervion.vercel.app</b></p>
+</section>
+
+<section class="g-sec">
+<h2>1. Entrar</h2>
+<ul>
+<li><b>Sin entrar</b> ya puedes mirar el catálogo completo.</li>
+<li>Para <b>reservar</b> y ver <b>tus libros</b>, pulsa <b>Entrar</b> (arriba a la derecha) y elige tu cuenta del colegio <b>@nervion.salesianas.org</b>.</li>
+<li>Si usas un ordenador compartido, pulsa <b>Cerrar sesión</b> al terminar.</li>
+</ul>
+</section>
+
+<section class="g-sec">
+<h2>2. Buscar un libro</h2>
+<ol>
+<li>Ve a <b>Catálogo</b>.</li>
+<li>Escribe el <b>título</b>, el <b>autor</b> o la editorial en el buscador.</li>
+<li>Si quieres, elige la <b>etapa</b> o marca <b>Solo disponibles</b>.</li>
+<li>Puedes verlo <b>en lista</b> o <b>en estantería</b>, con las portadas.</li>
+</ol>
+<div class="g-nota">
+<b>Cómo leer la estantería</b>
+<ul>
+<li>El color de la balda indica la etapa: <span class="g-c" style="background:#ee712a"></span> Infantil · <span class="g-c" style="background:#8a9400"></span> Primaria · <span class="g-c" style="background:#007791"></span> ESO/Bachillerato.</li>
+<li>El punto de la esquina: <span class="g-p" style="background:#65a30d"></span> disponible · <span class="g-p" style="background:#dc2626"></span> prestado.</li>
+<li>Pulsa un libro para ver su <b>ficha</b> con la sinopsis.</li>
+</ul>
+</div>
+<p>También puedes <b>escanear con la cámara del móvil el código QR</b> de la etiqueta de cualquier libro: se abre su ficha directamente.</p>
+</section>
+
+<section class="g-sec">
+<h2>3. Reservar un libro</h2>
+<ol>
+<li>Entra con tu cuenta del colegio.</li>
+<li>Busca el libro y pulsa <b>Reservar</b> (solo aparece si hay algún ejemplar disponible).</li>
+<li>Tienes <b>3 días</b> para pasar a recogerlo por la biblioteca. Si no lo recoges, la reserva se anula sola.</li>
+<li>En la biblioteca te lo entregan y empieza el préstamo.</li>
+</ol>
+</section>
+
+<section class="g-sec">
+<h2>4. Normas del préstamo</h2>
+<table class="g-tabla">
+<tr><td>Cuánto dura un préstamo</td><td><b>15 días</b></td></tr>
+<tr><td>Cuántos libros puedes tener a la vez</td><td><b>2</b> (contando préstamos y reservas)</td></tr>
+<tr><td>Tiempo para recoger una reserva</td><td><b>3 días</b></td></tr>
+<tr><td>¿Necesitas más tiempo?</td><td>Pide en la biblioteca que te lo <b>renueven</b></td></tr>
+</table>
+<p class="g-peq">Las normas las puede cambiar la biblioteca; en la web siempre verás las que estén vigentes.</p>
+</section>
+
+<section class="g-sec">
+<h2>5. Mis libros</h2>
+<p>En <b>Mis libros</b> ves los libros que tienes, <b>hasta qué día</b> los puedes tener y tus reservas. Desde ahí puedes <b>anular una reserva</b> si ya no la quieres.</p>
+<p>Para <b>devolver</b> un libro, llévalo a la biblioteca.</p>
+</section>
+
+<section class="g-sec">
+<h2>6. Tenerla como app en el móvil</h2>
+<ul>
+<li><b>Android / Chrome:</b> pulsa <b>Instalar app</b> arriba a la derecha (o en el menú ⋮ del navegador → «Instalar app» / «Añadir a pantalla de inicio»).</li>
+<li><b>iPhone / iPad:</b> en Safari, pulsa <b>Compartir</b> (cuadrado con flecha) → <b>Añadir a pantalla de inicio</b>.</li>
+</ul>
+</section>
+
+<section class="g-sec">
+<h2>Preguntas frecuentes</h2>
+<dl class="g-faq">
+<dt>No puedo entrar.</dt>
+<dd>Tienes que usar tu cuenta del colegio (<b>@nervion.salesianas.org</b>), no una cuenta personal de Gmail. Si arriba pone «sin alta en la biblioteca», pregunta en la biblioteca para que te den de alta.</dd>
+<dt>No me deja reservar.</dt>
+<dd>Puede ser que ya tengas 2 libros entre préstamos y reservas, que no quede ningún ejemplar disponible o que la biblioteca haya desactivado las reservas en ese momento. El mensaje te dirá cuál es el motivo.</dd>
+<dt>El libro que quiero está prestado.</dt>
+<dd>En su ficha verás aproximadamente cuándo vuelve. Vuelve a mirar en esos días y resérvalo en cuanto esté disponible.</dd>
+<dt>¿Los demás pueden ver qué libros tengo?</dt>
+<dd>No. Nadie del alumnado ve quién tiene cada libro; solo el personal de la biblioteca.</dd>
+<dt>Se me ha pasado la fecha de devolución.</dt>
+<dd>Devuélvelo cuanto antes en la biblioteca. Si lo necesitas más tiempo, pide que te lo renueven antes de que venza.</dd>
+<dt>He perdido o estropeado un libro.</dt>
+<dd>Avisa en la biblioteca lo antes posible.</dd>
+<dt>Escaneo el QR y no se abre nada.</dt>
+<dd>Usa la cámara del móvil o una app de lectura de QR con conexión a Internet. Si sigue sin funcionar, escribe el código del libro en el buscador del catálogo.</dd>
+</dl>
+</section>
+</template>
+<template id="t-guia-gestion"><section class="g-sec">
+<h2>Antes de empezar</h2>
+<ul>
+<li>Dirección: <b>biblioteca-nervion.vercel.app</b>. Pulsa <b>Entrar</b> con tu cuenta <b>@nervion.salesianas.org</b>. Si tu correo está en <b>Quién gestiona</b>, verás el panel de gestión.</li>
+<li>El menú de arriba tiene tres grupos (los mismos que el inicio): <b>Préstamos</b> (Prestar, Devolver, En préstamo), <b>Catálogo</b> (Catálogo, Libros, Etiquetas y tejuelos) y <b>Administración</b> (Alumnado, Ajustes, Historial).</li>
+<li>El <b>inicio</b> muestra las cifras del día: libros prestados, <b>retrasos</b>, reservas por entregar, libros y lectores. Se pueden pulsar.</li>
+<li>En el ordenador de la biblioteca, pulsa siempre <b>Cerrar sesión</b> al terminar: solo se cierra la biblioteca, no Gmail ni Drive.</li>
+<li>La web guarda los datos en el dispositivo para ir rápida y se actualiza sola por detrás. Si algo no cuadra, recarga la página.</li>
+</ul>
+</section>
+
+<section class="g-sec">
+<h2>1. Prestar un libro</h2>
+<ol>
+<li><b>Préstamos → Prestar.</b></li>
+<li>En «¿Quién se lo lleva?», escribe el nombre, apellidos o curso y elige al alumno. Verás cuántos libros tiene ya y si tiene alguno <b>reservado</b> (con el botón <b>Entregar ahora</b>).</li>
+<li>En «¿Qué libro?», escribe el <b>código</b>, el <b>título</b> o el <b>autor</b> y elígelo de la lista, o pulsa <b>📷 Escanear QR</b> y enfoca la etiqueta (si ya has elegido alumno, el préstamo se hace solo al leerla).</li>
+<li>Pulsa <b>Prestar</b>. La fecha de devolución se calcula sola (15 días).</li>
+</ol>
+<div class="g-nota">Si el alumno ya tiene el máximo de libros o el libro está reservado para otra persona, la web avisa y pregunta si quieres <b>prestarlo igualmente</b>. El alumno sigue seleccionado para prestarle un segundo libro.</div>
+</section>
+
+<section class="g-sec">
+<h2>2. Devolver un libro</h2>
+<ol>
+<li><b>Préstamos → Devolver.</b></li>
+<li>Escribe el código, el título, el autor o el <b>nombre del alumno</b> y elige el préstamo de la lista; o escribe el código y pulsa Intro.</li>
+<li>O pulsa <b>📷 Escanear QR</b>: la cámara se queda abierta y puedes ir pasando libros <b>uno detrás de otro</b>. Pulsa <b>Terminar</b> al acabar.</li>
+</ol>
+<p>Si el libro vuelve tarde, se indica cuántos días de retraso lleva.</p>
+</section>
+
+<section class="g-sec">
+<h2>3. En préstamo: retrasos, renovaciones y reservas</h2>
+<ul>
+<li><b>Préstamos → En préstamo</b> muestra todos los libros prestados, primero los que van <b>con retraso</b>. Marca «Solo con retraso» para reclamar.</li>
+<li><b>Renovar</b> alarga el préstamo otros 15 días. <b>Devuelto</b> lo registra como devuelto.</li>
+<li>Arriba están las <b>reservas pendientes de recoger</b>.</li>
+</ul>
+<h3>Cómo funcionan las reservas</h3>
+<ol>
+<li>El alumno reserva desde la web (en su móvil o en casa). El libro pasa a <b>Reservado</b> y nadie más puede reservarlo.</li>
+<li>Tiene <b>3 días</b> para recogerlo. Si no viene, la reserva caduca sola y el libro vuelve a estar disponible.</li>
+<li>Cuando viene, pulsa <b>✓ Recogido · prestar</b> (en En préstamo), o en <b>Prestar</b> elige al alumno y pulsa <b>Entregar ahora</b>, o simplemente escanea el libro. La reserva se marca como recogida y empieza el préstamo.</li>
+<li>También puedes reservar un libro <b>para</b> un alumno: abre la ficha del libro (o escanea su QR) → <b>Reservar para…</b></li>
+</ol>
+</section>
+
+<section class="g-sec">
+<h2>4. Libros: corregir, dar de alta y de baja</h2>
+<ul>
+<li><b>Catálogo → Libros.</b> Busca por código, título, autor o ISBN. Filtros útiles: <b>Con avisos</b>, <b>Código provisional</b>, <b>Dados de baja</b>.</li>
+<li>Pulsa un libro para <b>editar</b> cualquier dato. Botones de la ficha: <b>Marcar como revisado</b> (quita los avisos), <b>Etiqueta QR</b>, <b>Préstamos de este libro</b> y <b>Dar de baja</b> (perdido o estropeado; se puede <b>recuperar</b> después).</li>
+<li><b>Cambiar de etapa un libro</b> (por ejemplo, un provisional que es de Infantil): elige la etapa nueva y pulsa <b>Siguiente libre</b> junto al código. Al guardar, el libro pasa a «pendiente de tejuelo».</li>
+<li><b>+ Nuevo libro:</b> escribe el ISBN y pulsa <b>Buscar datos</b> (rellena título, autor, editorial, portada y sinopsis). Elige la etapa; el código se pone solo. Puedes dar de alta <b>varios ejemplares iguales</b> a la vez.</li>
+</ul>
+</section>
+
+<section class="g-sec">
+<h2>5. Portadas y sinopsis</h2>
+<ul>
+<li>En <b>Libros → Búsqueda automática</b>: <b>Buscar portadas</b> y <b>Buscar sinopsis</b> buscan por ISBN todas las que falten. Se pueden repetir cuando quieras (por ejemplo, después de dar de alta libros).</li>
+<li><b>Revisión por título</b> (para los libros sin ISBN o sin datos): va libro a libro proponiendo fichas encontradas por título y autor. Pulsa <b>Usar esta</b> en la correcta (rellena lo marcado en «Rellenar»: portada, sinopsis, ISBN), <b>Saltar</b> o <b>Ninguna sirve</b>. Si el título está abreviado, usa <b>Buscar con otro título</b>.</li>
+<li>A mano: al editar un libro, pega la <b>dirección de una imagen</b> (Google Imágenes → clic derecho → «Copiar dirección de imagen») o escribe la sinopsis.</li>
+</ul>
+</section>
+
+<section class="g-sec">
+<h2>6. Etiquetas QR y tejuelos</h2>
+<ol>
+<li><b>Catálogo → Etiquetas y tejuelos.</b></li>
+<li><b>Elige los libros:</b> por defecto salen los <b>pendientes de tejuelo</b>. Filtra por etapa, por rango de números (por ejemplo, del 1 al 60) o por título, y desmarca los que no quieras.</li>
+<li><b>Imprime</b> las <b>Etiquetas QR</b> (logo del colegio en el centro; abren la ficha del libro) o los <b>Tejuelos</b> (franja con el color de la etapa y el número grande) en papel de pegatinas A4, a <b>tamaño real / 100 %</b>.</li>
+<li>Cuando estén pegados, pulsa <b>Marcar como puestos</b> para que dejen de salir como pendientes.</li>
+</ol>
+<div class="g-nota">Los libros con código <b>provisional</b> no salen como pendientes hasta que confirmes su etapa (apartado 4).</div>
+</section>
+
+<section class="g-sec">
+<h2>7. Alumnado</h2>
+<ul>
+<li><b>Cada septiembre</b> (o cuando haya altas): descarga los usuarios en la consola de Google y ve a <b>Administración → Alumnado → Importar listado</b>. Arrastra el archivo <b>Usuarios.xlsx</b> (o un .csv) y pulsa Importar. Para pocos alumnos, puedes pegar sus filas.</li>
+<li>La importación da de alta a los nuevos, <b>actualiza el curso</b> de los que ya estaban y pasa a <b>baja</b> las cuentas de grupos «Baja» o suspendidas (su historial se conserva). Avisa si alguien que se da de baja <b>aún tiene libros</b>. El profesorado no se importa.</li>
+<li>Filtra por <b>etapa</b>, <b>curso</b> y estado. Pulsa un alumno para corregir sus datos o ver los libros que ha sacado.</li>
+<li><b>+ Nuevo lector</b> para quien no tenga cuenta (por ejemplo, Infantil 3 años). Cuando tenga cuenta, añade su correo.</li>
+</ul>
+</section>
+
+<section class="g-sec">
+<h2>8. Ajustes, quién gestiona e historial</h2>
+<ul>
+<li><b>Administración → Ajustes:</b> días de préstamo, máximo de libros por alumno, días para recoger una reserva, activar o desactivar las reservas del alumnado y la clave de Google Books.</li>
+<li>En la misma pantalla, <b>Quién gestiona la biblioteca</b>: añade o quita a las personas que pueden prestar, devolver y modificar el catálogo.</li>
+<li><b>Administración → Historial:</b> todo lo que se hace queda registrado (quién, cuándo y qué cambió). Útil para deshacer un error.</li>
+<li><b>Ver como alumno</b> (arriba a la derecha): ves la web exactamente como la ve el alumnado. Vuelve con «Volver a la gestión».</li>
+</ul>
+</section>
+
+<section class="g-sec">
+<h2>Preguntas frecuentes</h2>
+<dl class="g-faq">
+<dt>Un alumno no aparece al prestar.</dt>
+<dd>No está importado o está de baja. Revisa en Alumnado (filtro «Todos») o dalo de alta con «+ Nuevo lector».</dd>
+<dt>«Hay 2 libros con el código…».</dt>
+<dd>Dos libros comparten código. Búscalo en Libros, mira el tejuelo físico y corrige el que esté mal (con «Siguiente libre»).</dd>
+<dt>El escáner no abre la cámara.</dt>
+<dd>El navegador necesita permiso para usar la cámara: acéptalo cuando lo pida o actívalo en los ajustes del navegador. Siempre puedes escribir el código.</dd>
+<dt>He cambiado algo directamente en la hoja de cálculo.</dt>
+<dd>Se puede, pero mejor desde la web (queda en el historial). No cambies los títulos de las columnas ni los nombres de las pestañas.</dd>
+<dt>La web dice que la sesión ha caducado.</dt>
+<dd>Vuelve a pulsar Entrar. Por seguridad, Google renueva el acceso cada cierto tiempo.</dd>
+</dl>
+</section>
+
+<section class="g-sec g-tecnico">
+<h2>Anexo técnico (para quien mantiene la web)</h2>
+<ul>
+<li><b>La web</b> está en GitHub y se publica sola en Vercel (<b>biblioteca-nervion.vercel.app</b>). Para cambiar el diseño, se sube el archivo nuevo al repositorio (<i>Add file → Upload files → Commit</i>).</li>
+<li><b>Los datos</b> están en la hoja de cálculo de Google «Biblioteca» (pestañas Libros, Lectores, Préstamos, Reservas, Gestores, Ajustes, Historial). Haz una copia al final de cada curso (<i>Archivo → Hacer una copia</i>).</li>
+<li><b>El motor</b> es el código de Apps Script de esa hoja. Para actualizarlo: pegar el código, guardar y <i>Implementar → Gestionar implementaciones → ✏️ → Nueva versión</i>. <b>Nunca</b> «Nueva implementación» (cambiaría la dirección).</li>
+<li><b>El acceso con Google</b> usa el «ID de cliente» del proyecto «Biblioteca» de Google Cloud (también ahí está la clave de Google Books).</li>
+</ul>
+</section>
+</template>
 
 <script>
 // ═════════════════════ Utilidades ═════════════════════
@@ -420,7 +673,7 @@ function alRecibirPase(resp) {
   if (!t) return;
   guardarPase(t);
   if (S.alEntrar) { const f = S.alEntrar; S.alEntrar = null; f(t); return; }
-  cambiosHechos(); S.vistaPrevia = false;
+  S.catalogo = null; S.lectores = null; S.vistaPrevia = false;
   arrancar();
 }
 
@@ -455,6 +708,7 @@ async function salir() {
   if (!await confirmar('¿Cerrar la sesión de la biblioteca en este dispositivo?', 'Cerrar sesión')) return;
   guardarPase(null);
   try { google.accounts.id.disableAutoSelect(); } catch (e) {}
+  borrarLocal();   // en ordenadores compartidos no queda nada guardado
   S.catalogo = null; S.lectores = null; S.vistaPrevia = false;
   await arrancar();
   aviso('Has cerrado la sesión.');
@@ -469,6 +723,31 @@ function aviso(txt) { const a = $('#aviso-flot'); a.textContent = txt; a.style.d
 function msg(tipo, html) { return '<div class="msg ' + tipo + '">' + html + '</div>'; }
 function etiqueta(estado) { return '<span class="etq ' + esc(estado) + '">' + esc(estado) + '</span>'; }
 function esGestor() { return S.info && S.info.rol === 'gestor'; }
+function onc(fn) { FN.push(fn); return 'data-fnc="' + (FN.length - 1) + '"'; }
+document.addEventListener('change', e => { const t = e.target.closest && e.target.closest('[data-fnc]'); if (t) FN[t.dataset.fnc](e, t); });
+
+/** Listas por páginas: «Mostrar 50 / 100 / 200 / Todos» y botones para pasar de página. */
+function crearPaginas(repintar) {
+  const pg = { pag: 1, tam: leerPref('porPagina', '50'), n: 1, total: 0 };
+  pg.reset = () => { pg.pag = 1; };
+  pg.trozo = r => {
+    pg.total = r.length;
+    pg.n = pg.tam === 'todos' ? 1 : Math.max(1, Math.ceil(r.length / +pg.tam));
+    pg.pag = Math.min(Math.max(1, pg.pag), pg.n);
+    return pg.tam === 'todos' ? r : r.slice((pg.pag - 1) * +pg.tam, pg.pag * +pg.tam);
+  };
+  const ir_ = p => { pg.pag = p; repintar(); };
+  pg.html = () => {
+    if (!pg.total) return '';
+    const ini = pg.tam === 'todos' ? 1 : (pg.pag - 1) * +pg.tam + 1, fin = pg.tam === 'todos' ? pg.total : Math.min(pg.total, pg.pag * +pg.tam);
+    const b = (txt, p, titulo) => '<button class="b sec peq" title="' + titulo + '" ' + (p < 1 || p > pg.n || p === pg.pag ? 'disabled' : on(() => ir_(p))) + '>' + txt + '</button>';
+    return '<div class="paginas"><label>Mostrar <select ' + onc(e => { pg.tam = e.target.value; guardarPref('porPagina', pg.tam); pg.reset(); repintar(); }) + '>' +
+      ['50', '100', '200', 'todos'].map(v => '<option value="' + v + '"' + (v === pg.tam ? ' selected' : '') + '>' + (v === 'todos' ? 'Todos' : v) + '</option>').join('') + '</select></label>' +
+      '<span class="suave">' + ini + '–' + fin + ' de ' + pg.total + '</span>' +
+      (pg.n > 1 ? '<span class="botones">' + b('«', 1, 'Primera página') + b('‹', pg.pag - 1, 'Anterior') + '<span class="peq">Página ' + pg.pag + ' de ' + pg.n + '</span>' + b('›', pg.pag + 1, 'Siguiente') + b('»', pg.n, 'Última página') + '</span>' : '') + '</div>';
+  };
+  return pg;
+}
 
 const ICONOS = {
   inicio: '<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
@@ -491,7 +770,7 @@ function losa(color, icono, titulo, texto, accion, insignia, peq) {
   return '<button class="losa' + (peq ? ' peq-l' : '') + '" style="--c:' + color + '" ' + on(accion) + '><span class="ico">' + ico(icono) + '</span><span><b>' + titulo + '</b>' + (texto ? '<small>' + texto + '</small>' : '') + '</span>' +
     (insignia ? '<span class="insignia">' + insignia + '</span>' : '') + '</button>';
 }
-function irAdmin(sub, filtro) { S.sub = sub; S.filtroLibros = filtro || ''; ir('admin'); }
+function irAdmin(sub, filtro) { S.sub = sub === 'gestores' ? 'ajustes' : sub; S.filtroLibros = filtro || ''; ir('admin'); }
 
 // ───── Portadas ─────
 const COLOR_PORTADA = { 'Infantil': '#ee712a', 'Primaria': '#8a9400', 'ESO/Bachillerato': '#007791' };
@@ -518,7 +797,7 @@ function leerPref(k, def) { try { return localStorage.getItem(k) || def; } catch
 function guardarPref(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
 
 function abrirVentana(html) { $('#contenido').innerHTML = html; $('#velo').classList.add('abierto'); const f = $('#contenido input:not([type=checkbox]), #contenido textarea'); if (f) setTimeout(() => f.focus(), 50); }
-function cerrarVentana() { $('#velo').classList.remove('abierto'); $('#contenido').innerHTML = ''; }
+function cerrarVentana() { if (S.alCerrarVentana) { const f = S.alCerrarVentana; S.alCerrarVentana = null; try { f(); } catch (e) {} } $('#velo').classList.remove('abierto'); $('#contenido').innerHTML = ''; }
 $('#velo').addEventListener('click', e => { if (e.target.id === 'velo') cerrarVentana(); });
 
 function confirmar(texto, boton) {
@@ -534,8 +813,38 @@ async function conBoton(btn, tarea) {
   try { return await tarea(); } finally { btn.disabled = false; btn.textContent = t; }
 }
 
+// ───── Datos guardados en el dispositivo: la web se ve al instante y se actualiza sola ─────
+const PREF_LOCAL = 'bib:';
+function leerLocal(k) { try { const v = localStorage.getItem(PREF_LOCAL + k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+function guardarLocal(k, v) { try { localStorage.setItem(PREF_LOCAL + k, JSON.stringify(v)); } catch (e) {} }
+function borrarLocal() { try { Object.keys(localStorage).filter(k => k.startsWith(PREF_LOCAL)).forEach(k => localStorage.removeItem(k)); } catch (e) {} }
+/** Cada cuenta guarda su propia copia: el catálogo público nunca puede llevar datos de gestión. */
+function claveCatalogo() { return 'cat-' + (PASE ? correoDelPase() || 'cuenta' : 'publico'); }
+/** El motor no repite en cada ejemplar lo que ya está en el título: aquí se rellena. */
+function hidratar(cat) {
+  const campos = ['codigo', 'etapa', 'titulo', 'autor', 'editorial', 'isbn', 'genero', 'estado', 'portada', 'revisar', 'observaciones', 'estadoPortada', 'estadoSinopsis', 'vuelve'];
+  cat.forEach(g => g.ejemplares.forEach(x => campos.forEach(k => { if (x[k] === undefined) x[k] = k in g ? g[k] : ''; })));
+  return cat;
+}
+let refrescoCatalogo = null;
+function refrescarCatalogo() {
+  if (!refrescoCatalogo) {
+    const clave = claveCatalogo();
+    refrescoCatalogo = api('catalogo').then(c => {
+      guardarLocal(clave, c);
+      S.catalogo = hidratar(c); S.catalogoViejo = false;
+      return S.catalogo;
+    }).finally(() => { refrescoCatalogo = null; });
+  }
+  return refrescoCatalogo;
+}
 async function cargarCatalogo(forzar) {
-  if (!S.catalogo || forzar) S.catalogo = await api('catalogo');
+  if (forzar) await refrescarCatalogo();
+  else if (!S.catalogo) {
+    const local = leerLocal(claveCatalogo());
+    if (local) { S.catalogo = hidratar(local); refrescarCatalogo().catch(() => {}); }   // se ve ya; se actualiza por detrás
+    else await refrescarCatalogo();
+  } else if (S.catalogoViejo) refrescarCatalogo().catch(() => {});
   if (!S.vistaPrevia) return S.catalogo;
   return S.catalogo.map(g => Object.assign({}, g, {
     ejemplares: g.ejemplares.filter(x => x.estado !== 'Baja').map(x => ({ codigo: x.codigo, titulo: x.titulo, autor: x.autor, etapa: x.etapa, estado: x.estado, vuelve: x.vuelve, portada: x.portada }))
@@ -545,7 +854,8 @@ async function cargarLectores(forzar) {
   if (!S.lectores || forzar) S.lectores = await api('lectoresActivos');
   return S.lectores;
 }
-function cambiosHechos() { S.catalogo = null; S.lectores = null; }
+/** Tras un cambio: los datos se vuelven a pedir por detrás (devuelve la promesa por si hay que esperarla). */
+function cambiosHechos() { S.lectores = null; S.catalogoViejo = true; return refrescarCatalogo().catch(() => {}); }
 
 // ═════════════════════ Arranque ═════════════════════
 async function iniciar() {
@@ -554,16 +864,32 @@ async function iniciar() {
   arrancar();   // sin pase: vista pública del catálogo
 }
 
+function correoDelPase() { try { return JSON.parse(atob(PASE.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))).email || ''; } catch (e) { return ''; } }
+
 async function arrancar() {
-  $('#app').innerHTML = '<div class="cargando">Cargando…</div>';
-  try {
-    S.info = await api('iniciar');
-  } catch (e) {
-    if (S.info === null && !PASE && $('.acceso')) return;   // ya se está mostrando la pantalla de acceso
-    $('#app').innerHTML = msg('error', 'No se ha podido abrir la biblioteca: ' + esc(textoError(e)));
-    return;
+  const claveInfo = 'info-' + (PASE ? correoDelPase() : 'publico');
+  const guardada = leerLocal(claveInfo);
+  const pedir = api('iniciar').then(i => { guardarLocal(claveInfo, i); return i; });
+  if (guardada) {
+    // Se enseña al instante con lo último conocido y se comprueba por detrás.
+    S.info = guardada; S.catalogo = null;
+    montar();
+    pedir.then(i => {
+      const cambioRol = i.rol !== S.info.rol;
+      S.info = i;
+      if (cambioRol) { S.catalogo = null; montar(); } else refrescarCabecera();
+    }).catch(() => {});
+  } else {
+    $('#app').innerHTML = '<div class="cargando">Cargando…</div>';
+    try {
+      S.info = await pedir;
+    } catch (e) {
+      if (S.info === null && !PASE && $('.acceso')) return;   // ya se está mostrando la pantalla de acceso
+      $('#app').innerHTML = msg('error', 'No se ha podido abrir la biblioteca: ' + esc(textoError(e)));
+      return;
+    }
+    montar();
   }
-  montar();
   // ¿Se ha abierto escaneando el QR de un libro?
   // Si se ha escaneado sin haber entrado, se recuerda para abrirlo también después de entrar.
   const libro = new URLSearchParams(location.search).get('libro') || S.libroPendiente;
@@ -588,17 +914,18 @@ function montar(navegar) {
       : '<button class="b peq" ' + on(() => mostrarAcceso()) + '>Entrar</button>');
   const pest = i.rol === 'gestor'
     ? [['inicio', 'Inicio'], ['prestar', 'Prestar'], ['devolver', 'Devolver'], ['prestamos', 'En préstamo'], ['catalogo', 'Catálogo'], ['admin', 'Administración']]
-    : i.rol === 'lector' ? [['inicio', 'Inicio'], ['catalogo', 'Catálogo'], ['mis', 'Mis libros']] : [['inicio', 'Inicio'], ['catalogo', 'Catálogo']];
+    : i.rol === 'lector' ? [['inicio', 'Inicio'], ['catalogo', 'Catálogo'], ['mis', 'Mis libros'], ['ayuda', 'Ayuda']] : [['inicio', 'Inicio'], ['catalogo', 'Catálogo'], ['ayuda', 'Ayuda']];
   if (i.rol === 'gestor') {
     const AZ = '#009abb', VE = '#8a9400', NA = '#ee712a', GR = '#64748B';
     const grupos = [
       ['g-prest', 'Préstamos', [['prestar', 'Prestar', AZ, () => ir('prestar')], ['devolver', 'Devolver', VE, () => ir('devolver')], ['reloj', 'En préstamo', NA, () => ir('prestamos')]]],
-      ['g-cat', 'Catálogo', [['estanteria', 'Catálogo', '#007791', () => ir('catalogo')], ['editar', 'Libros', AZ, () => irAdmin('libros')], ['qr', 'Etiquetas y tejuelos', NA, () => irAdmin('libros', 'tejuelo')]]],
-      ['g-adm', 'Administración', [['personas', 'Alumnado', VE, () => irAdmin('lectores')], ['escudo', 'Quién gestiona', GR, () => irAdmin('gestores')], ['ajustes', 'Ajustes', GR, () => irAdmin('ajustes')], ['historial', 'Historial', GR, () => irAdmin('historial')]]]
+      ['g-cat', 'Catálogo', [['estanteria', 'Catálogo', '#007791', () => ir('catalogo')], ['editar', 'Libros', AZ, () => irAdmin('libros')], ['qr', 'Etiquetas y tejuelos', NA, () => irAdmin('etiquetas')]]],
+      ['g-adm', 'Administración', [['personas', 'Alumnado', VE, () => irAdmin('lectores')], ['ajustes', 'Ajustes', GR, () => irAdmin('ajustes')], ['historial', 'Historial', GR, () => irAdmin('historial')]]]
     ];
     $('#pestanas').innerHTML = '<button data-p="inicio" ' + on(() => ir('inicio')) + '>Inicio</button>' + grupos.map(g =>
       '<div class="menu-g" data-p="' + g[0] + '"><button aria-haspopup="true" ' + on((e, b) => { const m = b.parentNode, ab = !m.classList.contains('abierto'); cerrarMenus(); m.classList.toggle('abierto', ab); }) + '>' + g[1] + '</button>' +
-      '<div class="desplegable">' + g[2].map(x => '<button style="--c:' + x[2] + '" ' + on(() => { cerrarMenus(); x[3](); }) + '>' + ico(x[0]) + x[1] + '</button>').join('') + '</div></div>').join('');
+      '<div class="desplegable">' + g[2].map(x => '<button style="--c:' + x[2] + '" ' + on(() => { cerrarMenus(); x[3](); }) + '>' + ico(x[0]) + x[1] + '</button>').join('') + '</div></div>').join('') +
+      '<button data-p="ayuda" ' + on(() => ir('ayuda')) + '>Ayuda</button>';
   } else {
     $('#pestanas').innerHTML = pest.map(p => '<button data-p="' + p[0] + '" ' + on(() => ir(p[0])) + '>' + p[1] + '</button>').join('');
   }
@@ -628,7 +955,7 @@ document.addEventListener('click', e => { if (!e.target.closest('.menu-g')) cerr
 function marcarMenu() {
   const p = S.pestana;
   const grupo = ['prestar', 'devolver', 'prestamos'].includes(p) ? 'g-prest'
-    : (p === 'catalogo' || (p === 'admin' && S.sub === 'libros')) ? 'g-cat'
+    : (p === 'catalogo' || (p === 'admin' && (S.sub === 'libros' || S.sub === 'etiquetas' || S.sub === 'revision'))) ? 'g-cat'
     : p === 'admin' ? 'g-adm' : p;
   document.querySelectorAll('#pestanas > [data-p]').forEach(b => {
     const activo = b.dataset.p === grupo || (b.dataset.p === 'catalogo' && grupo === 'g-cat');
@@ -640,7 +967,7 @@ function ir(p) {
   S.pestana = p;
   cerrarMenus();
   marcarMenu();
-  ({ inicio: vistaInicio, prestar: vistaPrestar, devolver: vistaDevolver, prestamos: vistaPrestamos, catalogo: vistaCatalogo, mis: vistaMisLibros, admin: vistaAdmin })[p]();
+  ({ inicio: vistaInicio, ayuda: vistaAyuda, prestar: vistaPrestar, devolver: vistaDevolver, prestamos: vistaPrestamos, catalogo: vistaCatalogo, mis: vistaMisLibros, admin: vistaAdmin })[p]();
   window.scrollTo(0, 0);
 }
 
@@ -665,16 +992,17 @@ async function vistaInicio() {
       seccion(VE, 'Catálogo',
         losa(AZO, 'estanteria', 'Catálogo', 'En lista o en estantería', () => ir('catalogo')) +
         losa(AZ, 'editar', 'Libros', 'Corregir, dar de alta y portadas', () => irAdmin('libros'), '<span id="ins-a"></span>') +
-        losa(NA, 'qr', 'Etiquetas y tejuelos', 'QR y tejuelos de colores para imprimir', () => irAdmin('libros', 'tejuelo'), '<span id="ins-t"></span>')) +
+        losa(NA, 'qr', 'Etiquetas y tejuelos', 'QR y tejuelos de colores para imprimir', () => irAdmin('etiquetas'), '<span id="ins-t"></span>')) +
       seccion(GR, 'Administración',
         losa(VE, 'personas', 'Alumnado', 'Importar y altas', () => irAdmin('lectores'), '', true) +
-        losa(GR, 'escudo', 'Quién gestiona', '', () => irAdmin('gestores'), '', true) +
         losa(GR, 'ajustes', 'Ajustes', '', () => irAdmin('ajustes'), '', true) +
-        losa(GR, 'historial', 'Historial', '', () => irAdmin('historial'), '', true), 190);
+        losa(GR, 'historial', 'Historial', '', () => irAdmin('historial'), '', true) +
+        losa(GR, 'marcador', 'Ayuda', '', () => ir('ayuda'), '', true), 190);
   } else if (i.rol === 'lector') {
     $('#in-losas').innerHTML = '<div class="mosaico">' +
       losa(AZ, 'buscar', 'Buscar libros', 'Mira qué tenemos y resérvalo', () => ir('catalogo')) +
-      losa(NA, 'marcador', 'Mis libros', 'Lo que tienes y tus reservas', () => ir('mis')) + '</div>';
+      losa(NA, 'marcador', 'Mis libros', 'Lo que tienes y tus reservas', () => ir('mis')) +
+      losa('#64748B', 'lista', 'Ayuda', 'Cómo reservar y preguntas frecuentes', () => ir('ayuda')) + '</div>';
   } else {
     $('#in-losas').innerHTML = '<div class="mosaico">' + losa(AZ, 'buscar', 'Buscar libros', 'Mira qué tenemos en la biblioteca', () => ir('catalogo')) +
       (PASE ? '' : losa(NA, 'marcador', 'Entrar', 'Con tu cuenta del colegio, para reservar y ver tus libros', () => mostrarAcceso())) + '</div>' +
@@ -740,39 +1068,127 @@ function selectorLector(contenedor, alElegir, placeholder) {
 }
 
 // ═════════════════════ Prestar ═════════════════════
+/** Buscador de libros por código, título o autor con lista desplegable. */
+function buscadorLibros(input, lista, fuente, alElegir) {
+  let res = [], marcado = 0, t;
+  const pintar = () => {
+    lista.style.display = res.length ? 'block' : 'none';
+    lista.innerHTML = res.map((r, i) => '<div class="' + (i === marcado ? 'sel' : '') + '" data-i="' + i + '">' + r.html + '</div>').join('');
+  };
+  input.addEventListener('input', () => {
+    clearTimeout(t);
+    t = setTimeout(async () => {
+      const v = input.value.trim();
+      res = v.length < 2 ? [] : (await fuente(v)).slice(0, 12);
+      marcado = 0; pintar();
+    }, 120);
+  });
+  input.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' && res.length) { marcado = Math.min(res.length - 1, marcado + 1); pintar(); e.preventDefault(); }
+    if (e.key === 'ArrowUp' && res.length) { marcado = Math.max(0, marcado - 1); pintar(); e.preventDefault(); }
+  });
+  lista.addEventListener('click', e => { const d = e.target.closest('[data-i]'); if (d) { const r = res[+d.dataset.i]; res = []; pintar(); alElegir(r); } });
+  return { elegidoConIntro: () => { if (res.length && lista.style.display !== 'none') { const r = res[marcado]; res = []; pintar(); alElegir(r); return true; } return false; },
+    cerrar: () => { res = []; pintar(); } };
+}
+
+/** Lee el código de un libro de lo escaneado (la dirección del QR o el código tal cual). */
+function codigoDeLectura(txt) {
+  txt = String(txt || '').trim();
+  const m = txt.match(/[?&]libro=([^&#]+)/);
+  return m ? decodeURIComponent(m[1]) : txt;
+}
+
+/** Escáner de QR con la cámara. continuo = sigue leyendo (para devolver muchos seguidos). */
+async function escanearQR(alLeer, continuo) {
+  abrirVentana('<h2>Escanear QR</h2><div style="position:relative;background:#000;border-radius:12px;overflow:hidden;aspect-ratio:4/3">' +
+    '<video id="qr-v" playsinline muted style="width:100%;height:100%;object-fit:cover"></video>' +
+    '<div style="position:absolute;inset:18%;border:3px solid rgba(255,255,255,.85);border-radius:14px;box-shadow:0 0 0 999px rgba(0,0,0,.25)"></div></div>' +
+    '<p id="qr-m" class="suave" style="text-align:center;margin:12px 0 0">Apunta la cámara a la etiqueta del libro…</p>' +
+    '<div class="acciones" style="justify-content:center"><button class="b sec" ' + on(() => cerrarVentana()) + '>Terminar</button></div>');
+  let flujo = null, parar = false, ultimo = '', cuando = 0;
+  S.alCerrarVentana = () => { parar = true; if (flujo) flujo.getTracks().forEach(t => t.stop()); };
+  try {
+    if (!window.jsQR) await new Promise((ok, mal) => { const sc = document.createElement('script'); sc.src = 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js'; sc.onload = ok; sc.onerror = mal; document.head.appendChild(sc); });
+    flujo = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment', width: { ideal: 1280 } }, audio: false });
+  } catch (e) {
+    $('#qr-m').innerHTML = msg('error', 'No se puede usar la cámara. Comprueba que has dado permiso al navegador para usarla.');
+    return;
+  }
+  if (parar) { flujo.getTracks().forEach(t => t.stop()); return; }
+  const v = $('#qr-v'); v.srcObject = flujo; await v.play().catch(() => {});
+  const c = document.createElement('canvas'), x = c.getContext('2d', { willReadFrequently: true });
+  const bucle = () => {
+    if (parar) return;
+    if (v.readyState >= 2 && v.videoWidth) {
+      const esc_ = Math.min(1, 640 / v.videoWidth);
+      c.width = v.videoWidth * esc_; c.height = v.videoHeight * esc_;
+      x.drawImage(v, 0, 0, c.width, c.height);
+      const r = jsQR(x.getImageData(0, 0, c.width, c.height).data, c.width, c.height, { inversionAttempts: 'dontInvert' });
+      if (r && r.data) {
+        const cod = codigoDeLectura(r.data);
+        if (cod !== ultimo || Date.now() - cuando > 3000) {
+          ultimo = cod; cuando = Date.now();
+          if (navigator.vibrate) navigator.vibrate(80);
+          if (!continuo) { cerrarVentana(); alLeer(cod); return; }
+          $('#qr-m').innerHTML = '<b>' + esc(cod) + '</b>…';
+          Promise.resolve(alLeer(cod)).then(t => { if (!parar && t) $('#qr-m').innerHTML = t; });
+        }
+      }
+    }
+    setTimeout(() => requestAnimationFrame(bucle), 120);
+  };
+  bucle();
+}
+
+function libroEnLista(x) {
+  return '<b>' + esc(x.titulo) + '</b> <span class="suave">· ' + esc(x.autor || '') + '</span><br><span class="peq">' + esc(x.codigo) + '</span> ' + etiqueta(x.estado);
+}
+
+// ═════════════════════ Prestar ═════════════════════
 function vistaPrestar() {
   const hechos = [];
-  let lector = null;
+  let lector = null, reservas = [];
   $('#app').innerHTML =
     '<h2>Prestar un libro</h2>' +
-    '<div class="tarjeta"><label>1. ¿Quién se lo lleva?</label><div id="p-lector"></div></div>' +
-    '<div class="tarjeta"><label>2. Código del libro <span class="suave">(escríbelo o escanea el QR / código de barras)</span></label>' +
-    '<div class="fila"><input id="p-cod" class="grande crece" placeholder="Ej.: PRIMARIA-245" autocomplete="off"><button class="b" id="p-btn">Prestar</button></div>' +
-    '<div id="p-libro"></div></div><div id="p-hechos"></div>';
+    '<div class="tarjeta"><label>1. ¿Quién se lo lleva?</label><div id="p-lector"></div><div id="p-res"></div></div>' +
+    '<div class="tarjeta"><label>2. ¿Qué libro? <span class="suave">Escribe el código, el título o el autor, o escanea su QR</span></label>' +
+    '<div class="fila"><input id="p-cod" class="grande crece" placeholder="Código, título o autor…" autocomplete="off">' +
+    '<button class="b sec" id="p-qr">📷 Escanear QR</button><button class="b" id="p-btn">Prestar</button></div>' +
+    '<div class="lista-res" id="p-lista" style="display:none"></div><div id="p-libro"></div></div><div id="p-hechos"></div>';
   const cod = $('#p-cod'), info = $('#p-libro');
+  api('prestamosYReservas').then(d => { reservas = d.reservas; if (lector) pintarReservas(); }).catch(() => {});
 
+  const pintarReservas = () => {
+    const r = reservas.filter(x => lector && x.lector === lector.id);
+    $('#p-res').innerHTML = r.length ? '<div class="msg info" style="margin-top:10px"><b>Tiene reservado:</b> ' + r.map(x => esc(x.titulo) + ' (' + esc(x.codigo) + ') <button class="b ok peq" ' + on(() => { cod.value = x.codigo; hacer(false); }) + '>Entregar ahora</button>').join(' · ') + '</div>' : '';
+  };
   const elegir = x => {
     lector = x;
     $('#p-lector').innerHTML = '<div class="elegido"><div><b>' + esc(x.nombre) + '</b> · ' + esc(x.curso) +
       '<div class="peq suave">' + x.libros + ' libro(s) en préstamo o reservados · máximo ' + S.info.ajustes.max_libros_alumno + '</div></div>' +
-      '<button class="b sec peq" ' + on(() => { lector = null; selectorLector($('#p-lector'), elegir); }) + '>Cambiar</button></div>';
+      '<button class="b sec peq" ' + on(() => { lector = null; $('#p-res').innerHTML = ''; selectorLector($('#p-lector'), elegir); }) + '>Cambiar</button></div>';
+    pintarReservas();
     cod.focus();
   };
   selectorLector($('#p-lector'), elegir);
 
-  let tLibro;
-  cod.addEventListener('input', () => {
-    clearTimeout(tLibro);
-    const v = cod.value.trim();
-    if (v.length < 4) { info.innerHTML = ''; return; }
-    tLibro = setTimeout(async () => {
-      try { const l = await api('verLibro', v); if (cod.value.trim() === v) info.innerHTML = '<p>' + etiqueta(l.estado) + ' <b>' + esc(l.titulo) + '</b> <span class="suave">· ' + esc(l.autor) + '</span>' + (l.reserva ? '<br><span class="peq">Reservado para ' + esc(l.reserva.nombre) + '</span>' : '') + (l.prestamo ? '<br><span class="peq">Prestado a ' + esc(l.prestamo.nombre) + '</span>' : '') + '</p>'; }
-      catch (e) { if (cod.value.trim() === v) info.innerHTML = '<p class="peq suave">' + esc(textoError(e)) + '</p>'; }
-    }, 350);
-  });
+  const mostrarLibro = async v => {
+    try {
+      const l = await api('verLibro', v);
+      if (cod.value.trim() === v) info.innerHTML = '<p>' + etiqueta(l.estado) + ' <b>' + esc(l.titulo) + '</b> <span class="suave">· ' + esc(l.autor) + '</span>' + (l.reserva ? '<br><span class="peq">Reservado para ' + esc(l.reserva.nombre) + '</span>' : '') + (l.prestamo ? '<br><span class="peq">Prestado a ' + esc(l.prestamo.nombre) + '</span>' : '') + '</p>';
+    } catch (e) { if (cod.value.trim() === v) info.innerHTML = '<p class="peq suave">' + esc(textoError(e)) + '</p>'; }
+  };
+  const busc = buscadorLibros(cod, $('#p-lista'), async q => {
+    const cat = await cargarCatalogo();
+    const r = [];
+    cat.forEach(g => g.ejemplares.forEach(x => { if (x.codigo && x.estado !== 'Baja' && coincide(x.codigo + ' ' + x.titulo + ' ' + x.autor, q)) r.push(x); }));
+    r.sort((a, b) => (a.estado === 'Disponible' ? 0 : 1) - (b.estado === 'Disponible' ? 0 : 1));
+    return r.map(x => Object.assign({ html: libroEnLista(x) }, x));
+  }, x => { cod.value = x.codigo; info.innerHTML = '<p>' + etiqueta(x.estado) + ' <b>' + esc(x.titulo) + '</b> <span class="suave">· ' + esc(x.autor) + '</span></p>'; $('#p-btn').focus(); });
 
   const hacer = async (forzar) => {
-    const v = cod.value.trim();
+    const v = codigoDeLectura(cod.value);
     if (!lector) { aviso('Primero elige quién se lo lleva.'); return; }
     if (!v) { cod.focus(); return; }
     const btn = $('#p-btn');
@@ -783,6 +1199,7 @@ function vistaPrestar() {
         return;
       }
       lector.libros++;
+      reservas = reservas.filter(x => !(x.lector === lector.id && claveCod(x.codigo) === claveCod(r.codigo)));
       elegir(lector);
       hechos.unshift(r);
       cod.value = ''; info.innerHTML = '';
@@ -792,28 +1209,44 @@ function vistaPrestar() {
     } catch (e) { info.innerHTML = msg('error', esc(textoError(e))); }
   };
   $('#p-btn').onclick = () => hacer(false);
-  cod.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); hacer(false); } });
+  $('#p-qr').onclick = () => escanearQR(c => { cod.value = c; busc.cerrar(); if (lector) hacer(false); else { mostrarLibro(c); aviso('Ahora elige quién se lo lleva.'); } });
+  cod.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); if (!busc.elegidoConIntro()) hacer(false); } });
 }
+function claveCod(c) { c = String(c || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); const m = c.match(/^([A-Z]+)0*(\d+)$/); return m ? m[1] + Number(m[2]) : c; }
 
 // ═════════════════════ Devolver ═════════════════════
 function vistaDevolver() {
   const hechos = [];
-  $('#app').innerHTML = '<h2>Devolver un libro</h2><div class="tarjeta"><label>Código del libro (escríbelo o escanéalo y pulsa Intro)</label>' +
-    '<div class="fila"><input id="d-cod" class="grande crece" placeholder="Ej.: INFANTIL-012" autocomplete="off"><button class="b" id="d-btn">Devolver</button></div><div id="d-msg"></div></div><div id="d-hechos"></div>';
+  let prestados = [];
+  $('#app').innerHTML = '<h2>Devolver un libro</h2><div class="tarjeta"><label>Código, título, autor o nombre del alumno · o escanea el QR</label>' +
+    '<div class="fila"><input id="d-cod" class="grande crece" placeholder="Código, título, autor o alumno…" autocomplete="off">' +
+    '<button class="b sec" id="d-qr">📷 Escanear QR</button><button class="b" id="d-btn">Devolver</button></div>' +
+    '<div class="lista-res" id="d-lista" style="display:none"></div><div id="d-msg"></div>' +
+    '<p class="peq suave" style="margin:8px 0 0">Con «Escanear QR» la cámara se queda abierta: puedes ir pasando los libros uno detrás de otro.</p></div><div id="d-hechos"></div>';
   const cod = $('#d-cod');
+  const cargar = () => api('prestamosYReservas').then(d => { prestados = d.prestamos; }).catch(() => {});
+  cargar();
   setTimeout(() => cod.focus(), 30);
-  const hacer = async () => {
-    const v = cod.value.trim(); if (!v) return;
-    try {
-      const r = await conBoton($('#d-btn'), () => api('devolver', v));
-      hechos.unshift(r); cod.value = ''; $('#d-msg').innerHTML = ''; cambiosHechos();
-      $('#d-hechos').innerHTML = '<h3>Devueltos ahora</h3>' + hechos.map(h => msg(h.retraso ? 'aviso' : 'ok', '✓ <b>' + esc(h.titulo) + '</b> (' + esc(h.codigo) + ') — ' + esc(h.nombre) + ', ' + esc(h.curso) + (h.retraso ? ' · <b>' + h.retraso + ' días de retraso</b>' : ''))).join('');
-      aviso('Devuelto: ' + r.titulo);
-    } catch (e) { $('#d-msg').innerHTML = msg('error', esc(textoError(e))); }
-    cod.focus();
+  const pintarHechos = () => {
+    $('#d-hechos').innerHTML = '<h3>Devueltos ahora (' + hechos.length + ')</h3>' + hechos.map(h => msg(h.retraso ? 'aviso' : 'ok', '✓ <b>' + esc(h.titulo) + '</b> (' + esc(h.codigo) + ') — ' + esc(h.nombre) + ', ' + esc(h.curso) + (h.retraso ? ' · <b>' + h.retraso + ' días de retraso</b>' : ''))).join('');
   };
-  $('#d-btn').onclick = hacer;
-  cod.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); hacer(); } });
+  const devolver = async v => {
+    v = codigoDeLectura(v); if (!v) return;
+    try {
+      const r = await api('devolver', v);
+      hechos.unshift(r); cod.value = ''; $('#d-msg').innerHTML = ''; cambiosHechos();
+      prestados = prestados.filter(p => claveCod(p.codigo) !== claveCod(r.codigo));
+      pintarHechos();
+      aviso('Devuelto: ' + r.titulo);
+      return '<span style="color:var(--ok)">✓ Devuelto: <b>' + esc(r.titulo) + '</b> (' + esc(r.nombre) + ')</span>';
+    } catch (e) { $('#d-msg').innerHTML = msg('error', esc(textoError(e))); return '<span style="color:var(--error)">' + esc(textoError(e)) + '</span>'; }
+  };
+  const busc = buscadorLibros(cod, $('#d-lista'), async q => prestados.filter(p => coincide(p.codigo + ' ' + p.titulo + ' ' + p.nombre + ' ' + p.curso, q)).map(p =>
+    Object.assign({ html: '<b>' + esc(p.titulo) + '</b> <span class="peq">(' + esc(p.codigo) + ')</span><br><span class="peq suave">' + esc(p.nombre) + ' · ' + esc(p.curso) + ' · hasta el ' + fecha(p.limite) + (p.retraso ? ' · <b style="color:var(--error)">' + p.retraso + ' días tarde</b>' : '') + '</span>' }, p)),
+    p => devolver(p.codigo));
+  $('#d-btn').onclick = async () => { await conBoton($('#d-btn'), () => devolver(cod.value)); cod.focus(); };
+  $('#d-qr').onclick = () => escanearQR(c => devolver(c), true);
+  cod.addEventListener('keydown', async e => { if (e.key === 'Enter') { e.preventDefault(); if (!busc.elegidoConIntro()) await devolver(cod.value); cod.focus(); } });
 }
 
 // ═════════════════════ En préstamo y reservas ═════════════════════
@@ -830,7 +1263,7 @@ async function vistaPrestamos() {
       '<h3>Reservas pendientes de recoger (' + d.reservas.length + ')</h3>' +
       (rs.length ? '<div class="tabla"><table><tr><th>Libro</th><th>Para</th><th class="ocultar-movil">Recoger antes del</th><th></th></tr>' + rs.map(r =>
         '<tr><td><b>' + esc(r.titulo) + '</b><div class="peq suave">' + esc(r.codigo) + '</div></td><td>' + esc(r.nombre) + '<div class="peq suave">' + esc(r.curso) + '</div></td><td class="ocultar-movil">' + fecha(r.caduca) + '</td><td><div class="fila">' +
-        '<button class="b ok peq" ' + on(async (e, b) => { try { await conBoton(b, () => api('prestar', r.codigo, r.lector, true)); cambiosHechos(); aviso('Entregado a ' + r.nombre); vistaPrestamos(); } catch (er) { aviso(textoError(er)); } }) + '>Entregar</button>' +
+        '<button class="b ok peq" ' + on(async (e, b) => { try { await conBoton(b, () => api('prestar', r.codigo, r.lector, true)); cambiosHechos(); aviso('Entregado a ' + r.nombre); vistaPrestamos(); } catch (er) { aviso(textoError(er)); } }) + '>✓ Recogido · prestar</button>' +
         '<button class="b peligro peq" ' + on(async (e, b) => { if (await confirmar('¿Cancelar la reserva de «' + esc(r.titulo) + '» para ' + esc(r.nombre) + '?', 'Cancelar reserva')) { try { await api('cancelarReserva', r.id); cambiosHechos(); vistaPrestamos(); } catch (er) { aviso(textoError(er)); } } }) + '>Cancelar</button>' +
         '</div></td></tr>').join('') + '</table></div>' : '<p class="suave">No hay reservas pendientes.</p>') +
       '<h3>Préstamos (' + d.prestamos.length + (retrasados ? ', <span style="color:var(--error)">' + retrasados + ' con retraso</span>' : '') + ')</h3>' +
@@ -860,18 +1293,18 @@ async function vistaCatalogo() {
   marcarVista();
   let cat;
   try { cat = await cargarCatalogo(); } catch (e) { $('#c-res').innerHTML = msg('error', esc(textoError(e))); return; }
-  let max = 40;
+  const pg = crearPaginas(() => { pintar(); $('#c-res').scrollIntoView({ block: 'start' }); });
   const pintar = () => {
     const q = $('#c-q').value, et = $('#c-e').value, solo = $('#c-d').checked;
     const r = cat.filter(g => (!et || g.etapa === et) && (!solo || g.ejemplares.some(x => x.estado === 'Disponible')) &&
       (!q || coincide(g.titulo + ' ' + g.autor + ' ' + g.editorial + ' ' + g.genero + ' ' + g.ejemplares.map(x => x.codigo).join(' '), q)));
     const caja = $('#c-res'); caja.className = '';
+    const vis = pg.trozo(r);
     const cuerpo = !r.length ? '<p class="suave" style="padding:14px 0">No hay resultados.</p>'
-      : vista === 'estanteria' ? estanteria(r.slice(0, max)) : r.slice(0, max).map(grupoCatalogo).join('');
-    caja.innerHTML = '<p class="suave peq">' + r.length + ' título(s)</p><div class="tarjeta" style="padding:' + (vista === 'estanteria' ? '18px 10px' : '0 16px') + '">' + cuerpo + '</div>' +
-      (r.length > max ? '<button class="b sec" ' + on(() => { max += 60; pintar(); }) + '>Ver más</button>' : '');
+      : vista === 'estanteria' ? estanteria(vis) : vis.map(grupoCatalogo).join('');
+    caja.innerHTML = pg.html() + '<div class="tarjeta" style="padding:' + (vista === 'estanteria' ? '18px 10px' : '0 16px') + '">' + cuerpo + '</div>' + pg.html();
   };
-  let t; ['#c-q', '#c-e', '#c-d'].forEach(s => $(s).addEventListener(s === '#c-q' ? 'input' : 'change', () => { clearTimeout(t); max = 40; t = setTimeout(pintar, 150); }));
+  let t; ['#c-q', '#c-e', '#c-d'].forEach(s => $(s).addEventListener(s === '#c-q' ? 'input' : 'change', () => { clearTimeout(t); pg.reset(); t = setTimeout(pintar, 150); }));
   $('#v-l').onclick = () => { vista = 'lista'; guardarPref('vista', vista); marcarVista(); pintar(); };
   $('#v-e').onclick = () => { vista = 'estanteria'; guardarPref('vista', vista); marcarVista(); pintar(); };
   pintar();
@@ -987,6 +1420,18 @@ function elegirParaLibro(l, que) {
   });
 }
 
+// ═════════════════════ Ayuda ═════════════════════
+function vistaAyuda(cual) {
+  const gestor = esGestor();
+  cual = cual || (gestor ? 'gestion' : 'alumnado');
+  const pdf = cual === 'gestion' ? 'guia-gestion.pdf' : 'guia-alumnado.pdf';
+  $('#app').innerHTML = '<h2>Ayuda</h2>' +
+    (gestor ? '<div class="subnav"><button class="' + (cual === 'gestion' ? 'activo' : '') + '" ' + on(() => vistaAyuda('gestion')) + '>Guía de gestión</button>' +
+      '<button class="' + (cual === 'alumnado' ? 'activo' : '') + '" ' + on(() => vistaAyuda('alumnado')) + '>Guía del alumnado</button></div>' : '') +
+    '<p><button class="b sec" ' + on(() => window.open(pdf, '_blank', 'noopener')) + '>' + ico('marcador') + ' Descargar en PDF</button></p>' +
+    '<div class="guia">' + $('#t-guia-' + cual).innerHTML + '</div>';
+}
+
 // ═════════════════════ Mis libros (alumnado) ═════════════════════
 async function vistaMisLibros() {
   $('#app').innerHTML = '<h2>Mis libros</h2><div class="cargando">Cargando…</div>';
@@ -1004,9 +1449,12 @@ async function vistaMisLibros() {
 
 // ═════════════════════ Administración ═════════════════════
 function vistaAdmin() {
-  const subs = [['libros', 'Libros'], ['lectores', 'Alumnado'], ['gestores', 'Quién gestiona'], ['ajustes', 'Ajustes'], ['historial', 'Historial']];
-  $('#app').innerHTML = '<h2>' + (S.sub === 'libros' ? 'Libros' : 'Administración') + '</h2><div class="subnav">' + subs.map(s => '<button class="' + (S.sub === s[0] ? 'activo' : '') + '" ' + on(() => { S.sub = s[0]; vistaAdmin(); }) + '>' + s[1] + '</button>').join('') + '</div><div id="adm"><div class="cargando">Cargando…</div></div>';
-  ({ libros: admLibros, lectores: admLectores, gestores: admGestores, ajustes: admAjustes, historial: admHistorial })[S.sub]();
+  const subs = [['lectores', 'Alumnado'], ['ajustes', 'Ajustes'], ['historial', 'Historial']];
+  const titulo = { libros: 'Libros', etiquetas: 'Etiquetas y tejuelos', revision: 'Revisión por título' }[S.sub];
+  $('#app').innerHTML = '<h2>' + (titulo || 'Administración') + '</h2>' +
+    (titulo ? '' : '<div class="subnav">' + subs.map(s => '<button class="' + (S.sub === s[0] ? 'activo' : '') + '" ' + on(() => { S.sub = s[0]; vistaAdmin(); }) + '>' + s[1] + '</button>').join('') + '</div>') +
+    '<div id="adm"><div class="cargando">Cargando…</div></div>';
+  ({ libros: admLibros, etiquetas: admEtiquetas, revision: admRevision, lectores: admLectores, gestores: admGestores, ajustes: admAjustes, historial: admHistorial })[S.sub]();
   marcarMenu();
 }
 
@@ -1023,42 +1471,32 @@ async function admLibros() {
     '<select id="al-f" style="width:auto"><option value="">Todos</option><option value="avisos">Con avisos (' + nAvisos + ')</option><option value="provisional">Código provisional</option><option value="tejuelo">Pendientes de tejuelo</option><option value="baja">Dados de baja</option></select></div>' +
     '<div class="fila" style="margin-top:10px"><button class="b" ' + on(() => editarLibro(null)) + '>+ Nuevo libro</button></div></div>' +
     '<div class="cuadros">' +
-    '<div class="tarjeta"><h3 class="nivel-t" style="--c:#ee712a">Imprimir</h3><p class="peq suave" style="margin-top:0">De los libros que se ven en la lista de abajo (usa los filtros, por ejemplo «Pendientes de tejuelo»).</p>' +
-    '<div class="fila"><button class="b sec" id="al-imp">' + ico('qr') + ' Etiquetas QR</button><button class="b sec" id="al-tej">' + ico('marcador') + ' Tejuelos</button></div></div>' +
     '<div class="tarjeta"><h3 class="nivel-t" style="--c:#009abb">Búsqueda automática</h3><p class="peq suave" style="margin-top:0">Busca por ISBN en Google Books y Open Library los datos que falten.</p>' +
     '<div class="fila"><button class="b sec" id="al-por">' + ico('estanteria') + ' Buscar portadas</button><button class="b sec" id="al-sin">' + ico('lista') + ' Buscar sinopsis</button></div></div>' +
+    '<div class="tarjeta"><h3 class="nivel-t" style="--c:#8a9400">Revisión por título</h3><p class="peq suave" style="margin-top:0">Para los libros sin ISBN o sin datos: busca por título y autor, y tú eliges la opción buena con un clic.</p>' +
+    '<div class="fila"><button class="b" ' + on(() => irAdmin('revision')) + '>' + ico('buscar') + ' Empezar la revisión</button></div></div>' +
+    '<div class="tarjeta"><h3 class="nivel-t" style="--c:#ee712a">Etiquetas y tejuelos</h3><p class="peq suave" style="margin-top:0">Para imprimir los QR y los tejuelos hay una pantalla propia.</p>' +
+    '<div class="fila"><button class="b sec" ' + on(() => irAdmin('etiquetas')) + '>' + ico('qr') + ' Ir a Etiquetas y tejuelos</button></div></div>' +
     '</div><div id="al-res"></div>';
   if (S.filtroLibros) { $('#al-f').value = S.filtroLibros; S.filtroLibros = ''; }
   $('#al-por').onclick = () => busquedaAutomatica($('#al-por'), 'buscarPortadas', 'portadas', 'Los libros sin portada se ven con una portada dibujada. Puedes poner una a mano al editar el libro.');
   $('#al-sin').onclick = () => busquedaAutomatica($('#al-sin'), 'buscarSinopsis', 'sinopsis', 'Puedes escribir o pegar la sinopsis a mano al editar el libro.');
 
-  let max = 80;
+  const pg = crearPaginas(() => { pintar(); $('#al-res').scrollIntoView({ block: 'start' }); });
   const filtrar = () => {
     const q = $('#al-q').value, et = $('#al-e').value, f = $('#al-f').value;
     return ejemplares.filter(x =>
       (!et || (et === '-' ? !x.etapa : x.etapa === et)) &&
-      (!f || (f === 'avisos' && x.revisar) || (f === 'provisional' && /PROVISIONAL/i.test(x.revisar)) || (f === 'tejuelo' && /tejuelo/i.test(x.revisar)) || (f === 'baja' && x.estado === 'Baja')) &&
+      (!f || (f === 'avisos' && x.revisar) || (f === 'provisional' && /PROVISIONAL/i.test(x.revisar)) || (f === 'tejuelo' && pendienteTejuelo(x)) || (f === 'baja' && x.estado === 'Baja')) &&
       (!q || coincide(x.codigo + ' ' + x.titulo + ' ' + x.autor + ' ' + x.editorial + ' ' + x.isbn + ' ' + x.revisar, q)));
   };
   const pintar = () => {
-    const r = filtrar();
-    $('#al-res').innerHTML = '<p class="suave peq">' + r.length + ' ejemplar(es). Pulsa en uno para verlo o corregirlo.</p><div class="tabla"><table><tr><th>Código</th><th>Título</th><th class="ocultar-movil">Autor</th><th class="ocultar-movil">Etapa</th><th>Estado</th></tr>' +
-      r.slice(0, max).map(x => '<tr class="clic" ' + on(() => editarLibro(x)) + '><td style="white-space:nowrap">' + esc(x.codigo || '—') + '</td><td>' + esc(x.titulo) + (x.revisar ? '<div><span class="etq aviso">⚠ ' + esc(x.revisar.length > 70 ? x.revisar.slice(0, 70) + '…' : x.revisar) + '</span></div>' : '') + '</td><td class="ocultar-movil">' + esc(x.autor) + '</td><td class="ocultar-movil">' + esc(x.etapa) + '</td><td>' + etiqueta(x.estado) + '</td></tr>').join('') +
-      '</table></div>' + (r.length > max ? '<p><button class="b sec" ' + on(() => { max += 200; pintar(); }) + '>Ver más</button></p>' : '');
+    const r = filtrar(), vis = pg.trozo(r);
+    $('#al-res').innerHTML = '<p class="suave peq" style="margin-bottom:0">' + r.length + ' ejemplar(es). Pulsa en uno para verlo o corregirlo.</p>' + pg.html() + '<div class="tabla"><table><tr><th>Código</th><th>Título</th><th class="ocultar-movil">Autor</th><th class="ocultar-movil">Etapa</th><th>Estado</th></tr>' +
+      vis.map(x => '<tr class="clic" ' + on(() => editarLibro(x)) + '><td style="white-space:nowrap">' + esc(x.codigo || '—') + '</td><td>' + esc(x.titulo) + (x.revisar ? '<div><span class="etq aviso">⚠ ' + esc(x.revisar.length > 70 ? x.revisar.slice(0, 70) + '…' : x.revisar) + '</span></div>' : '') + '</td><td class="ocultar-movil">' + esc(x.autor) + '</td><td class="ocultar-movil">' + esc(x.etapa) + '</td><td>' + etiqueta(x.estado) + '</td></tr>').join('') +
+      '</table></div>' + pg.html();
   };
-  let t; ['#al-q', '#al-e', '#al-f'].forEach(s => $(s).addEventListener(s === '#al-q' ? 'input' : 'change', () => { clearTimeout(t); max = 80; t = setTimeout(pintar, 150); }));
-  $('#al-imp').onclick = () => {
-    const r = filtrar().filter(x => x.codigo);
-    if (!r.length) return aviso('No hay libros en la lista.');
-    if (r.length > 300) return aviso('Son ' + r.length + ' etiquetas. Filtra un poco más (máximo 300 de una vez).');
-    imprimirEtiquetas(r);
-  };
-  $('#al-tej').onclick = () => {
-    const r = filtrar().filter(x => x.codigo);
-    if (!r.length) return aviso('No hay libros en la lista.');
-    if (r.length > 500) return aviso('Son ' + r.length + ' tejuelos. Filtra un poco más (máximo 500 de una vez).');
-    imprimirTejuelos(r);
-  };
+  let t; ['#al-q', '#al-e', '#al-f'].forEach(s => $(s).addEventListener(s === '#al-q' ? 'input' : 'change', () => { clearTimeout(t); pg.reset(); t = setTimeout(pintar, 150); }));
   pintar();
 }
 
@@ -1083,6 +1521,152 @@ async function busquedaAutomatica(b, funcion, que, nota) {
   finally { b.disabled = false; b.innerHTML = texto; }
 }
 
+function pendienteTejuelo(x) { return /poner tejuelo/i.test(x.revisar || '') && !/PROVISIONAL/i.test(x.revisar || ''); }
+function numCodigo(c) { const m = String(c || '').match(/(\d+)\s*$/); return m ? Number(m[1]) : null; }
+
+async function admEtiquetas() {
+  let cat;
+  try { cat = await cargarCatalogo(); } catch (e) { $('#adm').innerHTML = msg('error', esc(textoError(e))); return; }
+  const todos = [];
+  cat.forEach(g => g.ejemplares.forEach(x => { if (x.codigo && x.estado !== 'Baja') todos.push(x); }));
+  todos.sort((a, b) => String(a.codigo).localeCompare(String(b.codigo), 'es', { numeric: true }));
+  const nPend = todos.filter(pendienteTejuelo).length;
+  const nProv = todos.filter(x => /PROVISIONAL/i.test(x.revisar || '')).length;
+  const quitados = new Set();
+  $('#adm').innerHTML =
+    '<div class="tarjeta"><h3 class="nivel-t" style="--c:#ee712a">1 · Elige los libros</h3>' +
+    '<div class="fila"><select id="et-que" style="width:auto"><option value="pend">Pendientes de tejuelo (' + nPend + ')</option><option value="todos">Todos los libros</option></select>' +
+    '<select id="et-e" style="width:auto"><option value="">Todas las etapas</option>' + S.info.etapas.map(e => '<option>' + esc(e) + '</option>').join('') + '</select>' +
+    '<span class="fila" style="gap:6px">Del nº <input id="et-d" type="number" min="0" style="width:90px"> al <input id="et-h" type="number" min="0" style="width:90px"></span>' +
+    '<input id="et-q" class="crece" placeholder="Buscar título o código…"></div>' +
+    (nProv ? '<p class="peq suave" style="margin:10px 0 0">Los ' + nProv + ' libros con código <b>provisional</b> no aparecen como pendientes: confirma antes su etapa en Libros.</p>' : '') + '</div>' +
+    '<div class="tarjeta"><h3 class="nivel-t" style="--c:#009abb">2 · Imprime</h3><p class="peq suave" style="margin-top:0">En papel de pegatinas A4. Al imprimir, elige «Tamaño real / 100 %».</p>' +
+    '<div class="fila"><button class="b" id="et-qr">' + ico('qr') + ' Etiquetas QR</button><button class="b" id="et-tej">' + ico('marcador') + ' Tejuelos</button></div></div>' +
+    '<div class="tarjeta"><h3 class="nivel-t" style="--c:#8a9400">3 · Cuando estén pegados</h3><p class="peq suave" style="margin-top:0">Así dejan de salir como pendientes.</p>' +
+    '<div class="fila"><button class="b ok" id="et-ok">✓ Marcar como puestos</button></div></div>' +
+    '<div id="et-res"></div>';
+  const filtrar = () => {
+    const que = $('#et-que').value, e = $('#et-e').value, d = $('#et-d').value, h = $('#et-h').value, q = $('#et-q').value;
+    return todos.filter(x => (que === 'todos' || pendienteTejuelo(x)) && (!e || x.etapa === e) &&
+      (d === '' || (numCodigo(x.codigo) !== null && numCodigo(x.codigo) >= Number(d))) && (h === '' || (numCodigo(x.codigo) !== null && numCodigo(x.codigo) <= Number(h))) &&
+      (!q || coincide(x.codigo + ' ' + x.titulo, q)));
+  };
+  const elegidos = () => filtrar().filter(x => !quitados.has(x.fila));
+  const pintar = () => {
+    const r = filtrar(), n = r.filter(x => !quitados.has(x.fila)).length;
+    $('#et-qr').innerHTML = ico('qr') + ' Etiquetas QR (' + n + ')';
+    $('#et-tej').innerHTML = ico('marcador') + ' Tejuelos (' + n + ')';
+    $('#et-ok').textContent = '✓ Marcar como puestos (' + n + ')';
+    $('#et-res').innerHTML = '<p class="suave peq">' + n + ' de ' + r.length + ' libros marcados. Quita la marca a los que no quieras imprimir.</p>' +
+      '<div class="tabla"><table><tr><th style="width:36px"><input type="checkbox" id="et-todos" ' + (n === r.length && n ? 'checked' : '') + '></th><th>Código</th><th>Título</th><th class="ocultar-movil">Etapa</th></tr>' +
+      r.slice(0, 500).map(x => '<tr><td><input type="checkbox" data-f="' + x.fila + '" ' + (quitados.has(x.fila) ? '' : 'checked') + '></td><td style="white-space:nowrap">' + tejueloHtml(x, 'mini-tej') + ' ' + esc(x.codigo) + '</td><td>' + esc(x.titulo) + '</td><td class="ocultar-movil">' + esc(x.etapa) + '</td></tr>').join('') +
+      '</table></div>' + (r.length > 500 ? '<p class="peq suave">Se muestran los 500 primeros; usa los filtros para afinar.</p>' : '');
+  };
+  $('#et-res').addEventListener('change', e => {
+    const c = e.target;
+    if (c.id === 'et-todos') { filtrar().forEach(x => c.checked ? quitados.delete(x.fila) : quitados.add(x.fila)); }
+    else if (c.dataset.f) { const f = Number(c.dataset.f); c.checked ? quitados.delete(f) : quitados.add(f); }
+    pintar();
+  });
+  let t; ['#et-que', '#et-e', '#et-d', '#et-h', '#et-q'].forEach(sel => $(sel).addEventListener('input', () => { clearTimeout(t); t = setTimeout(pintar, 150); }));
+  const comprobar = max => { const r = elegidos(); if (!r.length) { aviso('No hay ningún libro marcado.'); return null; } if (r.length > max) { aviso('Son ' + r.length + '. Imprime como máximo ' + max + ' de una vez (usa el rango de números).'); return null; } return r; };
+  $('#et-qr').onclick = () => { const r = comprobar(300); if (r) imprimirEtiquetas(r); };
+  $('#et-tej').onclick = () => { const r = comprobar(500); if (r) imprimirTejuelos(r); };
+  $('#et-ok').onclick = async () => {
+    const r = elegidos().filter(pendienteTejuelo);
+    if (!r.length) return aviso('Ninguno de los marcados estaba pendiente.');
+    if (!await confirmar('¿Marcar ' + r.length + ' libro(s) como «tejuelo puesto»? Dejarán de salir como pendientes.', 'Marcar como puestos')) return;
+    try { await api('marcarTejuelosPuestos', r.map(x => x.fila)); aviso(r.length + ' libros marcados como puestos'); await cambiosHechos(); admEtiquetas(); }
+    catch (e) { aviso(textoError(e)); }
+  };
+  pintar();
+}
+
+function isbnOk(i) {
+  i = String(i || '').replace(/[^0-9Xx]/g, '').toUpperCase();
+  if (/^\d{9}[\dX]$/.test(i)) { let s = 0; for (let k = 0; k < 10; k++) s += (10 - k) * (i[k] === 'X' ? 10 : +i[k]); return s % 11 === 0; }
+  if (/^\d{13}$/.test(i)) { let s = 0; for (let k = 0; k < 13; k++) s += +i[k] * (k % 2 ? 3 : 1); return s % 10 === 0; }
+  return false;
+}
+
+async function admRevision() {
+  let cat;
+  try { cat = await cargarCatalogo(); } catch (e) { $('#adm').innerHTML = msg('error', esc(textoError(e))); return; }
+  const info = g => {
+    const v = g.ejemplares.filter(x => x.estado !== 'Baja');
+    return { g, x: v[0] || g.ejemplares[0], activos: v.length,
+      faltaPortada: !g.portada && v.every(x => x.estadoPortada !== 'no'),
+      faltaSinopsis: v.every(x => x.estadoSinopsis === ''),
+      faltaIsbn: !v.some(x => isbnOk(x.isbn)) };
+  };
+  const cache = {}, saltados = new Set();
+  let pos = 0, cola = [];
+  $('#adm').innerHTML = '<div class="tarjeta"><div class="fila"><select id="rv-f" style="width:auto"><option value="cualquiera">Les falta portada o sinopsis</option><option value="portada">Les falta la portada</option><option value="sinopsis">Les falta la sinopsis</option><option value="isbn">No tienen ISBN válido</option></select>' +
+    '<select id="rv-e" style="width:auto"><option value="">Todas las etapas</option>' + S.info.etapas.map(e => '<option>' + esc(e) + '</option>').join('') + '</select>' +
+    '<span id="rv-prog" class="suave peq"></span><button class="b sec peq" style="margin-left:auto" ' + on(() => irAdmin('libros')) + '>Terminar</button></div></div><div id="rv-libro"></div><div id="rv-cand"></div>';
+  const armarCola = () => {
+    const f = $('#rv-f').value, e = $('#rv-e').value;
+    cola = cat.map(info).filter(i => i.activos && (!e || i.g.etapa === e) && !saltados.has(i.x.fila) &&
+      (f === 'portada' ? i.faltaPortada : f === 'sinopsis' ? i.faltaSinopsis : f === 'isbn' ? i.faltaIsbn : (i.faltaPortada || i.faltaSinopsis)));
+    pos = 0; mostrar();
+  };
+  const pedir = (fila, otro) => {
+    const k = fila + '|' + (otro || '');
+    if (!cache[k]) cache[k] = api('candidatosLibro', fila, otro || '').catch(e => { delete cache[k]; throw e; });
+    return cache[k];
+  };
+  const siguiente = () => { pos++; mostrar(); };
+  async function mostrar(otro) {
+    if (pos >= cola.length) {
+      $('#rv-prog').textContent = '';
+      $('#rv-libro').innerHTML = msg('ok', '¡No quedan libros en esta lista! Cambia el filtro de arriba o pulsa «Terminar».'); $('#rv-cand').innerHTML = ''; return;
+    }
+    const it = cola[pos], g = it.g, x = it.x;
+    $('#rv-prog').textContent = 'Libro ' + (pos + 1) + ' de ' + cola.length;
+    $('#rv-libro').innerHTML = '<div class="tarjeta"><div class="ficha-g">' + portadaHtml(g, 'grande') + '<div><h2 style="margin-top:0">' + esc(g.titulo) + '</h2>' +
+      '<p class="suave" style="margin:0 0 6px">' + esc(g.autor || 'Autor desconocido') + (g.editorial ? ' · ' + esc(g.editorial) : '') + '</p>' +
+      '<p class="peq">' + (g.etapa ? '<span class="etq">' + esc(g.etapa) + '</span> ' : '') + '<span class="etq">' + it.activos + ' ejemplar(es): ' + esc(g.ejemplares.map(e => e.codigo).filter(String).slice(0, 4).join(', ')) + '</span> ' +
+      (isbnOk(x.isbn) ? '<span class="etq">ISBN ' + esc(x.isbn) + '</span>' : '<span class="etq aviso">Sin ISBN válido</span>') + '</p>' +
+      '<div class="rev-op"><b style="font-size:14px">Rellenar:</b>' +
+      '<label><input type="checkbox" id="rv-p" ' + (it.faltaPortada ? 'checked' : '') + '> Portada</label>' +
+      '<label><input type="checkbox" id="rv-s" ' + (it.faltaSinopsis ? 'checked' : '') + '> Sinopsis</label>' +
+      '<label><input type="checkbox" id="rv-i" ' + (it.faltaIsbn ? 'checked' : '') + '> ISBN</label></div>' +
+      '<div class="fila"><button class="b sec" id="rv-saltar">Saltar</button><button class="b peligro" id="rv-no">Ninguna sirve</button>' +
+      '<input id="rv-otro" class="crece" placeholder="Buscar con otro título…" value="' + esc(otro || '') + '" style="max-width:320px"><button class="b sec" id="rv-buscar">' + ico('buscar') + '</button></div>' +
+      '</div></div></div>';
+    $('#rv-saltar').onclick = () => { saltados.add(x.fila); siguiente(); };
+    $('#rv-no').onclick = async () => { try { await api('descartarCandidatos', x.fila); g.ejemplares.forEach(e => { if (e.estadoPortada === '') e.estadoPortada = 'no'; if (e.estadoSinopsis === '') e.estadoSinopsis = 'no'; }); siguiente(); } catch (e) { aviso(textoError(e)); } };
+    const buscarOtro = () => { const v = $('#rv-otro').value.trim(); if (v) mostrar(v); };
+    $('#rv-buscar').onclick = buscarOtro;
+    $('#rv-otro').addEventListener('keydown', e => { if (e.key === 'Enter') buscarOtro(); });
+    $('#rv-cand').innerHTML = '<div class="cargando">Buscando en Google Books y Open Library…</div>';
+    let cands;
+    try { cands = await pedir(x.fila, otro); } catch (e) { $('#rv-cand').innerHTML = msg('error', esc(textoError(e))); return; }
+    if (cola[pos] !== it) return;   // ya se ha pasado a otro libro
+    if (cola[pos + 1]) pedir(cola[pos + 1].x.fila).catch(() => {});   // adelantar el siguiente
+    $('#rv-cand').innerHTML = !cands.length ? msg('aviso', 'No se ha encontrado nada con este título. Prueba «Buscar con otro título» (por ejemplo, solo una parte del título) o pulsa «Ninguna sirve».') :
+      '<h3>Elige la que corresponda a este libro</h3><div class="cand-grid">' + cands.map((c, n) =>
+        '<div class="cand"><div class="arriba">' + (c.portada ? '<img src="' + esc(c.portada) + '" alt="" referrerpolicy="no-referrer" loading="lazy">' : '<span class="sinimg">sin portada</span>') +
+        '<div><b>' + esc(c.titulo) + '</b><div class="dat">' + esc(c.autor) + '<br>' + esc([c.editorial, c.anio].filter(String).join(' · ')) + (c.isbn ? '<br>ISBN ' + esc(c.isbn) : '') + '</div></div></div>' +
+        (c.sinopsis ? '<div class="sin" title="' + esc(c.sinopsis) + '">' + esc(c.sinopsis) + '</div>' : '<div class="dat">Sin sinopsis</div>') +
+        '<span class="fuente">' + esc(c.fuente) + '</span><button class="b" data-n="' + n + '">Usar esta</button></div>').join('') + '</div>';
+    $('#rv-cand').querySelectorAll('button[data-n]').forEach(b => b.onclick = async () => {
+      const c = cands[+b.dataset.n];
+      const op = { portada: $('#rv-p').checked && !!c.portada, sinopsis: $('#rv-s').checked && !!c.sinopsis, isbn: $('#rv-i').checked && !!c.isbn };
+      if (!op.portada && !op.sinopsis && !op.isbn) return aviso('Esa opción no trae nada de lo marcado en «Rellenar».');
+      try {
+        await conBoton(b, () => api('aplicarCandidato', x.fila, c, op));
+        g.ejemplares.forEach(e => { if (op.portada) { e.portada = c.portada; e.estadoPortada = 'si'; } if (op.sinopsis) e.estadoSinopsis = 'si'; if (op.isbn && !isbnOk(e.isbn)) e.isbn = c.isbn; });
+        if (op.portada) g.portada = c.portada;
+        aviso('Guardado: ' + [op.portada && 'portada', op.sinopsis && 'sinopsis', op.isbn && 'ISBN'].filter(Boolean).join(', '));
+        siguiente();
+      } catch (e) { aviso(textoError(e)); }
+    });
+  }
+  ['#rv-f', '#rv-e'].forEach(sel => $(sel).addEventListener('change', armarCola));
+  armarCola();
+}
+
 function editarLibro(l) {
   const nuevo = !l;
   l = l || { codigo: '', etapa: '', titulo: '', autor: '', editorial: '', isbn: '', genero: '', observaciones: '', revisar: '' };
@@ -1092,7 +1676,7 @@ function editarLibro(l) {
     '<div class="rejilla">' +
     campo('titulo', 'Título *', l.titulo, 'ancho') + campo('autor', 'Autor', l.autor) + campo('editorial', 'Editorial', l.editorial) +
     '<div><label>Etapa</label><select id="el-etapa"><option value="">—</option>' + S.info.etapas.map(e => '<option' + (e === l.etapa ? ' selected' : '') + '>' + esc(e) + '</option>').join('') + '</select></div>' +
-    campo('codigo', 'Código' + (nuevo ? ' (vacío = siguiente libre)' : ''), l.codigo) +
+    (nuevo ? campo('codigo', 'Código (vacío = siguiente libre)', l.codigo) : '<div><label>Código</label><div class="fila" style="flex-wrap:nowrap"><input id="el-codigo" value="' + esc(l.codigo) + '"><button class="b sec peq" id="el-sig" title="Pone el siguiente número libre de la etapa elegida">Siguiente libre</button></div></div>') +
     (nuevo ? '' : campo('isbn', 'ISBN', l.isbn)) + campo('genero', 'Género', l.genero) +
     (nuevo ? '<div><label>Nº de ejemplares iguales</label><input id="el-n" type="number" min="1" max="50" value="1"></div>' : '') +
     '<div class="ancho"><label>Portada (dirección de la imagen)</label><div class="fila" style="flex-wrap:nowrap;align-items:flex-start"><input id="el-portada" value="' + esc(/^https?:/.test(l.portada || '') ? l.portada : '') + '" placeholder="Vacío = portada dibujada automáticamente">' +
@@ -1112,8 +1696,13 @@ function editarLibro(l) {
     if (!$('#el-sinopsis').disabled) d.sinopsis = val('sinopsis');
     return d; };
   if (!nuevo) api('leerSinopsis', l.fila).then(t => { const e = $('#el-sinopsis'); if (e) { e.value = t; e.disabled = false; e.placeholder = 'Sin sinopsis'; } }).catch(() => {});
+  if ($('#el-sig')) $('#el-sig').onclick = async () => {
+    const e = val('etapa');
+    if (!e) return aviso('Elige primero la etapa.');
+    try { $('#el-codigo').value = await conBoton($('#el-sig'), () => api('siguienteCodigo', e)); aviso('Recuerda poner el tejuelo nuevo al libro.'); } catch (er) { aviso(textoError(er)); }
+  };
   $('#el-portada').addEventListener('input', () => { $('#el-prev').innerHTML = portadaHtml({ titulo: val('titulo') || 'Título', autor: val('autor'), etapa: val('etapa'), portada: val('portada'), ejemplares: [] }, 'mini'); });
-  const tras = (texto) => { cambiosHechos(); cerrarVentana(); aviso(texto); if (S.pestana === 'admin') vistaAdmin(); else if (S.pestana === 'catalogo') vistaCatalogo(); };
+  const tras = async (texto) => { cerrarVentana(); aviso(texto); await cambiosHechos(); if (S.pestana === 'admin') vistaAdmin(); else if (S.pestana === 'catalogo') vistaCatalogo(); };
   if (nuevo) {
     const sugerir = async () => { const e = val('etapa'); $('#el-codigo').placeholder = e ? 'Se asignará ' + await api('siguienteCodigo', e).catch(() => '') : 'Elige la etapa'; };
     $('#el-etapa').addEventListener('change', sugerir);
@@ -1291,19 +1880,19 @@ async function admLectores() {
     const cuenta = c => ls.filter(x => x.curso === c && (!f || x.estado === f)).length;
     $('#ae-c').innerHTML = '<option value="">Todos los cursos</option>' + cursos.map(c => '<option' + (c === antes ? ' selected' : '') + ' value="' + esc(c) + '">' + esc(c) + ' (' + cuenta(c) + ')</option>').join('');
   };
-  let max = 80;
+  const pg = crearPaginas(() => { pintar(); $('#ae-res').scrollIntoView({ block: 'start' }); });
   const pintar = () => {
     const q = $('#ae-q').value, f = $('#ae-f').value, e = $('#ae-e').value, c = $('#ae-c').value;
     const r = ls.filter(x => (!f || x.estado === f) && (!e || x.etapa === e) && (!c || x.curso === c) && (!q || coincide(x.nombre + ' ' + x.apellidos + ' ' + x.curso + ' ' + x.correo, q)));
-    const conLibros = r.filter(x => x.libros).length;
-    $('#ae-res').innerHTML = '<p class="suave peq">' + r.length + ' lector(es)' + (conLibros ? ' · ' + conLibros + ' con libros ahora mismo' : '') + '</p><div class="tabla"><table><tr><th>Nombre</th><th>Curso</th><th class="ocultar-movil">Correo</th><th>Libros</th></tr>' +
-      r.slice(0, max).map(x => '<tr class="clic" ' + on(() => editarLector(x)) + '><td>' + esc(x.apellidos ? x.apellidos + ', ' + x.nombre : x.nombre) + (x.estado !== 'Activo' ? ' <span class="etq Baja">baja</span>' : '') + '</td><td>' + esc(x.curso) + '</td><td class="ocultar-movil peq">' + esc(x.correo || '(sin correo)') + '</td><td>' + (x.libros || '') + '</td></tr>').join('') +
-      '</table></div>' + (r.length > max ? '<p><button class="b sec" ' + on(() => { max += 300; pintar(); }) + '>Ver más</button></p>' : '');
+    const conLibros = r.filter(x => x.libros).length, vis = pg.trozo(r);
+    $('#ae-res').innerHTML = '<p class="suave peq" style="margin-bottom:0">' + r.length + ' lector(es)' + (conLibros ? ' · ' + conLibros + ' con libros ahora mismo' : '') + '</p>' + pg.html() + '<div class="tabla"><table><tr><th>Nombre</th><th>Curso</th><th class="ocultar-movil">Correo</th><th>Libros</th></tr>' +
+      vis.map(x => '<tr class="clic" ' + on(() => editarLector(x)) + '><td>' + esc(x.apellidos ? x.apellidos + ', ' + x.nombre : x.nombre) + (x.estado !== 'Activo' ? ' <span class="etq Baja">baja</span>' : '') + '</td><td>' + esc(x.curso) + '</td><td class="ocultar-movil peq">' + esc(x.correo || '(sin correo)') + '</td><td>' + (x.libros || '') + '</td></tr>').join('') +
+      '</table></div>' + pg.html();
   };
-  let t; $('#ae-q').addEventListener('input', () => { clearTimeout(t); max = 80; t = setTimeout(pintar, 150); });
-  $('#ae-e').addEventListener('change', () => { $('#ae-c').value = ''; rellenarCursos(); max = 80; pintar(); });
-  $('#ae-c').addEventListener('change', () => { max = 80; pintar(); });
-  $('#ae-f').addEventListener('change', () => { rellenarCursos(); max = 80; pintar(); });
+  let t; $('#ae-q').addEventListener('input', () => { clearTimeout(t); pg.reset(); t = setTimeout(pintar, 150); });
+  $('#ae-e').addEventListener('change', () => { $('#ae-c').value = ''; rellenarCursos(); pg.reset(); pintar(); });
+  $('#ae-c').addEventListener('change', () => { pg.reset(); pintar(); });
+  $('#ae-f').addEventListener('change', () => { rellenarCursos(); pg.reset(); pintar(); });
   rellenarCursos();
   pintar();
 }
@@ -1385,9 +1974,10 @@ async function archivoATexto(archivo) {
 
 // ───── Gestores ─────
 async function admGestores() {
+  const caja = $('#aj-ges') || $('#adm');
   let g;
-  try { g = await api('listaGestores'); } catch (e) { $('#adm').innerHTML = msg('error', esc(textoError(e))); return; }
-  $('#adm').innerHTML = '<div class="tarjeta"><p class="suave peq" style="margin-top:0">Estas personas pueden prestar, devolver y modificar el catálogo. El resto de cuentas del colegio solo ven el catálogo (y el alumnado puede reservar).</p>' +
+  try { g = await api('listaGestores'); } catch (e) { caja.innerHTML = msg('error', esc(textoError(e))); return; }
+  caja.innerHTML = '<div class="tarjeta"><h3 class="nivel-t" style="--c:#64748B">Quién gestiona la biblioteca</h3><p class="suave peq" style="margin-top:0">Estas personas pueden prestar, devolver y modificar el catálogo. El resto de cuentas del colegio solo ven el catálogo (y el alumnado puede reservar).</p>' +
     '<div class="tabla"><table><tr><th>Correo</th><th>Nombre</th><th></th></tr>' + g.map(x => '<tr><td>' + esc(x.correo) + '</td><td>' + esc(x.nombre) + '</td><td>' +
       (x.correo === S.info.correo ? '<span class="peq suave">(tú)</span>' : '<button class="b peligro peq" ' + on(async () => { if (await confirmar('¿Quitar el acceso de gestión a ' + esc(x.correo) + '?', 'Quitar')) { try { await api('quitarGestor', x.correo); admGestores(); } catch (e) { aviso(textoError(e)); } } }) + '>Quitar</button>') + '</td></tr>').join('') + '</table></div>' +
     '<h3>Añadir a alguien</h3><div class="fila"><input id="ag-c" class="crece" placeholder="correo@nervion.salesianas.org"><input id="ag-n" class="crece" placeholder="Nombre (opcional)"><button class="b" id="ag-b">Añadir</button></div><div id="ag-msg"></div></div>';
@@ -1401,10 +1991,11 @@ async function admGestores() {
 async function admAjustes() {
   let a;
   try { a = await api('leerAjustes'); } catch (e) { $('#adm').innerHTML = msg('error', esc(textoError(e))); return; }
-  $('#adm').innerHTML = '<div class="tarjeta">' + a.map(x => '<label>' + esc(x.descripcion || x.clave) + '</label>' +
+  $('#adm').innerHTML = '<div class="tarjeta"><h3 class="nivel-t" style="--c:#009abb">Normas y configuración</h3>' + a.filter(x => x.clave !== 'id_cliente_google').map(x => '<label>' + esc(x.descripcion || x.clave) + '</label>' +
     (x.clave === 'reservas_alumnado' ? '<select data-k="' + esc(x.clave) + '"><option' + (/^s/i.test(x.valor) ? ' selected' : '') + '>SÍ</option><option' + (/^s/i.test(x.valor) ? '' : ' selected') + '>NO</option></select>'
       : '<input data-k="' + esc(x.clave) + '" value="' + esc(x.valor) + '">')).join('') +
-    '<div id="aj-msg"></div><div class="acciones"><button class="b" id="aj-b">Guardar ajustes</button></div></div>';
+    '<div id="aj-msg"></div><div class="acciones"><button class="b" id="aj-b">Guardar ajustes</button></div></div><div id="aj-ges"><div class="cargando">Cargando…</div></div>';
+  admGestores();
   $('#aj-b').onclick = async () => {
     const v = {}; document.querySelectorAll('#adm [data-k]').forEach(e => v[e.dataset.k] = e.value);
     try { await conBoton($('#aj-b'), () => api('guardarAjustes', v)); S.info = await api('iniciar'); $('#titulo').textContent = S.info.ajustes.nombre_biblioteca; aviso('Ajustes guardados'); }
