@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Biblioteca · Salesianas Nervión</title>
+<title>Biblioteca | Escuelas Salesianas María Auxiliadora · Nervión (Sevilla)</title>
 <meta name="description" content="Biblioteca de las Escuelas Salesianas María Auxiliadora (Nervión, Sevilla): catálogo, reservas y préstamos.">
 <meta name="theme-color" content="#009abb">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -13,13 +13,15 @@
 <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="Biblioteca">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Biblioteca">
 <!-- Vista previa al compartir el enlace -->
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_ES">
 <meta property="og:site_name" content="Escuelas Salesianas María Auxiliadora">
-<meta property="og:title" content="Biblioteca · Salesianas Nervión">
+<meta property="og:title" content="Biblioteca | Escuelas Salesianas María Auxiliadora · Nervión (Sevilla)">
+<meta name="twitter:title" content="Biblioteca | Escuelas Salesianas María Auxiliadora · Nervión (Sevilla)">
 <meta property="og:description" content="Consulta el catálogo de la biblioteca del colegio, reserva libros y gestiona los préstamos.">
 <meta property="og:url" content="https://biblioteca-nervion.vercel.app/">
 <meta property="og:image" content="https://biblioteca-nervion.vercel.app/og-image.png">
@@ -904,7 +906,7 @@ async function arrancar() {
 function montar(navegar) {
   const i = S.info;
   $('#titulo').textContent = i.ajustes.nombre_biblioteca;
-  document.title = i.ajustes.nombre_biblioteca;
+  document.title = 'Biblioteca | Escuelas Salesianas María Auxiliadora · Nervión (Sevilla)';
   const quien = i.rol === 'gestor' ? i.correo + ' · Gestión' : i.rol === 'lector' ? i.nombre + ' · ' + i.curso
     : i.correo ? i.correo + ' · sin alta en la biblioteca' : '';
   $('#quien').innerHTML = '<span>' + esc(quien) + '</span>' +
