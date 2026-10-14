@@ -148,12 +148,14 @@
   .qr-vista img { max-width: 100%; border: 1px solid var(--linea); border-radius: 8px; }
   #imprimir { display: none; }
   /* Pantalla de acceso */
-  .acceso { min-height: calc(100vh - 160px); display: grid; place-items: center; padding: 20px 0; }
-  .acceso .caja { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: 18px; box-shadow: var(--sombra); padding: 34px 28px; max-width: 420px; width: 100%; text-align: center; }
-  .acceso .logo-g { height: 64px; margin-bottom: 14px; }
-  .acceso h2 { justify-content: center; font-size: 26px; margin: 0 0 6px; }
+  /* Igual que en el resto de webs del colegio: logo, curso, título y botón */
+  .acceso { min-height: 70vh; display: grid; place-items: center; padding: 20px 0; }
+  .acceso .caja { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: 16px; box-shadow: var(--sombra); padding: 36px 32px; max-width: 440px; width: 100%; text-align: center; }
+  .acceso .logo-g { height: 58px; width: auto; display: block; margin: 0 auto 1.1rem; }
+  .acceso .eyebrow { display: inline-block; background: var(--primario-claro); color: var(--azul); font-weight: 700; font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; padding: .3rem .8rem; border-radius: 999px; margin-bottom: .9rem; }
+  .acceso h2 { justify-content: center; font-size: 1.9rem; color: var(--azul); margin: 0 0 .4rem; }
   .acceso h2::before { display: none; }
-  .acceso p { color: var(--suave); margin: 0 0 22px; }
+  .acceso p { color: var(--suave); margin: 0 0 1.5rem; }
   #boton-google { display: flex; justify-content: center; min-height: 44px; }
   .acceso .nota { font-size: 13px; margin: 18px 0 0; }
   /* Panel de inicio */
@@ -301,10 +303,72 @@
   .muestra-tej { display: inline-flex; flex-direction: column; width: 90px; height: 112px; border: 1px solid #999; border-radius: 8px; overflow: hidden; vertical-align: top; }
   .muestra-tej .banda { color: #fff; font: 700 12px 'Fira Sans', sans-serif; text-align: center; padding: 6px 0; }
   .muestra-tej .num { flex: 1; display: flex; align-items: center; justify-content: center; font: 800 34px 'Fira Sans', sans-serif; color: #111; background: #fff; }
+
+  /* ─── Portada (como en el portal de utilidades, en naranja: apartado «General»): cabecera solo con el logo,
+     franja con el curso y los botones, nombre de quien ha entrado, cartel, descripción y cajas desplegables ─── */
+  header.solo-logo { justify-content: center; border-bottom: 0; padding: 12px 16px; }
+  header.solo-logo .marca .logo { height: 64px; }
+  .franja { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 8px 16px; background: #ee712a; color: #fff; }
+  .franja-curso { font-size: 13px; font-weight: 600; text-shadow: 0 1px 2px rgba(0,0,0,.25); }
+  .franja-acc { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+  .franja-btn { display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.75);
+    background: rgba(255,255,255,.14); color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.2); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .franja-btn:hover { background: #fff; color: #b9530f; text-shadow: none; }
+  .franja-btn[hidden] { display: none; }
+  .franja-btn svg, .sesion svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .sesion { display: flex; justify-content: flex-end; align-items: center; gap: 10px; flex-wrap: wrap; padding: 8px 16px 0; font-size: 13px; }
+  .sesion:empty { display: none; }
+  .sesion-nombre { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--texto); }
+  .sesion-nombre svg { color: #d35a15; }
+  .sesion-salir { display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 999px; cursor: pointer;
+    border: 1px solid rgba(238, 113, 42, .7); background: var(--tarjeta); color: #b9530f; font: inherit; font-size: 13px; font-weight: 600; }
+  .sesion-salir:hover { background: #ee712a; border-color: #ee712a; color: #fff; }
+  .presenta { padding: 22px max(16px, calc((100% - 1100px) / 2 + 16px)); }
+  .sesion:not(:empty) + .presenta { padding-top: 8px; }
+  .presenta-sup { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 12px; }
+  .cartel { display: inline-block; background: rgba(238, 113, 42, .14); color: #b9530f; font-weight: 700; font-size: .78rem;
+    letter-spacing: .06em; text-transform: uppercase; padding: .3rem .8rem; border-radius: 999px; }
+  .presenta-cab { display: flex; align-items: center; gap: 16px; }
+  .presenta-ico { flex: none; width: 56px; height: 56px; border-radius: 14px; display: grid; place-items: center; background: rgba(238, 113, 42, .14); color: #d35a15; }
+  .presenta-ico svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .presenta h1 { margin: 0 0 4px; font-size: 1.6rem; line-height: 1.2; color: #d35a15; }
+  .presenta-cab p { margin: 0; color: var(--suave); max-width: 70ch; }
+  .presenta-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 18px; align-items: start; }
+  .info-bloque { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: var(--radio); }
+  .info-bloque summary { list-style: none; display: flex; align-items: center; gap: 10px; padding: 12px 16px; cursor: pointer; font-weight: 700; }
+  .info-bloque summary::-webkit-details-marker { display: none; }
+  .info-bloque summary > svg { width: 20px; height: 20px; flex: none; fill: none; stroke: #d35a15; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .info-bloque summary > span { flex: 1; min-width: 0; }
+  .info-bloque summary small { display: block; font-weight: 500; font-size: .8rem; color: var(--suave); }
+  .info-bloque summary::after { content: ""; flex: none; width: 8px; height: 8px; border-right: 2px solid var(--suave); border-bottom: 2px solid var(--suave);
+    transform: rotate(45deg); margin: -4px 4px 0; transition: transform .15s; }
+  .info-bloque[open] summary::after { transform: rotate(-135deg); margin-top: 4px; }
+  .info-bloque summary:hover { color: #d35a15; }
+  .info-bloque ul { margin: 0; padding: 0 16px 14px 34px; color: var(--suave); font-size: .9rem; }
+  .info-bloque li + li { margin-top: 3px; }
+  .info-bloque b { color: var(--texto); font-weight: 600; }
+  .aviso-etq { display: inline-block; margin-left: 6px; vertical-align: 3px; line-height: 1.5; font-style: normal; font-size: .7rem; font-weight: 700;
+    color: var(--error); background: var(--error-claro); padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+  .presenta + nav { border-top: 2px solid rgba(238, 113, 42, .5); }
+  .acceso { min-height: 0; padding: 28px 0; }
+  .acceso h2 { font-size: 1.5rem; color: #d35a15; }
+  /* Acceso: botón secundario en naranja; el de Google es el oficial, en blanco */
+  button.b.b-naranja { color: #e8641c; border-color: #ee712a; background: var(--tarjeta); }
+  button.b.b-naranja:hover { background: #ee712a; border-color: #ee712a; color: #fff; }
+  #boton-google { display: flex; justify-content: center; }
+  :root[data-theme="dark"] .presenta h1, :root[data-theme="dark"] .acceso h2, :root[data-theme="dark"] .cartel,
+  :root[data-theme="dark"] .presenta-ico, :root[data-theme="dark"] .sesion-salir { color: #f59152; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .presenta h1, :root:not([data-theme="light"]) .acceso h2,
+    :root:not([data-theme="light"]) .cartel, :root:not([data-theme="light"]) .presenta-ico, :root:not([data-theme="light"]) .sesion-salir { color: #f59152; } }
+  @media (max-width: 560px) {
+    header.solo-logo .marca .logo { height: 54px; }
+    .presenta-cab { align-items: flex-start; } .presenta h1 { font-size: 1.3rem; } .presenta-ico { width: 46px; height: 46px; }
+    .presenta-info { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
-<header>
+<header class="solo-logo">
   <div class="marca"><svg class="logo" role="img" aria-label="Salesianas Nervión" width="670" height="215" viewBox="160 635 670 215" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <style>
@@ -391,9 +455,51 @@
         <path class="lg2" d="M613,743.8h-2.1v-14.8h-1.5v-1.8h2.7c2.7,0,4.6.5,5.8,1.5,1.2,1,1.8,2.2,1.8,3.8,0,2.2-.9,3.9-2.8,4.9l3.4,6.4h-2.3l-2.9-5.6c-.7.2-1.4.3-2.1.3v5.3h0ZM613,729v7.8c2.9-.2,4.5-1.8,4.5-4.2s-1.5-3.4-4.5-3.6Z"/>
         <path class="lg2" d="M624,727.2h2.6l5,16.6h-2.2l-1.2-4.3h-5.5l-1.2,4.3h-2.2l4.7-16.6h0ZM624.8,731.4l-1.7,6.3h4.5l-1.8-6.3c0,0-.2-.8-.5-2.2l-.2,1-.3,1.2h0Z"/>
       </g>
-    </svg><h1 id="titulo">Biblioteca</h1></div>
-  <div class="quien" id="quien"></div>
+    </svg></div>
 </header>
+<div class="franja">
+  <span class="franja-curso" id="franja-curso"></span>
+  <div class="franja-acc">
+    <button type="button" class="franja-btn" id="franja-instalar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Instalar como app</button>
+    <button type="button" class="franja-btn" id="franja-admin"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Administración</button>
+  </div>
+</div>
+<div class="sesion" id="quien"></div>
+<section class="presenta">
+  <div class="presenta-sup"><span class="cartel">Utilidades | General</span></div>
+  <div class="presenta-cab">
+    <span class="presenta-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></svg></span>
+    <div>
+      <h1 id="titulo">Biblioteca</h1>
+      <p>Catálogo, reservas y préstamos de libros de la biblioteca del colegio.</p>
+    </div>
+  </div>
+  <div class="presenta-info">
+    <details class="info-bloque">
+      <summary><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.9.7 3.1 2.4 3.5 5.2"/></svg><span>Cualquier usuario <small>Acceso: sin inicio de sesión</small></span></summary>
+      <ul>
+        <li><b>Catálogo:</b> buscar libros y ver si están disponibles.</li>
+        <li><b>Ficha de cada libro:</b> también se abre escaneando su código QR.</li>
+        <li><b>Ayuda:</b> cómo reservar y preguntas frecuentes.</li>
+      </ul>
+    </details>
+    <details class="info-bloque">
+      <summary><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg><span>Alumnado <small>Acceso: inicio de sesión con Google (@nervion.salesianas.org)</small></span></summary>
+      <ul>
+        <li><b>Reservar</b> libros para recogerlos en la biblioteca.</li>
+        <li><b>Mis libros:</b> reservas y préstamos, con su fecha de devolución.</li>
+      </ul>
+    </details>
+    <details class="info-bloque">
+      <summary><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span>Gestión <em class="aviso-etq">Solo cuentas autorizadas</em> <small>Acceso: inicio de sesión con Google (@nervion.salesianas.org)</small></span></summary>
+      <ul>
+        <li><b>Préstamos:</b> prestar, devolver y ver lo que está en préstamo.</li>
+        <li><b>Catálogo:</b> dar de alta y editar libros, etiquetas y tejuelos con QR.</li>
+        <li><b>Administración:</b> alumnado, ajustes e historial; ver la web como la ve el alumnado.</li>
+      </ul>
+    </details>
+  </div>
+</section>
 <nav id="pestanas"></nav>
 <div id="banda"></div>
 <main id="app"><div class="cargando">Cargando…</div></main>
@@ -695,13 +801,15 @@ function mostrarAcceso(aviso) {
   S.info = null;
   $('#pestanas').innerHTML = ''; $('#banda').innerHTML = ''; $('#quien').innerHTML = '';
   cerrarVentana();
-  $('#app').innerHTML = '<div class="acceso"><div class="caja"><img class="logo-g" src="icon-192.png" alt=""><h2>Biblioteca</h2>' +
-    '<p>Entra con tu cuenta del colegio<br><b>@' + esc(CFG.dominio || 'nervion.salesianas.org') + '</b></p>' +
+  const y = new Date().getFullYear() - (new Date().getMonth() < 8 ? 1 : 0);   // el curso cambia solo cada 1 de septiembre
+  $('#app').innerHTML = '<div class="acceso"><div class="caja">' +
+    '<h2>Iniciar sesión</h2>' +
+    '<p>Pulsa el botón y entra con tu cuenta del colegio <b>@' + esc(CFG.dominio || 'nervion.salesianas.org') + '</b>.</p>' +
     (aviso ? msg('aviso', esc(aviso)) : '') + '<div id="boton-google"></div>' +
     '<p class="nota suave">Para reservar libros y para gestionar la biblioteca. Solo alumnado y profesorado de las Escuelas Salesianas María Auxiliadora.</p>' +
-    '<p style="margin:16px 0 0"><button class="b sec" ' + on(() => arrancar()) + '>Ver el catálogo sin entrar</button></p></div></div>';
+    '<p style="margin:16px 0 0"><button class="b sec b-naranja" ' + on(() => arrancar()) + '>Ver el catálogo sin entrar</button></p></div></div>';
   if (window.google && google.accounts && google.accounts.id) {
-    google.accounts.id.renderButton($('#boton-google'), { theme: 'filled_blue', size: 'large', shape: 'pill', text: 'signin_with', locale: 'es', width: 280 });
+    google.accounts.id.renderButton($('#boton-google'), { theme: 'outline', size: 'large', shape: 'pill', text: 'signin_with', locale: 'es', width: 280 });
     google.accounts.id.prompt();
   } else $('#boton-google').innerHTML = msg('error', 'No se ha podido cargar el acceso de Google. Recarga la página.');
 }
@@ -909,11 +1017,15 @@ function montar(navegar) {
   document.title = 'Biblioteca | Escuelas Salesianas María Auxiliadora · Nervión (Sevilla)';
   const quien = i.rol === 'gestor' ? i.correo + ' · Gestión' : i.rol === 'lector' ? i.nombre + ' · ' + i.curso
     : i.correo ? i.correo + ' · sin alta en la biblioteca' : '';
-  $('#quien').innerHTML = '<span>' + esc(quien) + '</span>' +
-    (S.instalar ? '<a href="#" ' + on(e => { e.preventDefault(); instalarApp(); }) + '>Instalar app</a>' : '') +
-    (i.rol === 'gestor' ? '<a href="#" ' + on(e => { e.preventDefault(); verComoAlumno(true); }) + '>Ver como alumno</a>' : '') +
-    (PASE ? '<a href="#" ' + on(e => { e.preventDefault(); salir(); }) + '>Cerrar sesión</a>'
-      : '<button class="b peq" ' + on(() => mostrarAcceso()) + '>Entrar</button>');
+  // Nombre de quien ha entrado y sus botones, justo debajo de la franja y a la derecha
+  const ICO_SALIR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H4"/></svg>';
+  const ICO_ENTRAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H4"/></svg>';
+  $('#quien').innerHTML = (quien ? '<span class="sesion-nombre"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>' + esc(quien) + '</span>' : '') +
+    (i.rol === 'gestor' ? '<button class="sesion-salir" ' + on(() => verComoAlumno(true)) + '>Ver como alumno</button>' : '') +
+    (PASE ? '<button class="sesion-salir" ' + on(() => salir()) + '>' + ICO_SALIR + 'Salir</button>'
+      : '<button class="sesion-salir" ' + on(() => mostrarAcceso()) + '>' + ICO_ENTRAR + 'Entrar</button>');
+  // «Administración» de la franja: lleva a entrar; quien ya gestiona tiene el menú completo
+  $('#franja-admin').hidden = i.rol === 'gestor';
   const pest = i.rol === 'gestor'
     ? [['inicio', 'Inicio'], ['prestar', 'Prestar'], ['devolver', 'Devolver'], ['prestamos', 'En préstamo'], ['catalogo', 'Catálogo'], ['admin', 'Administración']]
     : i.rol === 'lector' ? [['inicio', 'Inicio'], ['catalogo', 'Catálogo'], ['mis', 'Mis libros'], ['ayuda', 'Ayuda']] : [['inicio', 'Inicio'], ['catalogo', 'Catálogo'], ['ayuda', 'Ayuda']];
@@ -2023,7 +2135,7 @@ async function admHistorial() {
 // ═════════════════════ App instalable ═════════════════════
 if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
 window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); S.instalar = e; refrescarCabecera(); });
-window.addEventListener('appinstalled', () => { S.instalar = null; refrescarCabecera(); aviso('¡App instalada!'); });
+window.addEventListener('appinstalled', () => { S.instalar = null; $('#franja-instalar').hidden = true; refrescarCabecera(); aviso('¡App instalada!'); });
 function refrescarCabecera() { if (S.info) montar(false); }
 async function instalarApp() {
   if (S.instalar === 'ios') {
@@ -2036,6 +2148,26 @@ async function instalarApp() {
 function esIOS() { return /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); }
 function enApp() { return matchMedia('(display-mode: standalone)').matches || navigator.standalone; }
 if (esIOS() && !enApp()) S.instalar = 'ios';
+
+// Franja: curso escolar (cambia solo cada 1 de septiembre) y botones
+(function () {
+  const y = new Date().getFullYear() - (new Date().getMonth() < 8 ? 1 : 0);
+  $('#franja-curso').textContent = 'Curso ' + y + '-' + (y + 1);
+  $('#franja-instalar').hidden = !!enApp();
+  $('#franja-instalar').addEventListener('click', () => {
+    if (S.instalar) return instalarApp();
+    abrirVentana('<h2>Instalar la app</h2><p>Abre el menú del navegador (⋮ o ⋯) y elige <b>«Instalar aplicación»</b> o <b>«Añadir a pantalla de inicio»</b>.</p>');
+  });
+  $('#franja-admin').addEventListener('click', () => mostrarAcceso());
+  // Cajas desplegables: cuando están en la misma fila, todas con la altura de la más alta
+  const igualar = () => {
+    const ss = [...document.querySelectorAll('.info-bloque summary')];
+    ss.forEach(s => (s.style.minHeight = ''));
+    const fila = ss.every(s => s.parentNode.offsetTop === ss[0].parentNode.offsetTop);
+    if (fila) { const m = Math.max(...ss.map(s => s.offsetHeight)); ss.forEach(s => (s.style.minHeight = m + 'px')); }
+  };
+  igualar(); addEventListener('resize', igualar); document.fonts && document.fonts.ready.then(igualar);
+})();
 
 iniciar();
 </script>
