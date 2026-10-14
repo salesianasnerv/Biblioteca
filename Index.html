@@ -365,6 +365,14 @@
     .presenta-cab { align-items: flex-start; } .presenta h1 { font-size: 1.3rem; } .presenta-ico { width: 46px; height: 46px; }
     .presenta-info { grid-template-columns: 1fr; }
   }
+
+  /* El cartel es también el camino de vuelta: Utilidades (portal) | apartado */
+  .cartel { display: inline-flex; align-items: center; gap: .45rem; }
+  .cartel a { display: inline-flex; align-items: center; gap: .3rem; color: inherit; text-decoration: none; border-radius: 4px; }
+  .cartel a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .cartel a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+  .cartel svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .cartel .sep { opacity: .6; }
 </style>
 </head>
 <body>
@@ -466,7 +474,7 @@
 </div>
 <div class="sesion" id="quien"></div>
 <section class="presenta">
-  <div class="presenta-sup"><span class="cartel">Utilidades | General</span></div>
+  <div class="presenta-sup"><div class="cartel" role="navigation" aria-label="Estás en"><a href="https://claustro-utilidades.vercel.app/" title="Ir al portal de utilidades del profesorado"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10"/></svg>Utilidades</a><span class="sep" aria-hidden="true">|</span><a href="https://claustro-utilidades.vercel.app/#apGeneral" title="Ir al apartado «General» del portal">General</a></div></div>
   <div class="presenta-cab">
     <span class="presenta-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></svg></span>
     <div>
