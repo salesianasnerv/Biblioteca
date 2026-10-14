@@ -1,0 +1,2047 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Biblioteca | Escuelas Salesianas María Auxiliadora · Nervión (Sevilla)</title>
+<meta name="description" content="Biblioteca de las Escuelas Salesianas María Auxiliadora (Nervión, Sevilla): catálogo, reservas y préstamos.">
+<meta name="theme-color" content="#009abb">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="Biblioteca">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Biblioteca">
+<!-- Vista previa al compartir el enlace -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="Escuelas Salesianas María Auxiliadora">
+<meta property="og:title" content="Biblioteca | Escuelas Salesianas María Auxiliadora · Nervión (Sevilla)">
+<meta name="twitter:title" content="Biblioteca | Escuelas Salesianas María Auxiliadora · Nervión (Sevilla)">
+<meta property="og:description" content="Consulta el catálogo de la biblioteca del colegio, reserva libros y gestiona los préstamos.">
+<meta property="og:url" content="https://biblioteca-nervion.vercel.app/">
+<meta property="og:image" content="https://biblioteca-nervion.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Biblioteca · Escuelas Salesianas María Auxiliadora">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://biblioteca-nervion.vercel.app/og-image.png">
+<script src="config.js"></script>
+<script src="https://accounts.google.com/gsi/client" async></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  /* Paleta corporativa (igual que el resto de webs del colegio) */
+  :root {
+    --azul: #009abb; --azul-oscuro: #007791; --verde: #b4be00; --verde-oscuro: #6b7200; --naranja: #ee712a;
+    --fondo: #F8FAFC; --tarjeta: #FFFFFF; --texto: #1E293B; --suave: #64748B; --linea: #E2E8F0; --campo: #CBD5E1;
+    --primario: var(--azul); --primario-claro: rgba(0, 154, 187, .11);
+    --ok: #4d7c0f; --ok-claro: rgba(180, 190, 0, .18); --aviso: #b45309; --aviso-claro: rgba(238, 113, 42, .14);
+    --error: #b42318; --error-claro: #fde8e6; --radio: 14px; --sombra: 0 10px 25px -5px rgba(0, 154, 187, .10), 0 8px 10px -6px rgba(0, 0, 0, .04);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --fondo: #0F1720; --tarjeta: #17212C; --texto: #E7ECF2; --suave: #93A2B3; --linea: #263340; --campo: #33424f;
+      --azul: #29b6d4; --primario-claro: rgba(41, 182, 212, .14); --ok: #cdd640; --ok-claro: rgba(180, 190, 0, .15);
+      --aviso: #f59e5b; --error: #f87171; --error-claro: rgba(248, 113, 113, .14); --sombra: 0 10px 25px -8px rgba(0, 0, 0, .5);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --fondo: #0F1720; --tarjeta: #17212C; --texto: #E7ECF2; --suave: #93A2B3; --linea: #263340; --campo: #33424f;
+    --azul: #29b6d4; --primario-claro: rgba(41, 182, 212, .14); --ok: #cdd640; --ok-claro: rgba(180, 190, 0, .15);
+    --aviso: #f59e5b; --error: #f87171; --error-claro: rgba(248, 113, 113, .14); --sombra: 0 10px 25px -8px rgba(0, 0, 0, .5);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  button, input, select, textarea { font-family: inherit; }
+  h1, h2, h3 { font-family: "Fira Sans", system-ui, sans-serif; }
+  body { margin: 0; font: 15px/1.5 "Fira Sans", system-ui, sans-serif; color: var(--texto); background: var(--fondo); }
+  header { background: var(--tarjeta); border-bottom: 2px solid #009abb; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .marca { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .marca .logo { height: 40px; width: auto; display: block; flex: none; }
+  .marca h1 { margin: 0; font-size: 18px; font-weight: 700; color: var(--azul); padding-left: 14px; border-left: 1px solid var(--linea); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  header .quien { font-size: 13px; color: var(--suave); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+  header .quien a { color: var(--azul); font-weight: 600; text-decoration: none; white-space: nowrap; }
+  header .quien a:hover { text-decoration: underline; }
+  .lg0 { fill: #b4be00; } .lg1 { fill: #cfd150; } .lg2 { fill: #009abb; } .lg3 { fill: #dedd83; }
+  nav { background: var(--tarjeta); border-bottom: 1px solid var(--linea); display: flex; gap: 2px; flex-wrap: wrap; padding: 0 8px; position: sticky; top: 0; z-index: 8; }
+  .menu-g { position: relative; }
+  .menu-g > button::after { content: ""; display: inline-block; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); margin: 0 0 3px 8px; opacity: .7; }
+  .desplegable { display: none; position: absolute; top: 100%; left: 0; min-width: 230px; background: var(--tarjeta); border: 1px solid var(--linea); border-radius: 12px; box-shadow: var(--sombra), 0 12px 30px -10px rgba(0,0,0,.18); padding: 6px; z-index: 9; }
+  .menu-g.abierto .desplegable { display: block; }
+  @media (hover: hover) { .menu-g:hover .desplegable { display: block; } }
+  .desplegable button { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; border: 0; background: none; padding: 9px 10px; border-radius: 8px; cursor: pointer; font: inherit; color: var(--texto); }
+  .desplegable button:hover, .desplegable button.activo { background: var(--primario-claro); color: var(--azul); }
+  .desplegable svg { width: 19px; height: 19px; color: var(--c, var(--azul)); flex: none; }
+  @media (max-width: 600px) { nav > button, .menu-g > button { padding: 12px 10px; font-size: 14px; } .menu-g:last-child .desplegable { left: auto; right: 0; } }
+  nav > button, .menu-g > button { font: inherit; border: 0; background: none; padding: 13px 14px; font-size: 15px; color: var(--suave); cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; }
+  nav > button.activo, .menu-g > button.activo { color: var(--azul); border-bottom-color: var(--verde); font-weight: 600; }
+  main { max-width: 1100px; margin: 0 auto; padding: 18px 16px 60px; }
+  h2 { font-size: 20px; margin: 6px 0 14px; color: var(--azul); display: flex; align-items: center; gap: 10px; }
+  h2::before { content: ""; width: 6px; height: 22px; border-radius: 3px; background: var(--verde); flex: none; }
+  #ventana h2::before { display: none; }
+  h3 { font-size: 16px; margin: 20px 0 10px; }
+  .tarjeta { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: var(--radio); padding: 16px; margin-bottom: 14px; box-shadow: var(--sombra); }
+  .fila { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .fila > .crece { flex: 1 1 220px; }
+  label { display: block; font-size: 13px; color: var(--suave); margin: 10px 0 4px; }
+  input, select, textarea { width: 100%; font: inherit; padding: 9px 11px; border: 1px solid var(--campo); border-radius: 8px; background: var(--tarjeta); color: var(--texto); }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--primario-claro); border-color: var(--primario); }
+  input.grande { font-size: 20px; padding: 12px 14px; letter-spacing: .5px; }
+  textarea { min-height: 70px; resize: vertical; }
+  input[type=checkbox] { width: auto; }
+  button.b { font: inherit; border: 1px solid var(--primario); background: var(--primario); color: #fff; padding: 9px 15px; border-radius: 8px; cursor: pointer; white-space: nowrap; }
+  button.b:hover { filter: brightness(1.08); }
+  button.b.sec { background: var(--tarjeta); color: var(--primario); }
+  button.b.peligro { background: var(--tarjeta); color: var(--error); border-color: var(--error); }
+  button.b.ok { background: var(--ok); border-color: var(--ok); }
+  button.b.peq { padding: 5px 10px; font-size: 13px; }
+  button.b:disabled { opacity: .5; cursor: default; }
+  .etq { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 99px; background: var(--linea); color: var(--suave); white-space: nowrap; }
+  .etq.Disponible { background: var(--ok-claro); color: var(--ok); }
+  .etq.Prestado { background: var(--error-claro); color: var(--error); }
+  .etq.Reservado { background: var(--aviso-claro); color: var(--aviso); }
+  .etq.Baja { background: #e9e9e9; color: #666; text-decoration: line-through; }
+  .etq.aviso { background: var(--aviso-claro); color: var(--aviso); }
+  .suave { color: var(--suave); }
+  .peq { font-size: 13px; }
+  table { width: 100%; border-collapse: collapse; background: var(--tarjeta); }
+  th, td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--linea); vertical-align: top; }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .4px; color: var(--suave); font-weight: 600; }
+  tr.clic { cursor: pointer; }
+  tr.clic:hover td { background: var(--primario-claro); }
+  .tabla { overflow-x: auto; border: 1px solid var(--linea); border-radius: var(--radio); }
+  .libro { display: flex; justify-content: space-between; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--linea); }
+  .libro:last-child { border-bottom: 0; }
+  .libro .t { font-weight: 600; }
+  .ejemplares { margin-top: 6px; display: flex; flex-direction: column; gap: 4px; }
+  .lista-res { border: 1px solid var(--linea); border-radius: 8px; margin-top: 4px; max-height: 260px; overflow-y: auto; background: var(--tarjeta); }
+  .lista-res div { padding: 9px 11px; cursor: pointer; border-bottom: 1px solid var(--linea); }
+  .lista-res div:hover, .lista-res div.sel { background: var(--primario-claro); }
+  .elegido { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--primario-claro); border-radius: 8px; padding: 11px 13px; }
+  .msg { padding: 11px 13px; border-radius: 8px; margin: 8px 0; }
+  .msg.ok { background: var(--ok-claro); color: var(--ok); }
+  .msg.error { background: var(--error-claro); color: var(--error); }
+  .msg.aviso { background: var(--aviso-claro); color: var(--aviso); }
+  .msg.info { background: var(--primario-claro); color: var(--primario); }
+  .subnav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .subnav button { font: inherit; border: 1px solid var(--linea); background: var(--tarjeta); padding: 7px 13px; border-radius: 99px; cursor: pointer; }
+  .subnav button.activo { background: var(--primario); color: #fff; border-color: var(--primario); }
+  #velo { position: fixed; inset: 0; background: rgba(15, 23, 42, .45); display: none; align-items: flex-start; justify-content: center; padding: 30px 12px; overflow-y: auto; z-index: 20; }
+  #velo.abierto { display: flex; }
+  #ventana { background: var(--tarjeta); border-radius: 12px; width: 100%; max-width: 620px; padding: 20px; position: relative; }
+  #ventana .cerrar { position: absolute; top: 10px; right: 12px; border: 0; background: none; font-size: 24px; cursor: pointer; color: var(--suave); }
+  #aviso-flot { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: #1d2433; color: #fff; padding: 11px 18px; border-radius: 8px; display: none; z-index: 30; max-width: 90vw; }
+  .cargando { color: var(--suave); padding: 20px 0; }
+  .rejilla { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  .rejilla .ancho { grid-column: 1 / -1; }
+  .acciones { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .qr-vista { text-align: center; }
+  .qr-vista img { max-width: 100%; border: 1px solid var(--linea); border-radius: 8px; }
+  #imprimir { display: none; }
+  /* Pantalla de acceso */
+  /* Igual que en el resto de webs del colegio: logo, curso, título y botón */
+  .acceso { min-height: 70vh; display: grid; place-items: center; padding: 20px 0; }
+  .acceso .caja { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: 16px; box-shadow: var(--sombra); padding: 36px 32px; max-width: 440px; width: 100%; text-align: center; }
+  .acceso .logo-g { height: 58px; width: auto; display: block; margin: 0 auto 1.1rem; }
+  .acceso .eyebrow { display: inline-block; background: var(--primario-claro); color: var(--azul); font-weight: 700; font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; padding: .3rem .8rem; border-radius: 999px; margin-bottom: .9rem; }
+  .acceso h2 { justify-content: center; font-size: 1.9rem; color: var(--azul); margin: 0 0 .4rem; }
+  .acceso h2::before { display: none; }
+  .acceso p { color: var(--suave); margin: 0 0 1.5rem; }
+  #boton-google { display: flex; justify-content: center; min-height: 44px; }
+  .acceso .nota { font-size: 13px; margin: 18px 0 0; }
+  /* Panel de inicio */
+  .saludo { margin: 6px 0 18px; }
+  .saludo h2 { font-size: 26px; margin: 0; }
+  .saludo h2::before { display: none; }
+  .saludo p { margin: 2px 0 0; color: var(--suave); text-transform: capitalize; }
+  .cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 22px; }
+  .cifra { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: var(--radio); padding: 12px 14px; text-align: left; font: inherit; color: inherit; }
+  button.cifra { cursor: pointer; }
+  button.cifra:hover { border-color: var(--azul); }
+  .cifra b { display: block; font-size: 28px; line-height: 1.1; color: var(--azul); font-weight: 700; }
+  .cifra span { font-size: 13px; color: var(--suave); }
+  .cifra.alerta b { color: var(--error); }
+  .cifra.alerta { border-color: var(--error); background: var(--error-claro); }
+  .mosaico { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin-bottom: 26px; }
+  .losa { position: relative; display: flex; gap: 14px; align-items: flex-start; text-align: left; padding: 18px; background: var(--tarjeta); border: 1px solid var(--linea); border-radius: var(--radio); cursor: pointer; font: inherit; color: inherit; transition: border-color .15s, box-shadow .15s, transform .15s; }
+  .losa:hover { border-color: var(--c); box-shadow: var(--sombra); transform: translateY(-2px); }
+  .losa .ico { flex: none; width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--c) 14%, transparent); color: var(--c); }
+  .losa .ico svg { width: 26px; height: 26px; }
+  .losa b { display: block; font-size: 17px; margin-bottom: 2px; }
+  .losa small { color: var(--suave); font-size: 13px; line-height: 1.35; display: block; }
+  .losa .insignia { position: absolute; top: 12px; right: 12px; background: var(--c); color: #fff; font-size: 12px; font-weight: 700; border-radius: 99px; padding: 1px 8px; }
+  .losa.peq-l { padding: 13px 16px; align-items: center; }
+  .losa.peq-l .ico { width: 38px; height: 38px; border-radius: 10px; }
+  .losa.peq-l .ico svg { width: 21px; height: 21px; }
+  .losa.peq-l b { font-size: 15px; margin: 0; }
+  .nivel { margin-bottom: 8px; }
+  .cuadros { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0 14px; }
+  .cuadros .tarjeta { display: flex; flex-direction: column; }
+  .cuadros .tarjeta > .fila { margin-top: auto; }
+  button.b svg { width: 17px; height: 17px; vertical-align: -3px; margin-right: 2px; }
+  .nivel-t { display: flex; align-items: center; gap: 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .07em; color: var(--suave); margin: 0 0 10px; }
+  .nivel-t::before { content: ""; width: 5px; height: 16px; border-radius: 3px; background: var(--c); }
+  .losa.peq-l small { margin-top: 1px; }
+  .banda-previa { background: var(--aviso-claro); color: var(--aviso); border-bottom: 1px solid var(--linea); padding: 9px 16px; display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap; font-size: 14px; }
+  .titulo-sec { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 6px 0 10px; }
+  .titulo-sec h3 { margin: 0; }
+  /* Estantería */
+  .vistas { display: inline-flex; border: 1px solid var(--linea); border-radius: 8px; overflow: hidden; }
+  .vistas button { font: inherit; border: 0; background: var(--tarjeta); color: var(--suave); padding: 8px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .vistas button.activo { background: var(--primario-claro); color: var(--azul); font-weight: 600; }
+  .vistas svg { width: 18px; height: 18px; }
+  .estante { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); row-gap: 26px; column-gap: 0; padding: 4px 0 6px; }
+  .hueco { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0 9px 0; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; }
+  .hueco::after { content: ""; display: block; width: 100%; height: 10px; margin-top: -2px; background: linear-gradient(var(--balda, #c79a63), color-mix(in srgb, var(--balda, #a67845) 72%, #000)); box-shadow: 0 6px 8px -4px rgba(0,0,0,.35); order: 2; }
+  .leyenda { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; font-size: 13px; color: var(--suave); margin: 0 4px 16px; }
+  .leyenda span { display: inline-flex; align-items: center; gap: 6px; }
+  .leyenda i { width: 22px; height: 8px; border-radius: 2px; background: var(--c); display: inline-block; }
+  .hueco .portada { order: 1; transition: transform .15s; }
+  .hueco:hover .portada { transform: translateY(-5px) rotate(-1deg); }
+  .hueco-t { order: 3; font-size: 12.5px; line-height: 1.25; margin-top: 8px; max-height: 2.5em; overflow: hidden; color: var(--texto); padding: 0 2px; }
+  .portada { position: relative; display: block; width: 96px; aspect-ratio: 2 / 3; border-radius: 3px 6px 6px 3px; overflow: hidden; box-shadow: 2px 3px 8px rgba(0,0,0,.25); background: var(--c, #64748B); flex: none; }
+  .portada.mini { width: 46px; border-radius: 2px 4px 4px 2px; }
+  .portada.grande { width: 150px; }
+  .portada img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #fff; }
+  .portada.falla img { display: none; }
+  .portada .gen { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 10% 9% 10% 16%; color: #fff; text-align: left;
+    background: linear-gradient(90deg, rgba(0,0,0,.28) 0 7%, rgba(255,255,255,.18) 7% 8.5%, transparent 8.5%), linear-gradient(160deg, color-mix(in srgb, var(--c) 82%, #fff), var(--c)); }
+  .portada .gen .gt { font-weight: 700; font-size: 12px; line-height: 1.15; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; }
+  .portada .gen .ga { font-size: 9.5px; opacity: .9; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .portada.mini .gen { padding: 8% 6% 8% 14%; }
+  .portada.mini .gen .gt { font-size: 6px; -webkit-line-clamp: 5; }
+  .portada.mini .gen .ga { display: none; }
+  .portada.grande .gen .gt { font-size: 17px; }
+  .portada.grande .gen .ga { font-size: 12px; }
+  .portada .punto { position: absolute; top: 5px; right: 5px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.15); z-index: 2; }
+  .portada .punto.si { background: #65a30d; }
+  .portada .punto.no { background: #dc2626; }
+  .portada.mini .punto { display: none; }
+  .libro { align-items: flex-start; }
+  .libro .izq { display: flex; gap: 12px; align-items: flex-start; }
+  .sinopsis { white-space: pre-line; font-size: 14px; line-height: 1.55; max-height: 240px; overflow-y: auto; margin: 6px 0 12px; padding-right: 6px; }
+  .ficha-g { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; }
+  .ficha-g > div { flex: 1 1 240px; }
+  .ficha-g h2 { margin-top: 0; }
+  .zona { display: block; border: 2px dashed var(--campo); border-radius: var(--radio); padding: 26px 16px; text-align: center; cursor: pointer; margin: 10px 0 4px; color: var(--azul); }
+  .zona:hover, .zona.encima { border-color: var(--azul); background: var(--primario-claro); }
+  @media (max-width: 600px) {
+    .rejilla { grid-template-columns: 1fr; }
+    .ocultar-movil { display: none; }
+    main { padding: 14px 12px 60px; }
+  }
+  @media print {
+    body > *:not(#imprimir) { display: none !important; }
+    #imprimir { display: block !important; }
+    body { background: #fff; }
+    .etiquetas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; }
+    .etiqueta { border: 1px dashed #bbb; border-left: 2mm solid var(--c); padding: 2.5mm 3mm; display: flex; gap: 3mm; align-items: center; break-inside: avoid; height: 32mm; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .etiqueta img { width: 26mm; height: 26mm; flex: none; }
+    .etiqueta .txt { min-width: 0; display: flex; flex-direction: column; height: 100%; justify-content: center; }
+    .etiqueta .c { font-weight: 800; font-size: 10.5pt; white-space: nowrap; color: #1E293B; }
+    .etiqueta .c.largo { font-size: 9pt; }
+    .etiqueta .ti { font-size: 7.5pt; line-height: 1.2; max-height: 2.4em; overflow: hidden; color: #334155; margin-top: .6mm; }
+    .etiqueta .pie { margin-top: 1.5mm; padding-top: 1.2mm; border-top: .3mm solid #E2E8F0; line-height: 1.15; }
+    .etiqueta .pie b { display: block; color: #009abb; font-size: 8pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .etiqueta .pie span { display: block; color: #64748B; font-size: 5.6pt; }
+    @page { size: A4; margin: 0; }
+    #imprimir { padding: 10mm; }
+    .tejuelos { display: grid; grid-template-columns: repeat(auto-fill, 24mm); gap: 3mm; }
+    .tejuelo { width: 24mm; height: 30mm; border: 1px solid #999; border-radius: 2mm; overflow: hidden; display: flex; flex-direction: column; break-inside: avoid; }
+    .tejuelo .banda { color: #fff; font: 700 7pt 'Fira Sans', sans-serif; text-align: center; padding: 1.5mm 0; letter-spacing: .3px; }
+    .tejuelo .num { flex: 1; display: flex; align-items: center; justify-content: center; font: 800 20pt 'Fira Sans', sans-serif; color: #111; }
+    .tejuelo .pie { font: 6pt sans-serif; text-align: center; color: #444; padding-bottom: 1mm; }
+  }
+  .tejuelo, .tejuelo .banda { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  /* Ayuda */
+  .guia { max-width: 820px; }
+  .guia .g-sec { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: var(--radio); padding: 4px 22px 14px; margin-bottom: 14px; }
+  .guia h2 { font-size: 19px; margin: 16px 0 10px; }
+  .guia h2::before { background: var(--verde); }
+  .guia h3 { font-size: 16px; }
+  .guia li { margin-bottom: 6px; }
+  .guia .g-dir { font-size: 18px; color: var(--azul); }
+  .guia .g-nota { background: var(--primario-claro); border-left: 4px solid var(--azul); padding: 10px 14px; border-radius: 8px; margin: 8px 0 12px; }
+  .guia .g-nota ul { margin-bottom: 0; }
+  .guia .g-c { display: inline-block; width: 22px; height: 8px; border-radius: 2px; vertical-align: middle; }
+  .guia .g-p { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: middle; }
+  .guia .g-tabla { width: 100%; border-collapse: collapse; margin: 6px 0 12px; }
+  .guia .g-tabla td { border-bottom: 1px solid var(--linea); padding: 8px 6px; }
+  .guia .g-faq dt { font-weight: 700; margin-top: 12px; }
+  .guia .g-faq dd { margin: 3px 0 0; color: var(--texto); }
+  .guia .g-peq { font-size: 13px; color: var(--suave); }
+  .guia .g-tecnico { background: var(--fondo); }
+  .paginas { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 10px 0; font-size: 14px; }
+  .paginas label { display: inline-flex; gap: 6px; align-items: center; margin: 0; font-size: 14px; color: var(--suave); }
+  .paginas select { width: auto; padding: 5px 8px; }
+  .paginas .botones { display: inline-flex; gap: 4px; align-items: center; margin-left: auto; }
+  .paginas .botones span { padding: 0 6px; }
+  .cand-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+  .cand { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: var(--radio); padding: 14px; display: flex; gap: 12px; flex-direction: column; }
+  .cand .arriba { display: flex; gap: 12px; }
+  .cand img, .cand .sinimg { width: 78px; height: 116px; object-fit: cover; border-radius: 3px 6px 6px 3px; box-shadow: 2px 3px 8px rgba(0,0,0,.2); flex: none; background: #fff; }
+  .cand .sinimg { display: grid; place-items: center; font-size: 11px; color: var(--suave); background: var(--fondo); box-shadow: none; border: 1px dashed var(--campo); text-align: center; }
+  .cand b { display: block; line-height: 1.25; }
+  .cand .dat { font-size: 13px; color: var(--suave); line-height: 1.35; }
+  .cand .sin { font-size: 13px; line-height: 1.4; max-height: 5.6em; overflow: hidden; color: var(--texto); }
+  .cand .fuente { font-size: 11px; color: var(--suave); }
+  .cand button { margin-top: auto; }
+  .rev-op { display: flex; gap: 16px; flex-wrap: wrap; font-size: 14px; margin: 10px 0; }
+  .rev-op label { display: inline-flex; gap: 6px; align-items: center; margin: 0; color: var(--texto); font-size: 14px; }
+  .mini-tej { display: inline-flex; flex-direction: column; width: 26px; height: 32px; border: 1px solid #bbb; border-radius: 3px; overflow: hidden; vertical-align: middle; margin-right: 6px; }
+  .mini-tej .banda { height: 8px; font-size: 0; }
+  .mini-tej .num { flex: 1; font: 700 9px 'Fira Sans', sans-serif; display: flex; align-items: center; justify-content: center; color: #111; background: #fff; }
+  .muestra-tej { display: inline-flex; flex-direction: column; width: 90px; height: 112px; border: 1px solid #999; border-radius: 8px; overflow: hidden; vertical-align: top; }
+  .muestra-tej .banda { color: #fff; font: 700 12px 'Fira Sans', sans-serif; text-align: center; padding: 6px 0; }
+  .muestra-tej .num { flex: 1; display: flex; align-items: center; justify-content: center; font: 800 34px 'Fira Sans', sans-serif; color: #111; background: #fff; }
+</style>
+</head>
+<body>
+<header>
+  <div class="marca"><svg class="logo" role="img" aria-label="Salesianas Nervión" width="670" height="215" viewBox="160 635 670 215" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <style>
+          .lg0 { fill: #b4be00; }
+          .lg1 { fill: #cfd150; }
+          .lg2 { fill: #009abb; }
+          .lg3 { fill: #dedd83; }
+        </style>
+      </defs>
+      <path class="lg0" d="M278.2,785.9c0,11.9,5.7,17.8,17.2,17.8s3.4,0,4.4-.2v-11.7c-.7.1-1.7.2-3,.2-2.9,0-4.2-2.2-4.2-6.5v-58.5h-14.5v59h0Z"/>
+      <path class="lg0" d="M259.1,766.7c0-11.5-9.3-14.7-13-14.7-16.4,0-25.9,10.1-25.9,28.6s7.6,23.8,19.1,23.8,11.9-3.1,15.2-9.3c.3,2.4.7,5.2,1.3,8.2h13.5c-.7-3.7-1.1-11.8-1.1-24.2v-13.5c-3.9,4.6-9.1,8-15.2,9.5-1.7,14-5.8,17-10,17s-8.4-4.1-8.4-12.5,4.8-17.7,12.8-17.7,11.9,1.6,11.9,4.6"/>
+      <path class="lg0" d="M335.9,773h-18.2c.8-6.9,4.2-10.2,10.2-10.2s8,4,8,10.2M349.6,782.3v-6c0-15.7-7.6-24.3-21.4-24.3s-23.9,8.3-23.9,24.8,2.6,15.8,7.8,20.6c5.2,4.8,11.9,7.1,20.2,7.1s11.5-1,16.1-2.7v-11.8c-5.7,1.6-11.1,2.4-16.2,2.4-7.8,0-12.5-3.4-14-10h31.4,0Z"/>
+      <path class="lg0" d="M369.9,766.8c0-2.4,2.1-3.6,6.4-3.6s8.1.5,11.3,1.6v-11.1c-3.5-1.2-7.7-1.7-12.5-1.7-13.1,0-18.7,4.5-18.7,14.2s.8,7.9,2.6,10.1c1.8,2.2,5.1,4.3,9.8,6.4,6,2.8,7.6,4.3,7.6,6.4s-3.5,4.1-8,4.1-8.1-.7-12.8-2.2v11.2c3.9,1.4,8.9,2.1,15.1,2.1,12.9,0,19.3-5.2,19.3-15.5s-.8-8-3.3-10.4c-2.4-2.4-3.8-3.2-7.9-5.3-6.8-3.8-9.1-4.2-9.1-6.4"/>
+      <path class="lg0" d="M397.6,785.9c0,11.9,5.7,17.8,17.2,17.8s3.4,0,4.4-.2v-11.7c-.7.1-1.7.2-3,.2-2.9,0-4.2-2.2-4.2-6.5v-33.1h-14.5v33.5h0Z"/>
+      <path class="lg0" d="M457.4,763.9c-.5,23.9-5.6,28.4-10.8,28.4s-8.4-4.1-8.4-12.5,4.8-16.5,12.8-16.5,4.1.2,6.4.5M473,803.4c-.7-3.7-1.1-11.8-1.1-24.2v-23.6c-2.5-1.2-5.9-2-10.2-2.6-4.2-.6-8.1-1-11.8-1-16.5,0-25.9,10.1-25.9,28.6s7.6,23.8,19.1,23.8,11.9-3.1,15.2-9.3c.3,2.4.7,5.2,1.3,8.2h13.5,0Z"/>
+      <path class="lg0" d="M577.1,763.9c-.5,23.9-5.6,28.4-10.8,28.4s-8.4-4.1-8.4-12.5,4.8-16.5,12.8-16.5,4.1.2,6.4.5M592.6,803.4c-.7-3.7-1.1-11.8-1.1-24.2v-23.6c-2.5-1.2-5.9-2-10.2-2.6-4.2-.6-8.1-1-11.8-1-16.5,0-25.9,10.1-25.9,28.6s7.6,23.8,19.1,23.8,11.9-3.1,15.2-9.3c.3,2.4.7,5.2,1.3,8.2h13.5,0Z"/>
+      <path class="lg0" d="M614,766.8c0-2.4,2.1-3.6,6.4-3.6s8.1.5,11.3,1.6v-11.1c-3.5-1.2-7.7-1.7-12.5-1.7-13.1,0-18.7,4.5-18.7,14.2s.8,7.9,2.6,10.1c1.8,2.2,5.1,4.3,9.8,6.4,6,2.8,7.6,4.3,7.6,6.4s-3.5,4.1-8,4.1-8.1-.7-12.8-2.2v11.2c3.9,1.4,8.9,2.1,15.1,2.1,12.9,0,19.3-5.2,19.3-15.5s-.8-8-3.3-10.4c-2.4-2.4-3.8-3.2-7.9-5.3-6.8-3.8-9.1-4.2-9.1-6.4"/>
+      <path class="lg3" d="M261.2,726.4s-15.6,1.9-23.5-3.4c-10.5-7.1-18.5-7.6-20.5-4-2.8,5,1.3,12.5,9.8,13.6,8.5,1.1,14.4.2,20.9-1.4,5.8-1.4,13.4-4.8,13.4-4.8"/>
+      <path class="lg3" d="M274.3,714.6s3.5-11.3,3.5-20.8c0-12.4-4.2-15.8,2.2-19.6,4.9-2.9,11.4,4,11,12.6-.3,8.5-4.4,14.8-8.9,19.8-4.7,5.2-7.9,8-7.9,8"/>
+      <path class="lg3" d="M257.8,720.8c6.1,0,11-4.9,11-11s-4.9-11-11-11-11,4.9-11,11,4.9,11,11,11"/>
+      <path class="lg0" d="M497.5,802.7c0-10.7.1-22.6,4.2-28.5,4.2-5.9,8.1-6,11.3-6s6.7,3.6,6.7,9.3v31.1l16,3.8v-59.9s-30.5-4.7-38.4,17.6v-13.8l-16.6-3.8v59.9l16.6-3.8v-5.9h0Z"/>
+      <polygon class="lg1" points="484.3 757.3 493.4 758.9 493.4 772.6 484.3 772 484.3 757.3"/>
+      <polygon class="lg1" points="484.3 792.6 493.4 791.9 493.4 805.7 484.3 807.3 484.3 792.6"/>
+      <polygon class="lg1" points="484.3 774.9 493.4 775.4 493.4 789.2 484.3 789.6 484.3 774.9"/>
+      <polygon class="lg1" points="532.4 755.9 523.3 757.5 523.3 772.6 532.4 772 532.4 755.9"/>
+      <polygon class="lg1" points="532.4 792.6 523.3 791.9 523.3 805.7 532.4 807.3 532.4 792.6"/>
+      <polygon class="lg1" points="532.4 774.9 523.3 775.4 523.3 789.2 532.4 789.6 532.4 774.9"/>
+      <path class="lg0" d="M190.7,812.2c-6.5,0-12.1-.7-17.2-2.2l-.5-.2v-13.2l.9.2c5.2,1.4,10.7,2.2,16.3,2.2s9.5-1,9.5-7.4-.7-3.4-2.1-4.9c-1.6-1.8-4.6-4.5-9.4-8.5-5.4-4.4-9-8.1-11.1-11.2-2.1-3.3-3.1-7.1-3.1-11.4,0-13.1,7.9-20,22.8-20s10.9.7,15.9,2.1l.5.2v13.1l-1-.4c-3.5-1.3-8.1-2-13.6-2s-9.3.8-9.3,6.4.6,3.4,1.7,4.9c.8,1,3.2,3.3,9.5,8.6,2.8,2.3,4.8,4.1,6,5.2,1.2,1.1,2.5,2.6,4.3,4.8,3.1,3.6,4.3,7.2,4.3,12.5,0,13.6-8.8,21.4-24.2,21.4"/>
+      <path class="lg3" d="M556.4,830c-13.8-9.1-30.2-14.5-48-14.5s-34.2,5.3-48,14.5c15.5-3.4,31.5-5.2,48-5.2s32.5,1.8,48,5.2"/>
+      <path class="lg2" d="M747.6,651.5c-20.4,0-28.2,12.9-28.7,26.7-.4,13.8,6.1,30.8,29.1,30.8s28.2-15.5,29.1-28.7c.9-11.4-3.5-28.7-29.5-28.7"/>
+      <path class="lg2" d="M790.1,723.5c-10.4,0-14.4-6.6-14.6-13.6s3.1-15.7,14.8-15.7,14.4,7.9,14.8,14.6c.4,5.8-1.8,14.6-15,14.6"/>
+      <path class="lg2" d="M773,738.7c-8.2.7-19.3,4.8-19.3,14.5s12.2,14,20,16.5l11.5,3.5c13.8,4.1,25.9,9.9,33.6,19.4-.6-16.2-6.2-30.9-15.6-43-5.5-7.1-17.7-11.9-30.2-10.8"/>
+      <path class="lg2" d="M706.9,759.1c0-12.3,3.1-23.1,8.6-32-2.5.8-5,1.8-7.5,2.9-9,5-16.9,11.9-23.1,20.1-6.7,10.5-10.8,24.7-10.8,44,0,30.7,13,49.5,31.4,59.3l13.8-26c11.2,9.9,24.6,17.9,40,17.9s21.8-5.3,21.8-17.5-17.7-17-27.3-19.8c-28.2-8-46.8-15.4-46.8-49"/>
+      <g>
+        <path class="lg0" d="M470.5,718.8h-2.3l3-17.3h2.6l5,11.5c.4,1.2.7,1.9.7,2.1,0-.5.1-1.4.4-2.8l1.9-10.8h2.4l-3,17.3h-2.6l-5-11.5c-.4-1.1-.7-1.8-.8-2.4,0,.6-.2,1.5-.4,2.5l-2,11.3h0Z"/>
+        <path class="lg0" d="M495.5,712.5l-.2,1.1h-8.3c-.1,2.3,1.1,3.4,3.5,3.4s2.6-.2,4.1-.6l-.4,2c-1.2.4-2.5.7-4,.7-4.1,0-6.2-2.2-5.5-6.4.7-3.9,3.1-5.9,6.7-5.9s4.8,2,4.1,5.7h0ZM487.2,711.9h5.9c.3-2-.4-3.2-2.2-3.2s-3.2,1.1-3.8,3.2h0Z"/>
+        <path class="lg0" d="M499.1,718.8h-2.5l2.1-11.8h2.4l-.6,4c1.4-2.9,3-4.3,5-4.3s.8,0,1,0l-.4,2.3c-.3,0-.6,0-.9,0-2.5,0-4.8,2.9-5.9,9v.7q-.1,0-.1,0Z"/>
+        <path class="lg0" d="M511.5,718.8h-2.6l-2.4-11.8h2.7l1.4,9.3,4.7-9.3h2.7l-6.6,11.8h0Z"/>
+        <path class="lg0" d="M519.5,707h2.5l-1.5,8.3c-.2,1.1,0,1.6.8,1.6s.5,0,.7,0l-.4,2c-.4,0-.7,0-.9,0-2.5,0-3.2-1.2-2.8-3.6l1.5-8.3h0ZM520.4,701.5h2.5l-.5,2.6h-2.5l.5-2.6Z"/>
+        <path class="lg0" d="M530.5,706.8c3.6,0,5.4,2.1,4.7,6.1-.7,4.2-3.3,6.2-6.9,6.2s-5.4-2-4.7-6.2c.7-4,3.3-6.1,6.8-6.1h0ZM530.2,708.8c-2,0-3.5,1.4-4,4.1s.5,4.2,2.5,4.2,3.5-1.5,4-4.2c.5-2.7-.5-4.1-2.5-4.1h0ZM532.6,701.5h2.8l-3.7,3.9h-1.9l2.9-3.9h0Z"/>
+        <path class="lg0" d="M538.9,718.8h-2.5l2.1-11.8h2.4l-.6,3.6c1.4-2.5,3.2-3.8,5.5-3.8s3.1,1.4,2.6,4l-1.4,8h-2.5l1.3-7.2c.3-2,0-2.7-1.1-2.7s-2.4.9-3.4,2.7c-1,1.8-1.7,3.9-2.2,6.2l-.2,1h0Z"/>
+        <path class="lg0" d="M558.7,709.7c.3.3.5.8.5,1.3s-.2,1.1-.6,1.6-.9.7-1.5.7-1-.2-1.3-.5c-.3-.3-.5-.8-.5-1.3s.2-1.1.6-1.5.9-.7,1.5-.7,1,.2,1.3.5h0Z"/>
+        <path class="lg0" d="M570.7,706.9c.3.4,1.1,1.2,2.4,2.2,1.2,1,2,1.9,2.5,2.7.5.7.6,1.6.4,2.6-.5,3-2.8,4.6-6.4,4.6s-2.9-.2-4.2-.5l.4-2.1c1.3.4,2.7.6,4.2.6,2.1,0,3.3-.8,3.6-2.4,0-.6,0-1.1-.4-1.6s-1.1-1.2-2.2-2.1c-1.3-1.1-2.2-2-2.6-2.7-.5-.8-.6-1.6-.4-2.6.5-2.7,2.5-4.2,6-4.2s2.7.2,3.9.5l-.3,2c-1.2-.3-2.5-.5-3.7-.5-2,0-3.1.7-3.4,2.1,0,.6,0,1.1.3,1.5h0Z"/>
+        <path class="lg0" d="M588.4,712.5l-.2,1.1h-8.3c-.1,2.3,1.1,3.4,3.5,3.4s2.6-.2,4.1-.6l-.4,2c-1.2.4-2.5.7-4,.7-4.1,0-6.2-2.2-5.5-6.4.7-3.9,3.1-5.9,6.7-5.9s4.8,2,4.2,5.7h0ZM580.2,711.9h5.9c.3-2-.4-3.2-2.2-3.2s-3.2,1.1-3.8,3.2Z"/>
+        <path class="lg0" d="M595.2,718.8h-2.6l-2.4-11.8h2.7l1.4,9.3,4.7-9.3h2.7l-6.6,11.8h0Z"/>
+        <path class="lg0" d="M603.2,707h2.5l-1.5,8.3c-.2,1.1,0,1.6.8,1.6s.5,0,.7,0l-.4,2c-.4,0-.7,0-.9,0-2.5,0-3.2-1.2-2.8-3.6l1.5-8.3h0ZM604.1,701.5h2.5l-.5,2.6h-2.5l.5-2.6Z"/>
+        <path class="lg0" d="M610.2,700.3h2.5l-2.6,15c-.2,1.1,0,1.6.8,1.6s.5,0,.7,0l-.4,2c-.4,0-.7,0-.9,0-2.5,0-3.2-1.2-2.8-3.6l2.7-15Z"/>
+        <path class="lg0" d="M616.1,700.3h2.5l-2.7,15c-.2,1.1,0,1.6.8,1.6s.5,0,.7,0l-.4,2c-.4,0-.7,0-.9,0-2.5,0-3.2-1.2-2.8-3.6l2.7-15h0Z"/>
+        <path class="lg0" d="M627.1,718.8c0-1,0-1.8,0-2.5-1.1,1.8-2.7,2.8-4.6,2.8-2.8,0-4.3-1.7-3.6-5.6.8-4.4,3.4-6.7,7.5-6.7s3.5.2,4.7.8v.4c0,0,0,0,0,0l-1,5.7c-.4,2.4-.7,4.1-.6,5.2h-2.4ZM626.1,715.5c.9-1.1,1.7-3.3,2.3-6.6-.7-.2-1.5-.2-2.2-.2-2.5,0-4.1,1.5-4.7,4.6-.4,2.4.2,3.6,2,3.6s1.6-.3,2.5-1.4h0Z"/>
+      </g>
+      <g>
+        <path class="lg2" d="M310.2,727.2v1.8h-6v5.5h5v1.8h-5v5.6h6v1.8h-8.1v-16.6h8.1Z"/>
+        <path class="lg2" d="M312.8,732.5c.4.5,1.2,1.2,2.4,2.2,1.2,1,2,1.8,2.5,2.6s.8,1.5.8,2.5c0,2.8-1.7,4.3-4.8,4.3s-2.5-.2-3.7-.5v-1.8c1.3.4,2.5.5,3.6.5,1.9,0,2.8-.8,2.8-2.5s-.2-1.1-.6-1.7c-.4-.5-1.1-1.2-2.2-2.1-1.3-1.1-2.2-1.9-2.7-2.7-.5-.7-.8-1.6-.8-2.5,0-2.5,1.5-3.9,4.5-3.9s2.4.2,3.4.5v1.8c-1.1-.4-2.2-.5-3.2-.5-1.8,0-2.6.7-2.6,2.2s.2,1.1.5,1.5h0Z"/>
+        <path class="lg2" d="M327,729c-.5-.1-1.2-.2-2.1-.2-2.9,0-4.5,2.1-4.5,5.7s.7,4,2,5.5c1.4,1.5,3.1,2.2,5.1,2.2v1.8c-2.6,0-4.9-.9-6.7-2.7-1.8-1.8-2.7-4.1-2.7-6.9s.6-4.1,1.7-5.5c1.1-1.3,2.8-2,4.9-2s1.7,0,2.2.2v1.8Z"/>
+        <path class="lg2" d="M327.6,727.2h2.2v10.4c0,3,1.3,4.5,3.2,4.5s3.2-1.5,3.2-4.5v-10.4h2.2v10.4c0,4.3-2.1,6.4-5.4,6.4s-5.5-2.1-5.5-6.4v-10.4Z"/>
+        <path class="lg2" d="M347.9,727.2v1.8h-6v5.5h5v1.8h-5v5.6h6v1.8h-8.1v-16.6h8.1Z"/>
+        <path class="lg2" d="M356.7,742v1.8h-8.1v-16.6h2.1v14.8h6.1Z"/>
+        <path class="lg2" d="M360.2,727.2h2.6l5,16.6h-2.2l-1.2-4.3h-5.5l-1.2,4.3h-2.2l4.7-16.6h0ZM361,731.4l-1.7,6.3h4.5l-1.8-6.3c0,0-.2-.8-.5-2.2l-.2,1-.3,1.2h0Z"/>
+        <path class="lg2" d="M369.7,732.5c.4.5,1.2,1.2,2.4,2.2,1.2,1,2,1.8,2.5,2.6s.8,1.5.8,2.5c0,2.8-1.7,4.3-4.8,4.3s-2.5-.2-3.7-.5v-1.8c1.3.4,2.5.5,3.6.5,1.9,0,2.8-.8,2.8-2.5s-.2-1.1-.6-1.7c-.4-.5-1.1-1.2-2.2-2.1-1.3-1.1-2.2-1.9-2.7-2.7-.5-.7-.8-1.6-.8-2.5,0-2.5,1.5-3.9,4.5-3.9s2.4.2,3.4.5v1.8c-1.1-.4-2.2-.5-3.2-.5-1.8,0-2.6.7-2.6,2.2s.2,1.1.5,1.5h0Z"/>
+        <path class="lg2" d="M380.8,732.5c.4.5,1.2,1.2,2.4,2.2,1.2,1,2,1.8,2.5,2.6s.8,1.5.8,2.5c0,2.8-1.7,4.3-4.8,4.3s-2.5-.2-3.7-.5v-1.8c1.3.4,2.5.5,3.6.5,1.9,0,2.8-.8,2.8-2.5s-.2-1.1-.6-1.7c-.4-.5-1.1-1.2-2.2-2.1-1.3-1.1-2.2-1.9-2.7-2.7-.5-.7-.8-1.6-.8-2.5,0-2.5,1.5-3.9,4.5-3.9s2.4.2,3.4.5v1.8c-1.1-.4-2.2-.5-3.2-.5-1.8,0-2.6.7-2.6,2.2s.2,1.1.5,1.5h0Z"/>
+        <path class="lg2" d="M390.4,727.2h2.6l5,16.6h-2.2l-1.2-4.3h-5.5l-1.2,4.3h-2.2l4.7-16.6h0ZM391.2,731.4l-1.7,6.3h4.5l-1.8-6.3c0,0-.2-.8-.5-2.2l-.2,1-.3,1.2h0Z"/>
+        <path class="lg2" d="M406.1,742v1.8h-8.1v-16.6h2.1v14.8h6.1Z"/>
+        <path class="lg2" d="M414.3,727.2v1.8h-6v5.5h5v1.8h-5v5.6h6v1.8h-8.1v-16.6h8.1Z"/>
+        <path class="lg2" d="M416.9,732.5c.4.5,1.2,1.2,2.4,2.2,1.2,1,2,1.8,2.5,2.6s.8,1.5.8,2.5c0,2.8-1.7,4.3-4.8,4.3s-2.5-.2-3.7-.5v-1.8c1.3.4,2.5.5,3.6.5,1.9,0,2.8-.8,2.8-2.5s-.2-1.1-.6-1.7c-.4-.5-1.1-1.2-2.2-2.1-1.3-1.1-2.2-1.9-2.7-2.7-.5-.7-.8-1.6-.8-2.5,0-2.5,1.5-3.9,4.5-3.9s2.4.2,3.4.5v1.8c-1.1-.4-2.2-.5-3.2-.5-1.8,0-2.6.7-2.6,2.2s.2,1.1.5,1.5h0Z"/>
+        <path class="lg2" d="M425.2,743.8h-2.1v-16.6h2.1v16.6Z"/>
+        <path class="lg2" d="M430,727.2h2.6l5,16.6h-2.2l-1.2-4.3h-5.5l-1.2,4.3h-2.2l4.7-16.6h0ZM430.8,731.4l-1.7,6.3h4.5l-1.8-6.3c0,0-.2-.8-.5-2.2l-.2,1-.3,1.2h0Z"/>
+        <path class="lg2" d="M439.5,743.8h-1.9v-16.6h2.2l6.2,11.5c.5.9.8,1.6,1,2,0-.5-.1-1.4-.1-2.8v-10.7h1.9v16.6h-2.2l-6.1-11.4c-.6-1.1-.9-1.9-1-2.2,0,.7.1,1.5.1,2.4v11.3h0Z"/>
+        <path class="lg2" d="M453.5,727.2h2.6l5,16.6h-2.2l-1.2-4.3h-5.5l-1.2,4.3h-2.2l4.7-16.6h0ZM454.3,731.4l-1.7,6.3h4.5l-1.8-6.3c0,0-.2-.8-.5-2.2l-.2,1-.3,1.2h0Z"/>
+        <path class="lg2" d="M463,732.5c.4.5,1.2,1.2,2.4,2.2,1.2,1,2,1.8,2.5,2.6s.8,1.5.8,2.5c0,2.8-1.7,4.3-4.8,4.3s-2.5-.2-3.7-.5v-1.8c1.3.4,2.5.5,3.6.5,1.9,0,2.8-.8,2.8-2.5s-.2-1.1-.6-1.7c-.4-.5-1.1-1.2-2.2-2.1-1.3-1.1-2.2-1.9-2.7-2.7-.5-.7-.8-1.6-.8-2.5,0-2.5,1.5-3.9,4.5-3.9s2.4.2,3.4.5v1.8c-1.1-.4-2.2-.5-3.2-.5-1.8,0-2.6.7-2.6,2.2s.2,1.1.5,1.5h0Z"/>
+        <path class="lg2" d="M480.2,743.8h-1.8l-3.1-9.6c-.4-1.1-.7-2.2-1-3.4v.8c0,.4,0,.7,0,.9,0,.5,0,1.1,0,1.8l-.4,9.5h-2l.8-16.6h2.1l4.6,14,4.6-14h2.1l.8,16.6h-2l-.4-9.5c0-.3,0-.8,0-1.5s0-1.7,0-2.1c-.3,1.1-.7,2.3-1,3.4l-3.1,9.6Z"/>
+        <path class="lg2" d="M491.2,727.2h2.6l5,16.6h-2.2l-1.2-4.3h-5.5l-1.2,4.3h-2.2l4.7-16.6h0ZM492,731.4l-1.7,6.3h4.5l-1.8-6.3c0,0-.2-.8-.5-2.2l-.2,1-.3,1.2h0Z"/>
+        <path class="lg2" d="M501.3,743.8h-2.1v-14.8h-1.5v-1.8h2.7c2.7,0,4.6.5,5.8,1.5,1.2,1,1.8,2.2,1.8,3.8,0,2.2-.9,3.9-2.8,4.9l3.4,6.4h-2.3l-2.9-5.6c-.7.2-1.4.3-2.1.3v5.3h0ZM501.3,729v7.8c2.9-.2,4.5-1.8,4.5-4.2s-1.5-3.4-4.5-3.6Z"/>
+        <path class="lg2" d="M511,743.8h-2.1v-16.6h2.1v16.6ZM511.2,722.1h2.3l-2.6,3.7h-1.6l1.9-3.7h0Z"/>
+        <path class="lg2" d="M516.2,727.2h2.6l5,16.6h-2.2l-1.2-4.3h-5.5l-1.2,4.3h-2.2l4.7-16.6h0ZM517,731.4l-1.7,6.3h4.5l-1.8-6.3c0,0-.2-.8-.5-2.2l-.2,1-.3,1.2h0Z"/>
+        <path class="lg2" d="M530.2,727.2h2.6l5,16.6h-2.2l-1.2-4.3h-5.5l-1.2,4.3h-2.2l4.7-16.6h0ZM531,731.4l-1.7,6.3h4.5l-1.8-6.3c0,0-.2-.8-.5-2.2l-.2,1-.3,1.2h0Z"/>
+        <path class="lg2" d="M537.5,727.2h2.2v10.4c0,3,1.3,4.5,3.2,4.5s3.2-1.5,3.2-4.5v-10.4h2.2v10.4c0,4.3-2.1,6.4-5.4,6.4s-5.5-2.1-5.5-6.4v-10.4Z"/>
+        <path class="lg2" d="M548.4,727.2h2.2l3.3,6.4,3.3-6.4h2.2l-4.4,7.9,4.8,8.7h-2.2l-3.7-7-3.7,7h-2.2l4.8-8.7-4.4-7.9h0Z"/>
+        <path class="lg2" d="M561.8,743.8h-2.1v-16.6h2.1v16.6Z"/>
+        <path class="lg2" d="M571.4,742v1.8h-8.1v-16.6h2.1v14.8h6Z"/>
+        <path class="lg2" d="M573.6,743.8h-2.1v-16.6h2.1v16.6Z"/>
+        <path class="lg2" d="M578.4,727.2h2.6l5,16.6h-2.2l-1.2-4.3h-5.5l-1.2,4.3h-2.2l4.7-16.6h0ZM579.2,731.4l-1.7,6.3h4.5l-1.8-6.3c0,0-.2-.8-.5-2.2l-.2,1-.3,1.2h0Z"/>
+        <path class="lg2" d="M586.5,743.8v-14.8h-1.6v-1.8h2.9c6.2,0,9.3,2.4,9.3,7.2s-.8,5-2.6,6.7-4,2.6-7,2.6h-1.1,0ZM588.6,729v13c1.8,0,3.4-.7,4.5-2.1,1.2-1.5,1.8-3.2,1.8-5.3,0-3.6-1.8-5.3-6.3-5.5h0Z"/>
+        <path class="lg2" d="M603.4,727c2,0,3.5.7,4.6,2.2,1.2,1.5,1.7,3.6,1.7,6.3s-.6,4.9-1.7,6.3c-1.1,1.5-2.7,2.2-4.6,2.2s-3.5-.7-4.7-2.2c-1.1-1.5-1.7-3.6-1.7-6.3s.6-4.9,1.7-6.3c1.2-1.5,2.7-2.2,4.7-2.2ZM607.5,735.5c0-4.3-1.6-6.7-4.2-6.7s-4.2,2.4-4.2,6.7,1.6,6.7,4.2,6.7,4.2-2.4,4.2-6.7Z"/>
+        <path class="lg2" d="M613,743.8h-2.1v-14.8h-1.5v-1.8h2.7c2.7,0,4.6.5,5.8,1.5,1.2,1,1.8,2.2,1.8,3.8,0,2.2-.9,3.9-2.8,4.9l3.4,6.4h-2.3l-2.9-5.6c-.7.2-1.4.3-2.1.3v5.3h0ZM613,729v7.8c2.9-.2,4.5-1.8,4.5-4.2s-1.5-3.4-4.5-3.6Z"/>
+        <path class="lg2" d="M624,727.2h2.6l5,16.6h-2.2l-1.2-4.3h-5.5l-1.2,4.3h-2.2l4.7-16.6h0ZM624.8,731.4l-1.7,6.3h4.5l-1.8-6.3c0,0-.2-.8-.5-2.2l-.2,1-.3,1.2h0Z"/>
+      </g>
+    </svg><h1 id="titulo">Biblioteca</h1></div>
+  <div class="quien" id="quien"></div>
+</header>
+<nav id="pestanas"></nav>
+<div id="banda"></div>
+<main id="app"><div class="cargando">Cargando…</div></main>
+<div id="velo"><div id="ventana"><button class="cerrar" aria-label="Cerrar" onclick="cerrarVentana()">×</button><div id="contenido"></div></div></div>
+<div id="aviso-flot"></div>
+<div id="imprimir"></div>
+<template id="t-guia-alumnado"><section class="g-sec">
+<h2>¿Qué es la web de la biblioteca?</h2>
+<p>Es el catálogo de la biblioteca del colegio en Internet. Desde el móvil, la tableta o el ordenador puedes ver <b>todos los libros que tenemos</b>, saber si están disponibles y <b>reservarlos</b> para recogerlos en la biblioteca.</p>
+<p class="g-dir">👉 <b>biblioteca-nervion.vercel.app</b></p>
+</section>
+
+<section class="g-sec">
+<h2>1. Entrar</h2>
+<ul>
+<li><b>Sin entrar</b> ya puedes mirar el catálogo completo.</li>
+<li>Para <b>reservar</b> y ver <b>tus libros</b>, pulsa <b>Entrar</b> (arriba a la derecha) y elige tu cuenta del colegio <b>@nervion.salesianas.org</b>.</li>
+<li>Si usas un ordenador compartido, pulsa <b>Cerrar sesión</b> al terminar.</li>
+</ul>
+</section>
+
+<section class="g-sec">
+<h2>2. Buscar un libro</h2>
+<ol>
+<li>Ve a <b>Catálogo</b>.</li>
+<li>Escribe el <b>título</b>, el <b>autor</b> o la editorial en el buscador.</li>
+<li>Si quieres, elige la <b>etapa</b> o marca <b>Solo disponibles</b>.</li>
+<li>Puedes verlo <b>en lista</b> o <b>en estantería</b>, con las portadas.</li>
+</ol>
+<div class="g-nota">
+<b>Cómo leer la estantería</b>
+<ul>
+<li>El color de la balda indica la etapa: <span class="g-c" style="background:#ee712a"></span> Infantil · <span class="g-c" style="background:#8a9400"></span> Primaria · <span class="g-c" style="background:#007791"></span> ESO/Bachillerato.</li>
+<li>El punto de la esquina: <span class="g-p" style="background:#65a30d"></span> disponible · <span class="g-p" style="background:#dc2626"></span> prestado.</li>
+<li>Pulsa un libro para ver su <b>ficha</b> con la sinopsis.</li>
+</ul>
+</div>
+<p>También puedes <b>escanear con la cámara del móvil el código QR</b> de la etiqueta de cualquier libro: se abre su ficha directamente.</p>
+</section>
+
+<section class="g-sec">
+<h2>3. Reservar un libro</h2>
+<ol>
+<li>Entra con tu cuenta del colegio.</li>
+<li>Busca el libro y pulsa <b>Reservar</b> (solo aparece si hay algún ejemplar disponible).</li>
+<li>Tienes <b>3 días</b> para pasar a recogerlo por la biblioteca. Si no lo recoges, la reserva se anula sola.</li>
+<li>En la biblioteca te lo entregan y empieza el préstamo.</li>
+</ol>
+</section>
+
+<section class="g-sec">
+<h2>4. Normas del préstamo</h2>
+<table class="g-tabla">
+<tr><td>Cuánto dura un préstamo</td><td><b>15 días</b></td></tr>
+<tr><td>Cuántos libros puedes tener a la vez</td><td><b>2</b> (contando préstamos y reservas)</td></tr>
+<tr><td>Tiempo para recoger una reserva</td><td><b>3 días</b></td></tr>
+<tr><td>¿Necesitas más tiempo?</td><td>Pide en la biblioteca que te lo <b>renueven</b></td></tr>
+</table>
+<p class="g-peq">Las normas las puede cambiar la biblioteca; en la web siempre verás las que estén vigentes.</p>
+</section>
+
+<section class="g-sec">
+<h2>5. Mis libros</h2>
+<p>En <b>Mis libros</b> ves los libros que tienes, <b>hasta qué día</b> los puedes tener y tus reservas. Desde ahí puedes <b>anular una reserva</b> si ya no la quieres.</p>
+<p>Para <b>devolver</b> un libro, llévalo a la biblioteca.</p>
+</section>
+
+<section class="g-sec">
+<h2>6. Tenerla como app en el móvil</h2>
+<ul>
+<li><b>Android / Chrome:</b> pulsa <b>Instalar app</b> arriba a la derecha (o en el menú ⋮ del navegador → «Instalar app» / «Añadir a pantalla de inicio»).</li>
+<li><b>iPhone / iPad:</b> en Safari, pulsa <b>Compartir</b> (cuadrado con flecha) → <b>Añadir a pantalla de inicio</b>.</li>
+</ul>
+</section>
+
+<section class="g-sec">
+<h2>Preguntas frecuentes</h2>
+<dl class="g-faq">
+<dt>No puedo entrar.</dt>
+<dd>Tienes que usar tu cuenta del colegio (<b>@nervion.salesianas.org</b>), no una cuenta personal de Gmail. Si arriba pone «sin alta en la biblioteca», pregunta en la biblioteca para que te den de alta.</dd>
+<dt>No me deja reservar.</dt>
+<dd>Puede ser que ya tengas 2 libros entre préstamos y reservas, que no quede ningún ejemplar disponible o que la biblioteca haya desactivado las reservas en ese momento. El mensaje te dirá cuál es el motivo.</dd>
+<dt>El libro que quiero está prestado.</dt>
+<dd>En su ficha verás aproximadamente cuándo vuelve. Vuelve a mirar en esos días y resérvalo en cuanto esté disponible.</dd>
+<dt>¿Los demás pueden ver qué libros tengo?</dt>
+<dd>No. Nadie del alumnado ve quién tiene cada libro; solo el personal de la biblioteca.</dd>
+<dt>Se me ha pasado la fecha de devolución.</dt>
+<dd>Devuélvelo cuanto antes en la biblioteca. Si lo necesitas más tiempo, pide que te lo renueven antes de que venza.</dd>
+<dt>He perdido o estropeado un libro.</dt>
+<dd>Avisa en la biblioteca lo antes posible.</dd>
+<dt>Escaneo el QR y no se abre nada.</dt>
+<dd>Usa la cámara del móvil o una app de lectura de QR con conexión a Internet. Si sigue sin funcionar, escribe el código del libro en el buscador del catálogo.</dd>
+</dl>
+</section>
+</template>
+<template id="t-guia-gestion"><section class="g-sec">
+<h2>Antes de empezar</h2>
+<ul>
+<li>Dirección: <b>biblioteca-nervion.vercel.app</b>. Pulsa <b>Entrar</b> con tu cuenta <b>@nervion.salesianas.org</b>. Si tu correo está en <b>Quién gestiona</b>, verás el panel de gestión.</li>
+<li>El menú de arriba tiene tres grupos (los mismos que el inicio): <b>Préstamos</b> (Prestar, Devolver, En préstamo), <b>Catálogo</b> (Catálogo, Libros, Etiquetas y tejuelos) y <b>Administración</b> (Alumnado, Ajustes, Historial).</li>
+<li>El <b>inicio</b> muestra las cifras del día: libros prestados, <b>retrasos</b>, reservas por entregar, libros y lectores. Se pueden pulsar.</li>
+<li>En el ordenador de la biblioteca, pulsa siempre <b>Cerrar sesión</b> al terminar: solo se cierra la biblioteca, no Gmail ni Drive.</li>
+<li>La web guarda los datos en el dispositivo para ir rápida y se actualiza sola por detrás. Si algo no cuadra, recarga la página.</li>
+</ul>
+</section>
+
+<section class="g-sec">
+<h2>1. Prestar un libro</h2>
+<ol>
+<li><b>Préstamos → Prestar.</b></li>
+<li>En «¿Quién se lo lleva?», escribe el nombre, apellidos o curso y elige al alumno. Verás cuántos libros tiene ya y si tiene alguno <b>reservado</b> (con el botón <b>Entregar ahora</b>).</li>
+<li>En «¿Qué libro?», escribe el <b>código</b>, el <b>título</b> o el <b>autor</b> y elígelo de la lista, o pulsa <b>📷 Escanear QR</b> y enfoca la etiqueta (si ya has elegido alumno, el préstamo se hace solo al leerla).</li>
+<li>Pulsa <b>Prestar</b>. La fecha de devolución se calcula sola (15 días).</li>
+</ol>
+<div class="g-nota">Si el alumno ya tiene el máximo de libros o el libro está reservado para otra persona, la web avisa y pregunta si quieres <b>prestarlo igualmente</b>. El alumno sigue seleccionado para prestarle un segundo libro.</div>
+</section>
+
+<section class="g-sec">
+<h2>2. Devolver un libro</h2>
+<ol>
+<li><b>Préstamos → Devolver.</b></li>
+<li>Escribe el código, el título, el autor o el <b>nombre del alumno</b> y elige el préstamo de la lista; o escribe el código y pulsa Intro.</li>
+<li>O pulsa <b>📷 Escanear QR</b>: la cámara se queda abierta y puedes ir pasando libros <b>uno detrás de otro</b>. Pulsa <b>Terminar</b> al acabar.</li>
+</ol>
+<p>Si el libro vuelve tarde, se indica cuántos días de retraso lleva.</p>
+</section>
+
+<section class="g-sec">
+<h2>3. En préstamo: retrasos, renovaciones y reservas</h2>
+<ul>
+<li><b>Préstamos → En préstamo</b> muestra todos los libros prestados, primero los que van <b>con retraso</b>. Marca «Solo con retraso» para reclamar.</li>
+<li><b>Renovar</b> alarga el préstamo otros 15 días. <b>Devuelto</b> lo registra como devuelto.</li>
+<li>Arriba están las <b>reservas pendientes de recoger</b>.</li>
+</ul>
+<h3>Cómo funcionan las reservas</h3>
+<ol>
+<li>El alumno reserva desde la web (en su móvil o en casa). El libro pasa a <b>Reservado</b> y nadie más puede reservarlo.</li>
+<li>Tiene <b>3 días</b> para recogerlo. Si no viene, la reserva caduca sola y el libro vuelve a estar disponible.</li>
+<li>Cuando viene, pulsa <b>✓ Recogido · prestar</b> (en En préstamo), o en <b>Prestar</b> elige al alumno y pulsa <b>Entregar ahora</b>, o simplemente escanea el libro. La reserva se marca como recogida y empieza el préstamo.</li>
+<li>También puedes reservar un libro <b>para</b> un alumno: abre la ficha del libro (o escanea su QR) → <b>Reservar para…</b></li>
+</ol>
+</section>
+
+<section class="g-sec">
+<h2>4. Libros: corregir, dar de alta y de baja</h2>
+<ul>
+<li><b>Catálogo → Libros.</b> Busca por código, título, autor o ISBN. Filtros útiles: <b>Con avisos</b>, <b>Código provisional</b>, <b>Dados de baja</b>.</li>
+<li>Pulsa un libro para <b>editar</b> cualquier dato. Botones de la ficha: <b>Marcar como revisado</b> (quita los avisos), <b>Etiqueta QR</b>, <b>Préstamos de este libro</b> y <b>Dar de baja</b> (perdido o estropeado; se puede <b>recuperar</b> después).</li>
+<li><b>Cambiar de etapa un libro</b> (por ejemplo, un provisional que es de Infantil): elige la etapa nueva y pulsa <b>Siguiente libre</b> junto al código. Al guardar, el libro pasa a «pendiente de tejuelo».</li>
+<li><b>+ Nuevo libro:</b> escribe el ISBN y pulsa <b>Buscar datos</b> (rellena título, autor, editorial, portada y sinopsis). Elige la etapa; el código se pone solo. Puedes dar de alta <b>varios ejemplares iguales</b> a la vez.</li>
+</ul>
+</section>
+
+<section class="g-sec">
+<h2>5. Portadas y sinopsis</h2>
+<ul>
+<li>En <b>Libros → Búsqueda automática</b>: <b>Buscar portadas</b> y <b>Buscar sinopsis</b> buscan por ISBN todas las que falten. Se pueden repetir cuando quieras (por ejemplo, después de dar de alta libros).</li>
+<li><b>Revisión por título</b> (para los libros sin ISBN o sin datos): va libro a libro proponiendo fichas encontradas por título y autor. Pulsa <b>Usar esta</b> en la correcta (rellena lo marcado en «Rellenar»: portada, sinopsis, ISBN), <b>Saltar</b> o <b>Ninguna sirve</b>. Si el título está abreviado, usa <b>Buscar con otro título</b>.</li>
+<li>A mano: al editar un libro, pega la <b>dirección de una imagen</b> (Google Imágenes → clic derecho → «Copiar dirección de imagen») o escribe la sinopsis.</li>
+</ul>
+</section>
+
+<section class="g-sec">
+<h2>6. Etiquetas QR y tejuelos</h2>
+<ol>
+<li><b>Catálogo → Etiquetas y tejuelos.</b></li>
+<li><b>Elige los libros:</b> por defecto salen los <b>pendientes de tejuelo</b>. Filtra por etapa, por rango de números (por ejemplo, del 1 al 60) o por título, y desmarca los que no quieras.</li>
+<li><b>Imprime</b> las <b>Etiquetas QR</b> (logo del colegio en el centro; abren la ficha del libro) o los <b>Tejuelos</b> (franja con el color de la etapa y el número grande) en papel de pegatinas A4, a <b>tamaño real / 100 %</b>.</li>
+<li>Cuando estén pegados, pulsa <b>Marcar como puestos</b> para que dejen de salir como pendientes.</li>
+</ol>
+<div class="g-nota">Los libros con código <b>provisional</b> no salen como pendientes hasta que confirmes su etapa (apartado 4).</div>
+</section>
+
+<section class="g-sec">
+<h2>7. Alumnado</h2>
+<ul>
+<li><b>Cada septiembre</b> (o cuando haya altas): descarga los usuarios en la consola de Google y ve a <b>Administración → Alumnado → Importar listado</b>. Arrastra el archivo <b>Usuarios.xlsx</b> (o un .csv) y pulsa Importar. Para pocos alumnos, puedes pegar sus filas.</li>
+<li>La importación da de alta a los nuevos, <b>actualiza el curso</b> de los que ya estaban y pasa a <b>baja</b> las cuentas de grupos «Baja» o suspendidas (su historial se conserva). Avisa si alguien que se da de baja <b>aún tiene libros</b>. El profesorado no se importa.</li>
+<li>Filtra por <b>etapa</b>, <b>curso</b> y estado. Pulsa un alumno para corregir sus datos o ver los libros que ha sacado.</li>
+<li><b>+ Nuevo lector</b> para quien no tenga cuenta (por ejemplo, Infantil 3 años). Cuando tenga cuenta, añade su correo.</li>
+</ul>
+</section>
+
+<section class="g-sec">
+<h2>8. Ajustes, quién gestiona e historial</h2>
+<ul>
+<li><b>Administración → Ajustes:</b> días de préstamo, máximo de libros por alumno, días para recoger una reserva, activar o desactivar las reservas del alumnado y la clave de Google Books.</li>
+<li>En la misma pantalla, <b>Quién gestiona la biblioteca</b>: añade o quita a las personas que pueden prestar, devolver y modificar el catálogo.</li>
+<li><b>Administración → Historial:</b> todo lo que se hace queda registrado (quién, cuándo y qué cambió). Útil para deshacer un error.</li>
+<li><b>Ver como alumno</b> (arriba a la derecha): ves la web exactamente como la ve el alumnado. Vuelve con «Volver a la gestión».</li>
+</ul>
+</section>
+
+<section class="g-sec">
+<h2>Preguntas frecuentes</h2>
+<dl class="g-faq">
+<dt>Un alumno no aparece al prestar.</dt>
+<dd>No está importado o está de baja. Revisa en Alumnado (filtro «Todos») o dalo de alta con «+ Nuevo lector».</dd>
+<dt>«Hay 2 libros con el código…».</dt>
+<dd>Dos libros comparten código. Búscalo en Libros, mira el tejuelo físico y corrige el que esté mal (con «Siguiente libre»).</dd>
+<dt>El escáner no abre la cámara.</dt>
+<dd>El navegador necesita permiso para usar la cámara: acéptalo cuando lo pida o actívalo en los ajustes del navegador. Siempre puedes escribir el código.</dd>
+<dt>He cambiado algo directamente en la hoja de cálculo.</dt>
+<dd>Se puede, pero mejor desde la web (queda en el historial). No cambies los títulos de las columnas ni los nombres de las pestañas.</dd>
+<dt>La web dice que la sesión ha caducado.</dt>
+<dd>Vuelve a pulsar Entrar. Por seguridad, Google renueva el acceso cada cierto tiempo.</dd>
+</dl>
+</section>
+
+<section class="g-sec g-tecnico">
+<h2>Anexo técnico (para quien mantiene la web)</h2>
+<ul>
+<li><b>La web</b> está en GitHub y se publica sola en Vercel (<b>biblioteca-nervion.vercel.app</b>). Para cambiar el diseño, se sube el archivo nuevo al repositorio (<i>Add file → Upload files → Commit</i>).</li>
+<li><b>Los datos</b> están en la hoja de cálculo de Google «Biblioteca» (pestañas Libros, Lectores, Préstamos, Reservas, Gestores, Ajustes, Historial). Haz una copia al final de cada curso (<i>Archivo → Hacer una copia</i>).</li>
+<li><b>El motor</b> es el código de Apps Script de esa hoja. Para actualizarlo: pegar el código, guardar y <i>Implementar → Gestionar implementaciones → ✏️ → Nueva versión</i>. <b>Nunca</b> «Nueva implementación» (cambiaría la dirección).</li>
+<li><b>El acceso con Google</b> usa el «ID de cliente» del proyecto «Biblioteca» de Google Cloud (también ahí está la clave de Google Books).</li>
+</ul>
+</section>
+</template>
+
+<script>
+// ═════════════════════ Utilidades ═════════════════════
+const S = { info: null, catalogo: null, lectores: null, pestana: null, sub: 'libros' };
+const FN = [];
+function on(fn) { FN.push(fn); return 'data-fn="' + (FN.length - 1) + '"'; }
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-fn]');
+  if (t && t.tagName !== 'INPUT' && t.tagName !== 'SELECT') FN[t.dataset.fn](e, t);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { cerrarVentana(); cerrarMenus(); }
+});
+
+// ═════════════════════ Conexión con el «motor» (Apps Script) y acceso con Google ═════════════════════
+const CFG = window.CONFIG || {};
+let PASE = null;   // ID token de Google de quien ha entrado
+
+function leerPase() { try { const t = localStorage.getItem('pase'); return t && caducidad(t) > Date.now() + 60000 ? t : null; } catch (e) { return null; } }
+function guardarPase(t) { PASE = t; try { t ? localStorage.setItem('pase', t) : localStorage.removeItem('pase'); } catch (e) {} }
+function caducidad(t) { try { return JSON.parse(atob(t.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))).exp * 1000; } catch (e) { return 0; } }
+
+let esperandoPase = null;
+/** Pide a Google un pase nuevo sin molestar (si ya se había entrado antes) o muestra el botón. */
+function renovarPase() {
+  if (esperandoPase) return esperandoPase;
+  esperandoPase = new Promise(ok => {
+    const fin = t => { esperandoPase = null; ok(t); };
+    S.alEntrar = t => fin(t);
+    if (window.google && google.accounts && google.accounts.id) {
+      google.accounts.id.prompt(n => { if (n.isNotDisplayed && n.isNotDisplayed() || n.isSkippedMoment && n.isSkippedMoment()) { S.alEntrar = null; fin(null); } });
+    } else fin(null);
+    setTimeout(() => { if (esperandoPase) { S.alEntrar = null; fin(null); } }, 12000);
+  });
+  return esperandoPase;
+}
+
+async function api(fn, ...args) {
+  // Sin pase se consulta como visitante (solo el catálogo). Si el pase va a caducar, se renueva sin molestar.
+  if (PASE && !CFG.paseDePrueba && caducidad(PASE) < Date.now() + 60000) {
+    const nuevo = await renovarPase();
+    if (nuevo) guardarPase(nuevo);
+    else { guardarPase(null); if (S.info && S.info.rol !== 'visitante') { mostrarAcceso('Tu sesión ha caducado. Vuelve a entrar.'); throw new Error('Tienes que volver a entrar.'); } }
+  }
+  let r;
+  try {
+    r = await fetch(CFG.motor, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ fn, args, token: PASE }) });
+  } catch (e) { throw new Error('No hay conexión con la biblioteca. Comprueba Internet e inténtalo de nuevo.'); }
+  let j;
+  try { j = await r.json(); } catch (e) { throw new Error('La biblioteca no responde bien ahora mismo. Inténtalo en un momento.'); }
+  if (!j.ok) {
+    if (j.auth) { guardarPase(null); mostrarAcceso(j.error); }
+    throw new Error(j.error);
+  }
+  return j.r;
+}
+
+function alRecibirPase(resp) {
+  const t = resp && resp.credential;
+  if (!t) return;
+  guardarPase(t);
+  if (S.alEntrar) { const f = S.alEntrar; S.alEntrar = null; f(t); return; }
+  S.catalogo = null; S.lectores = null; S.vistaPrevia = false;
+  arrancar();
+}
+
+function prepararGoogle() {
+  return new Promise(ok => {
+    const listo = () => {
+      google.accounts.id.initialize({ client_id: CFG.idCliente, callback: alRecibirPase, auto_select: true, hd: CFG.dominio, cancel_on_tap_outside: false, use_fedcm_for_prompt: true });
+      ok();
+    };
+    if (window.google && google.accounts && google.accounts.id) return listo();
+    let n = 0;
+    const t = setInterval(() => { if (window.google && google.accounts && google.accounts.id) { clearInterval(t); listo(); } else if (++n > 100) { clearInterval(t); ok(); } }, 100);
+  });
+}
+
+function mostrarAcceso(aviso) {
+  S.info = null;
+  $('#pestanas').innerHTML = ''; $('#banda').innerHTML = ''; $('#quien').innerHTML = '';
+  cerrarVentana();
+  const y = new Date().getFullYear() - (new Date().getMonth() < 8 ? 1 : 0);   // el curso cambia solo cada 1 de septiembre
+  $('#app').innerHTML = '<div class="acceso"><div class="caja"><img class="logo-g" src="logo.svg" alt="Salesianas Nervión">' +
+    '<span class="eyebrow">Curso ' + y + '-' + (y + 1) + '</span><h2>Biblioteca</h2>' +
+    '<p>Pulsa el botón y entra con tu cuenta del colegio <b>@' + esc(CFG.dominio || 'nervion.salesianas.org') + '</b>.</p>' +
+    (aviso ? msg('aviso', esc(aviso)) : '') + '<div id="boton-google"></div>' +
+    '<p class="nota suave">Para reservar libros y para gestionar la biblioteca. Solo alumnado y profesorado de las Escuelas Salesianas María Auxiliadora.</p>' +
+    '<p style="margin:16px 0 0"><button class="b sec" ' + on(() => arrancar()) + '>Ver el catálogo sin entrar</button></p></div></div>';
+  if (window.google && google.accounts && google.accounts.id) {
+    google.accounts.id.renderButton($('#boton-google'), { theme: 'filled_blue', size: 'large', shape: 'pill', text: 'signin_with', locale: 'es', width: 280 });
+    google.accounts.id.prompt();
+  } else $('#boton-google').innerHTML = msg('error', 'No se ha podido cargar el acceso de Google. Recarga la página.');
+}
+
+async function salir() {
+  if (!await confirmar('¿Cerrar la sesión de la biblioteca en este dispositivo?', 'Cerrar sesión')) return;
+  guardarPase(null);
+  try { google.accounts.id.disableAutoSelect(); } catch (e) {}
+  borrarLocal();   // en ordenadores compartidos no queda nada guardado
+  S.catalogo = null; S.lectores = null; S.vistaPrevia = false;
+  await arrancar();
+  aviso('Has cerrado la sesión.');
+}
+function textoError(e) { return String((e && e.message) || e).replace(/^(Exception|Error):\s*/, ''); }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function fecha(s) { if (!s) return ''; const p = String(s).slice(0, 10).split('-'); return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : s; }
+function norm(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9ñ]+/g, ' ').trim(); }
+function coincide(texto, q) { const t = norm(texto); return norm(q).split(' ').every(p => t.includes(p)); }
+function $(sel, raiz) { return (raiz || document).querySelector(sel); }
+function aviso(txt) { const a = $('#aviso-flot'); a.textContent = txt; a.style.display = 'block'; clearTimeout(a._t); a._t = setTimeout(() => a.style.display = 'none', 3500); }
+function msg(tipo, html) { return '<div class="msg ' + tipo + '">' + html + '</div>'; }
+function etiqueta(estado) { return '<span class="etq ' + esc(estado) + '">' + esc(estado) + '</span>'; }
+function esGestor() { return S.info && S.info.rol === 'gestor'; }
+function onc(fn) { FN.push(fn); return 'data-fnc="' + (FN.length - 1) + '"'; }
+document.addEventListener('change', e => { const t = e.target.closest && e.target.closest('[data-fnc]'); if (t) FN[t.dataset.fnc](e, t); });
+
+/** Listas por páginas: «Mostrar 50 / 100 / 200 / Todos» y botones para pasar de página. */
+function crearPaginas(repintar) {
+  const pg = { pag: 1, tam: leerPref('porPagina', '50'), n: 1, total: 0 };
+  pg.reset = () => { pg.pag = 1; };
+  pg.trozo = r => {
+    pg.total = r.length;
+    pg.n = pg.tam === 'todos' ? 1 : Math.max(1, Math.ceil(r.length / +pg.tam));
+    pg.pag = Math.min(Math.max(1, pg.pag), pg.n);
+    return pg.tam === 'todos' ? r : r.slice((pg.pag - 1) * +pg.tam, pg.pag * +pg.tam);
+  };
+  const ir_ = p => { pg.pag = p; repintar(); };
+  pg.html = () => {
+    if (!pg.total) return '';
+    const ini = pg.tam === 'todos' ? 1 : (pg.pag - 1) * +pg.tam + 1, fin = pg.tam === 'todos' ? pg.total : Math.min(pg.total, pg.pag * +pg.tam);
+    const b = (txt, p, titulo) => '<button class="b sec peq" title="' + titulo + '" ' + (p < 1 || p > pg.n || p === pg.pag ? 'disabled' : on(() => ir_(p))) + '>' + txt + '</button>';
+    return '<div class="paginas"><label>Mostrar <select ' + onc(e => { pg.tam = e.target.value; guardarPref('porPagina', pg.tam); pg.reset(); repintar(); }) + '>' +
+      ['50', '100', '200', 'todos'].map(v => '<option value="' + v + '"' + (v === pg.tam ? ' selected' : '') + '>' + (v === 'todos' ? 'Todos' : v) + '</option>').join('') + '</select></label>' +
+      '<span class="suave">' + ini + '–' + fin + ' de ' + pg.total + '</span>' +
+      (pg.n > 1 ? '<span class="botones">' + b('«', 1, 'Primera página') + b('‹', pg.pag - 1, 'Anterior') + '<span class="peq">Página ' + pg.pag + ' de ' + pg.n + '</span>' + b('›', pg.pag + 1, 'Siguiente') + b('»', pg.n, 'Última página') + '</span>' : '') + '</div>';
+  };
+  return pg;
+}
+
+const ICONOS = {
+  inicio: '<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
+  prestar: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M12 13V7m-3 3 3-3 3 3"/>',
+  devolver: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M12 7v6m-3-3 3 3 3-3"/>',
+  reloj: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  estanteria: '<rect x="3" y="4" width="4" height="16" rx="1"/><rect x="9" y="4" width="4" height="16" rx="1"/><path d="m15 5 4-1 3 15-4 1z"/>',
+  lista: '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+  editar: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+  personas: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/>',
+  qr: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/>',
+  ajustes: '<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
+  historial: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>',
+  escudo: '<path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/><circle cx="12" cy="10" r="2.5"/><path d="M8 16a4 4 0 0 1 8 0"/>',
+  marcador: '<path d="M6 3h12v18l-6-4-6 4z"/>',
+  buscar: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>'
+};
+function ico(n) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONOS[n] || '') + '</svg>'; }
+function losa(color, icono, titulo, texto, accion, insignia, peq) {
+  return '<button class="losa' + (peq ? ' peq-l' : '') + '" style="--c:' + color + '" ' + on(accion) + '><span class="ico">' + ico(icono) + '</span><span><b>' + titulo + '</b>' + (texto ? '<small>' + texto + '</small>' : '') + '</span>' +
+    (insignia ? '<span class="insignia">' + insignia + '</span>' : '') + '</button>';
+}
+function irAdmin(sub, filtro) { S.sub = sub === 'gestores' ? 'ajustes' : sub; S.filtroLibros = filtro || ''; ir('admin'); }
+
+// ───── Portadas ─────
+const COLOR_PORTADA = { 'Infantil': '#ee712a', 'Primaria': '#8a9400', 'ESO/Bachillerato': '#007791' };
+function disponibles(g) { return g.ejemplares.filter(x => x.estado === 'Disponible').length; }
+function portadaHtml(g, tam) {
+  const c = COLOR_PORTADA[g.etapa] || '#64748B';
+  const disp = disponibles(g);
+  return '<span class="portada ' + (tam || '') + '" style="--c:' + c + '">' +
+    '<span class="gen"><span class="gt">' + esc(g.titulo) + '</span><span class="ga">' + esc(g.autor) + '</span></span>' +
+    (g.portada ? '<img src="' + esc(g.portada) + '" alt="" loading="lazy" referrerpolicy="no-referrer">' : '') +
+    '<span class="punto ' + (disp ? 'si' : 'no') + '" title="' + (disp ? 'Disponible' : 'No disponible') + '"></span></span>';
+}
+// Si una portada no carga, o es la imagen genérica de «sin portada», se ve la portada dibujada.
+document.addEventListener('error', e => { if (e.target.tagName === 'IMG' && e.target.parentNode.classList.contains('portada')) e.target.parentNode.classList.add('falla'); }, true);
+document.addEventListener('load', e => { const t = e.target; if (t.tagName === 'IMG' && t.parentNode.classList.contains('portada') && t.naturalWidth < 60) t.parentNode.classList.add('falla'); }, true);
+function leyendaEtapas() {
+  return '<div class="leyenda">' + Object.keys(COLOR_PORTADA).map(e => '<span style="--c:' + COLOR_PORTADA[e] + '"><i></i>' + e + '</span>').join('') +
+    '<span><i style="background:#65a30d;width:10px;height:10px;border-radius:50%"></i>Disponible</span><span><i style="background:#dc2626;width:10px;height:10px;border-radius:50%"></i>Prestado</span></div>';
+}
+function estanteria(grupos) {
+  return leyendaEtapas() + '<div class="estante">' + grupos.map(g => '<button class="hueco" style="--balda:' + (COLOR_PORTADA[g.etapa] || '#a67845') + '" title="' + esc(g.titulo) + '" ' + on(() => fichaGrupo(g)) + '>' + portadaHtml(g) + '<span class="hueco-t">' + esc(g.titulo) + '</span></button>').join('') + '</div>';
+}
+function leerPref(k, def) { try { return localStorage.getItem(k) || def; } catch (e) { return def; } }
+function guardarPref(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+function abrirVentana(html) { $('#contenido').innerHTML = html; $('#velo').classList.add('abierto'); const f = $('#contenido input:not([type=checkbox]), #contenido textarea'); if (f) setTimeout(() => f.focus(), 50); }
+function cerrarVentana() { if (S.alCerrarVentana) { const f = S.alCerrarVentana; S.alCerrarVentana = null; try { f(); } catch (e) {} } $('#velo').classList.remove('abierto'); $('#contenido').innerHTML = ''; }
+$('#velo').addEventListener('click', e => { if (e.target.id === 'velo') cerrarVentana(); });
+
+function confirmar(texto, boton) {
+  return new Promise(ok => {
+    abrirVentana('<h2>¿Seguro?</h2><p>' + texto + '</p><div class="acciones">' +
+      '<button class="b" ' + on(() => { cerrarVentana(); ok(true); }) + '>' + esc(boton || 'Sí') + '</button>' +
+      '<button class="b sec" ' + on(() => { cerrarVentana(); ok(false); }) + '>Cancelar</button></div>');
+  });
+}
+
+async function conBoton(btn, tarea) {
+  const t = btn.textContent; btn.disabled = true; btn.textContent = 'Un momento…';
+  try { return await tarea(); } finally { btn.disabled = false; btn.textContent = t; }
+}
+
+// ───── Datos guardados en el dispositivo: la web se ve al instante y se actualiza sola ─────
+const PREF_LOCAL = 'bib:';
+function leerLocal(k) { try { const v = localStorage.getItem(PREF_LOCAL + k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+function guardarLocal(k, v) { try { localStorage.setItem(PREF_LOCAL + k, JSON.stringify(v)); } catch (e) {} }
+function borrarLocal() { try { Object.keys(localStorage).filter(k => k.startsWith(PREF_LOCAL)).forEach(k => localStorage.removeItem(k)); } catch (e) {} }
+/** Cada cuenta guarda su propia copia: el catálogo público nunca puede llevar datos de gestión. */
+function claveCatalogo() { return 'cat-' + (PASE ? correoDelPase() || 'cuenta' : 'publico'); }
+/** El motor no repite en cada ejemplar lo que ya está en el título: aquí se rellena. */
+function hidratar(cat) {
+  const campos = ['codigo', 'etapa', 'titulo', 'autor', 'editorial', 'isbn', 'genero', 'estado', 'portada', 'revisar', 'observaciones', 'estadoPortada', 'estadoSinopsis', 'vuelve'];
+  cat.forEach(g => g.ejemplares.forEach(x => campos.forEach(k => { if (x[k] === undefined) x[k] = k in g ? g[k] : ''; })));
+  return cat;
+}
+let refrescoCatalogo = null;
+function refrescarCatalogo() {
+  if (!refrescoCatalogo) {
+    const clave = claveCatalogo();
+    refrescoCatalogo = api('catalogo').then(c => {
+      guardarLocal(clave, c);
+      S.catalogo = hidratar(c); S.catalogoViejo = false;
+      return S.catalogo;
+    }).finally(() => { refrescoCatalogo = null; });
+  }
+  return refrescoCatalogo;
+}
+async function cargarCatalogo(forzar) {
+  if (forzar) await refrescarCatalogo();
+  else if (!S.catalogo) {
+    const local = leerLocal(claveCatalogo());
+    if (local) { S.catalogo = hidratar(local); refrescarCatalogo().catch(() => {}); }   // se ve ya; se actualiza por detrás
+    else await refrescarCatalogo();
+  } else if (S.catalogoViejo) refrescarCatalogo().catch(() => {});
+  if (!S.vistaPrevia) return S.catalogo;
+  return S.catalogo.map(g => Object.assign({}, g, {
+    ejemplares: g.ejemplares.filter(x => x.estado !== 'Baja').map(x => ({ codigo: x.codigo, titulo: x.titulo, autor: x.autor, etapa: x.etapa, estado: x.estado, vuelve: x.vuelve, portada: x.portada }))
+  })).filter(g => g.ejemplares.length);
+}
+async function cargarLectores(forzar) {
+  if (!S.lectores || forzar) S.lectores = await api('lectoresActivos');
+  return S.lectores;
+}
+/** Tras un cambio: los datos se vuelven a pedir por detrás (devuelve la promesa por si hay que esperarla). */
+function cambiosHechos() { S.lectores = null; S.catalogoViejo = true; return refrescarCatalogo().catch(() => {}); }
+
+// ═════════════════════ Arranque ═════════════════════
+async function iniciar() {
+  await prepararGoogle();
+  PASE = (CFG.paseDePrueba) || leerPase();
+  arrancar();   // sin pase: vista pública del catálogo
+}
+
+function correoDelPase() { try { return JSON.parse(atob(PASE.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))).email || ''; } catch (e) { return ''; } }
+
+async function arrancar() {
+  const claveInfo = 'info-' + (PASE ? correoDelPase() : 'publico');
+  const guardada = leerLocal(claveInfo);
+  const pedir = api('iniciar').then(i => { guardarLocal(claveInfo, i); return i; });
+  if (guardada) {
+    // Se enseña al instante con lo último conocido y se comprueba por detrás.
+    S.info = guardada; S.catalogo = null;
+    montar();
+    pedir.then(i => {
+      const cambioRol = i.rol !== S.info.rol;
+      S.info = i;
+      if (cambioRol) { S.catalogo = null; montar(); } else refrescarCabecera();
+    }).catch(() => {});
+  } else {
+    $('#app').innerHTML = '<div class="cargando">Cargando…</div>';
+    try {
+      S.info = await pedir;
+    } catch (e) {
+      if (S.info === null && !PASE && $('.acceso')) return;   // ya se está mostrando la pantalla de acceso
+      $('#app').innerHTML = msg('error', 'No se ha podido abrir la biblioteca: ' + esc(textoError(e)));
+      return;
+    }
+    montar();
+  }
+  // ¿Se ha abierto escaneando el QR de un libro?
+  // Si se ha escaneado sin haber entrado, se recuerda para abrirlo también después de entrar.
+  const libro = new URLSearchParams(location.search).get('libro') || S.libroPendiente;
+  if (libro) {
+    S.libroPendiente = S.info.rol === 'visitante' && !PASE ? libro : null;
+    if (location.search) history.replaceState(null, '', location.pathname);
+    fichaLibro(libro);
+  }
+}
+
+/** Pinta cabecera y pestañas según el papel (gestión, alumnado o visitante). */
+function montar(navegar) {
+  const i = S.info;
+  $('#titulo').textContent = i.ajustes.nombre_biblioteca;
+  document.title = 'Biblioteca | Escuelas Salesianas María Auxiliadora · Nervión (Sevilla)';
+  const quien = i.rol === 'gestor' ? i.correo + ' · Gestión' : i.rol === 'lector' ? i.nombre + ' · ' + i.curso
+    : i.correo ? i.correo + ' · sin alta en la biblioteca' : '';
+  $('#quien').innerHTML = '<span>' + esc(quien) + '</span>' +
+    (S.instalar ? '<a href="#" ' + on(e => { e.preventDefault(); instalarApp(); }) + '>Instalar app</a>' : '') +
+    (i.rol === 'gestor' ? '<a href="#" ' + on(e => { e.preventDefault(); verComoAlumno(true); }) + '>Ver como alumno</a>' : '') +
+    (PASE ? '<a href="#" ' + on(e => { e.preventDefault(); salir(); }) + '>Cerrar sesión</a>'
+      : '<button class="b peq" ' + on(() => mostrarAcceso()) + '>Entrar</button>');
+  const pest = i.rol === 'gestor'
+    ? [['inicio', 'Inicio'], ['prestar', 'Prestar'], ['devolver', 'Devolver'], ['prestamos', 'En préstamo'], ['catalogo', 'Catálogo'], ['admin', 'Administración']]
+    : i.rol === 'lector' ? [['inicio', 'Inicio'], ['catalogo', 'Catálogo'], ['mis', 'Mis libros'], ['ayuda', 'Ayuda']] : [['inicio', 'Inicio'], ['catalogo', 'Catálogo'], ['ayuda', 'Ayuda']];
+  if (i.rol === 'gestor') {
+    const AZ = '#009abb', VE = '#8a9400', NA = '#ee712a', GR = '#64748B';
+    const grupos = [
+      ['g-prest', 'Préstamos', [['prestar', 'Prestar', AZ, () => ir('prestar')], ['devolver', 'Devolver', VE, () => ir('devolver')], ['reloj', 'En préstamo', NA, () => ir('prestamos')]]],
+      ['g-cat', 'Catálogo', [['estanteria', 'Catálogo', '#007791', () => ir('catalogo')], ['editar', 'Libros', AZ, () => irAdmin('libros')], ['qr', 'Etiquetas y tejuelos', NA, () => irAdmin('etiquetas')]]],
+      ['g-adm', 'Administración', [['personas', 'Alumnado', VE, () => irAdmin('lectores')], ['ajustes', 'Ajustes', GR, () => irAdmin('ajustes')], ['historial', 'Historial', GR, () => irAdmin('historial')]]]
+    ];
+    $('#pestanas').innerHTML = '<button data-p="inicio" ' + on(() => ir('inicio')) + '>Inicio</button>' + grupos.map(g =>
+      '<div class="menu-g" data-p="' + g[0] + '"><button aria-haspopup="true" ' + on((e, b) => { const m = b.parentNode, ab = !m.classList.contains('abierto'); cerrarMenus(); m.classList.toggle('abierto', ab); }) + '>' + g[1] + '</button>' +
+      '<div class="desplegable">' + g[2].map(x => '<button style="--c:' + x[2] + '" ' + on(() => { cerrarMenus(); x[3](); }) + '>' + ico(x[0]) + x[1] + '</button>').join('') + '</div></div>').join('') +
+      '<button data-p="ayuda" ' + on(() => ir('ayuda')) + '>Ayuda</button>';
+  } else {
+    $('#pestanas').innerHTML = pest.map(p => '<button data-p="' + p[0] + '" ' + on(() => ir(p[0])) + '>' + p[1] + '</button>').join('');
+  }
+  $('#banda').innerHTML = S.vistaPrevia ? '<div class="banda-previa"><span><b>Vista del alumnado.</b> Así ven la web los alumnos (aquí no se reserva de verdad).</span>' +
+    '<button class="b peq" ' + on(() => verComoAlumno(false)) + '>Volver a la gestión</button></div>' : '';
+  if (navegar === false) marcarMenu(); else ir(pest[0][0]);
+}
+
+/** Quien gestiona puede ver la web tal y como la ve el alumnado. */
+function verComoAlumno(si) {
+  if (si && !S.vistaPrevia) {
+    S.infoReal = S.info;
+    S.info = Object.assign({}, S.info, { rol: 'lector', nombre: 'Alumno/a de ejemplo', curso: 'Vista previa' });
+    S.vistaPrevia = true;
+  } else if (!si && S.vistaPrevia) {
+    S.info = S.infoReal;
+    S.vistaPrevia = false;
+  }
+  cerrarVentana();
+  montar();
+}
+
+function cerrarMenus() { document.querySelectorAll('.menu-g.abierto').forEach(m => m.classList.remove('abierto')); }
+document.addEventListener('click', e => { if (!e.target.closest('.menu-g')) cerrarMenus(); });
+
+/** Marca en el menú de arriba el grupo de la pantalla actual. */
+function marcarMenu() {
+  const p = S.pestana;
+  const grupo = ['prestar', 'devolver', 'prestamos'].includes(p) ? 'g-prest'
+    : (p === 'catalogo' || (p === 'admin' && (S.sub === 'libros' || S.sub === 'etiquetas' || S.sub === 'revision'))) ? 'g-cat'
+    : p === 'admin' ? 'g-adm' : p;
+  document.querySelectorAll('#pestanas > [data-p]').forEach(b => {
+    const activo = b.dataset.p === grupo || (b.dataset.p === 'catalogo' && grupo === 'g-cat');
+    (b.classList.contains('menu-g') ? b.firstElementChild : b).classList.toggle('activo', activo);
+  });
+}
+
+function ir(p) {
+  S.pestana = p;
+  cerrarMenus();
+  marcarMenu();
+  ({ inicio: vistaInicio, ayuda: vistaAyuda, prestar: vistaPrestar, devolver: vistaDevolver, prestamos: vistaPrestamos, catalogo: vistaCatalogo, mis: vistaMisLibros, admin: vistaAdmin })[p]();
+  window.scrollTo(0, 0);
+}
+
+// ═════════════════════ Panel de inicio ═════════════════════
+async function vistaInicio() {
+  const i = S.info;
+  const hoy = new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+  const hora = new Date().getHours();
+  const saludo = hora < 14 ? 'Buenos días' : hora < 21 ? 'Buenas tardes' : 'Buenas noches';
+  const nombre = i.rol === 'lector' ? ', ' + esc(i.nombre.split(' ')[0]) : '';
+  $('#app').innerHTML = '<div class="saludo"><h2>' + saludo + nombre + '</h2><p>' + hoy + '</p></div><div id="in-cifras"></div><div id="in-losas"></div>' +
+    '<div class="titulo-sec"><h3>Últimas incorporaciones</h3><button class="b sec peq" ' + on(() => { guardarPref('vista', 'estanteria'); ir('catalogo'); }) + '>Ver toda la estantería</button></div><div id="in-nov" class="cargando">Cargando…</div>';
+  const AZ = '#009abb', AZO = '#007791', VE = '#8a9400', NA = '#ee712a', GR = '#64748B';
+  if (i.rol === 'gestor') {
+    const seccion = (color, titulo, losas, minimo) => '<div class="nivel"><h3 class="nivel-t" style="--c:' + color + '">' + titulo + '</h3>' +
+      '<div class="mosaico" style="grid-template-columns:repeat(auto-fit,minmax(' + (minimo || 230) + 'px,1fr))">' + losas + '</div></div>';
+    $('#in-losas').innerHTML =
+      seccion(AZ, 'Préstamos',
+        losa(AZ, 'prestar', 'Prestar', 'Elige al alumno y escanea el libro', () => ir('prestar')) +
+        losa(VE, 'devolver', 'Devolver', 'Escanea el código y listo', () => ir('devolver')) +
+        losa(NA, 'reloj', 'En préstamo', 'Retrasos, renovaciones y reservas', () => ir('prestamos'), '<span id="ins-p"></span>')) +
+      seccion(VE, 'Catálogo',
+        losa(AZO, 'estanteria', 'Catálogo', 'En lista o en estantería', () => ir('catalogo')) +
+        losa(AZ, 'editar', 'Libros', 'Corregir, dar de alta y portadas', () => irAdmin('libros'), '<span id="ins-a"></span>') +
+        losa(NA, 'qr', 'Etiquetas y tejuelos', 'QR y tejuelos de colores para imprimir', () => irAdmin('etiquetas'), '<span id="ins-t"></span>')) +
+      seccion(GR, 'Administración',
+        losa(VE, 'personas', 'Alumnado', 'Importar y altas', () => irAdmin('lectores'), '', true) +
+        losa(GR, 'ajustes', 'Ajustes', '', () => irAdmin('ajustes'), '', true) +
+        losa(GR, 'historial', 'Historial', '', () => irAdmin('historial'), '', true) +
+        losa(GR, 'marcador', 'Ayuda', '', () => ir('ayuda'), '', true), 190);
+  } else if (i.rol === 'lector') {
+    $('#in-losas').innerHTML = '<div class="mosaico">' +
+      losa(AZ, 'buscar', 'Buscar libros', 'Mira qué tenemos y resérvalo', () => ir('catalogo')) +
+      losa(NA, 'marcador', 'Mis libros', 'Lo que tienes y tus reservas', () => ir('mis')) +
+      losa('#64748B', 'lista', 'Ayuda', 'Cómo reservar y preguntas frecuentes', () => ir('ayuda')) + '</div>';
+  } else {
+    $('#in-losas').innerHTML = '<div class="mosaico">' + losa(AZ, 'buscar', 'Buscar libros', 'Mira qué tenemos en la biblioteca', () => ir('catalogo')) +
+      (PASE ? '' : losa(NA, 'marcador', 'Entrar', 'Con tu cuenta del colegio, para reservar y ver tus libros', () => mostrarAcceso())) + '</div>' +
+      (PASE ? msg('info', 'Tu cuenta aún no está dada de alta como lectora en la biblioteca. Pregunta en la biblioteca para poder reservar.') : '');
+  }
+  const cifra = (n, txt, accion, alerta) => accion
+    ? '<button class="cifra' + (alerta ? ' alerta' : '') + '" ' + on(accion) + '><b>' + n + '</b><span>' + txt + '</span></button>'
+    : '<div class="cifra' + (alerta ? ' alerta' : '') + '"><b>' + n + '</b><span>' + txt + '</span></div>';
+  (S.vistaPrevia ? Promise.resolve({ prestados: 0, reservas: 0, retrasos: 0 }) : api('panel')).then(d => {
+    if (S.pestana !== 'inicio') return;
+    if (i.rol === 'gestor') {
+      $('#in-cifras').innerHTML = '<div class="cifras">' +
+        cifra(d.prestados, 'libros prestados', () => ir('prestamos')) +
+        cifra(d.retrasos, 'con retraso', () => ir('prestamos'), d.retrasos > 0) +
+        cifra(d.reservas, 'reservas por entregar', () => ir('prestamos')) +
+        cifra(d.libros, 'libros en el catálogo', () => ir('catalogo')) +
+        cifra(d.disponibles, 'disponibles') +
+        cifra(d.lectores, 'lectores', () => irAdmin('lectores')) + '</div>';
+      if (d.retrasos) $('#ins-p').textContent = d.retrasos + ' tarde';
+      if (d.avisos) $('#ins-a').textContent = d.avisos + ' avisos';
+      if (d.tejuelo) $('#ins-t').textContent = d.tejuelo;
+      ['#ins-p', '#ins-a', '#ins-t'].forEach(s => { const e = $(s); if (!e) return; if (e.textContent) e.parentNode.style.display = ''; else e.parentNode.remove(); });
+    } else if (i.rol === 'lector') {
+      $('#in-cifras').innerHTML = (d.retrasos ? msg('error', 'Tienes ' + d.retrasos + ' libro(s) fuera de plazo. Devuélvelo(s) cuanto antes en la biblioteca.') : '') +
+        '<div class="cifras">' + cifra(d.prestados, 'libros contigo', () => ir('mis')) + cifra(d.reservas, 'reservas', () => ir('mis')) +
+        cifra(Math.max(0, i.ajustes.max_libros_alumno - d.prestados - d.reservas), 'puedes sacar aún') + '</div>';
+    }
+  }).catch(() => {});
+  ['#ins-p', '#ins-a', '#ins-t'].forEach(s => { const e = $(s); if (e) e.parentNode.style.display = 'none'; });
+  try {
+    const cat = await cargarCatalogo();
+    if (S.pestana !== 'inicio') return;
+    const nov = cat.filter(g => g.ejemplares.some(x => x.estado !== 'Baja')).slice().sort((a, b) => b.orden - a.orden).slice(0, 12);
+    $('#in-nov').className = 'tarjeta';
+    $('#in-nov').innerHTML = estanteria(nov);
+  } catch (e) { $('#in-nov').innerHTML = msg('error', esc(textoError(e))); }
+}
+
+
+// ═════════════════════ Selector de lector ═════════════════════
+function selectorLector(contenedor, alElegir, placeholder) {
+  contenedor.innerHTML = '<input class="sel-q" placeholder="' + esc(placeholder || 'Escribe nombre, apellidos o curso…') + '" autocomplete="off"><div class="lista-res sel-l" style="display:none"></div>';
+  const q = $('.sel-q', contenedor), l = $('.sel-l', contenedor);
+  let res = [], marcado = 0;
+  const pintar = () => {
+    l.style.display = res.length ? 'block' : 'none';
+    l.innerHTML = res.map((x, i) => '<div class="' + (i === marcado ? 'sel' : '') + '" data-i="' + i + '"><b>' + esc(x.nombre) + '</b> <span class="suave">· ' + esc(x.curso) + (x.libros ? ' · ' + x.libros + ' libro(s)' : '') + '</span></div>').join('');
+  };
+  q.addEventListener('input', async () => {
+    const lectores = await cargarLectores();
+    const v = q.value.trim();
+    res = v.length < 2 ? [] : lectores.filter(x => coincide(x.nombre + ' ' + x.curso + ' ' + x.correo, v)).slice(0, 30);
+    marcado = 0; pintar();
+  });
+  q.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown') { marcado = Math.min(res.length - 1, marcado + 1); pintar(); e.preventDefault(); }
+    if (e.key === 'ArrowUp') { marcado = Math.max(0, marcado - 1); pintar(); e.preventDefault(); }
+    if (e.key === 'Enter' && res[marcado]) { e.preventDefault(); alElegir(res[marcado]); }
+  });
+  l.addEventListener('click', e => { const d = e.target.closest('[data-i]'); if (d) alElegir(res[d.dataset.i]); });
+  cargarLectores().catch(() => {});
+  setTimeout(() => q.focus(), 30);
+}
+
+// ═════════════════════ Prestar ═════════════════════
+/** Buscador de libros por código, título o autor con lista desplegable. */
+function buscadorLibros(input, lista, fuente, alElegir) {
+  let res = [], marcado = 0, t;
+  const pintar = () => {
+    lista.style.display = res.length ? 'block' : 'none';
+    lista.innerHTML = res.map((r, i) => '<div class="' + (i === marcado ? 'sel' : '') + '" data-i="' + i + '">' + r.html + '</div>').join('');
+  };
+  input.addEventListener('input', () => {
+    clearTimeout(t);
+    t = setTimeout(async () => {
+      const v = input.value.trim();
+      res = v.length < 2 ? [] : (await fuente(v)).slice(0, 12);
+      marcado = 0; pintar();
+    }, 120);
+  });
+  input.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' && res.length) { marcado = Math.min(res.length - 1, marcado + 1); pintar(); e.preventDefault(); }
+    if (e.key === 'ArrowUp' && res.length) { marcado = Math.max(0, marcado - 1); pintar(); e.preventDefault(); }
+  });
+  lista.addEventListener('click', e => { const d = e.target.closest('[data-i]'); if (d) { const r = res[+d.dataset.i]; res = []; pintar(); alElegir(r); } });
+  return { elegidoConIntro: () => { if (res.length && lista.style.display !== 'none') { const r = res[marcado]; res = []; pintar(); alElegir(r); return true; } return false; },
+    cerrar: () => { res = []; pintar(); } };
+}
+
+/** Lee el código de un libro de lo escaneado (la dirección del QR o el código tal cual). */
+function codigoDeLectura(txt) {
+  txt = String(txt || '').trim();
+  const m = txt.match(/[?&]libro=([^&#]+)/);
+  return m ? decodeURIComponent(m[1]) : txt;
+}
+
+/** Escáner de QR con la cámara. continuo = sigue leyendo (para devolver muchos seguidos). */
+async function escanearQR(alLeer, continuo) {
+  abrirVentana('<h2>Escanear QR</h2><div style="position:relative;background:#000;border-radius:12px;overflow:hidden;aspect-ratio:4/3">' +
+    '<video id="qr-v" playsinline muted style="width:100%;height:100%;object-fit:cover"></video>' +
+    '<div style="position:absolute;inset:18%;border:3px solid rgba(255,255,255,.85);border-radius:14px;box-shadow:0 0 0 999px rgba(0,0,0,.25)"></div></div>' +
+    '<p id="qr-m" class="suave" style="text-align:center;margin:12px 0 0">Apunta la cámara a la etiqueta del libro…</p>' +
+    '<div class="acciones" style="justify-content:center"><button class="b sec" ' + on(() => cerrarVentana()) + '>Terminar</button></div>');
+  let flujo = null, parar = false, ultimo = '', cuando = 0;
+  S.alCerrarVentana = () => { parar = true; if (flujo) flujo.getTracks().forEach(t => t.stop()); };
+  try {
+    if (!window.jsQR) await new Promise((ok, mal) => { const sc = document.createElement('script'); sc.src = 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js'; sc.onload = ok; sc.onerror = mal; document.head.appendChild(sc); });
+    flujo = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment', width: { ideal: 1280 } }, audio: false });
+  } catch (e) {
+    $('#qr-m').innerHTML = msg('error', 'No se puede usar la cámara. Comprueba que has dado permiso al navegador para usarla.');
+    return;
+  }
+  if (parar) { flujo.getTracks().forEach(t => t.stop()); return; }
+  const v = $('#qr-v'); v.srcObject = flujo; await v.play().catch(() => {});
+  const c = document.createElement('canvas'), x = c.getContext('2d', { willReadFrequently: true });
+  const bucle = () => {
+    if (parar) return;
+    if (v.readyState >= 2 && v.videoWidth) {
+      const esc_ = Math.min(1, 640 / v.videoWidth);
+      c.width = v.videoWidth * esc_; c.height = v.videoHeight * esc_;
+      x.drawImage(v, 0, 0, c.width, c.height);
+      const r = jsQR(x.getImageData(0, 0, c.width, c.height).data, c.width, c.height, { inversionAttempts: 'dontInvert' });
+      if (r && r.data) {
+        const cod = codigoDeLectura(r.data);
+        if (cod !== ultimo || Date.now() - cuando > 3000) {
+          ultimo = cod; cuando = Date.now();
+          if (navigator.vibrate) navigator.vibrate(80);
+          if (!continuo) { cerrarVentana(); alLeer(cod); return; }
+          $('#qr-m').innerHTML = '<b>' + esc(cod) + '</b>…';
+          Promise.resolve(alLeer(cod)).then(t => { if (!parar && t) $('#qr-m').innerHTML = t; });
+        }
+      }
+    }
+    setTimeout(() => requestAnimationFrame(bucle), 120);
+  };
+  bucle();
+}
+
+function libroEnLista(x) {
+  return '<b>' + esc(x.titulo) + '</b> <span class="suave">· ' + esc(x.autor || '') + '</span><br><span class="peq">' + esc(x.codigo) + '</span> ' + etiqueta(x.estado);
+}
+
+// ═════════════════════ Prestar ═════════════════════
+function vistaPrestar() {
+  const hechos = [];
+  let lector = null, reservas = [];
+  $('#app').innerHTML =
+    '<h2>Prestar un libro</h2>' +
+    '<div class="tarjeta"><label>1. ¿Quién se lo lleva?</label><div id="p-lector"></div><div id="p-res"></div></div>' +
+    '<div class="tarjeta"><label>2. ¿Qué libro? <span class="suave">Escribe el código, el título o el autor, o escanea su QR</span></label>' +
+    '<div class="fila"><input id="p-cod" class="grande crece" placeholder="Código, título o autor…" autocomplete="off">' +
+    '<button class="b sec" id="p-qr">📷 Escanear QR</button><button class="b" id="p-btn">Prestar</button></div>' +
+    '<div class="lista-res" id="p-lista" style="display:none"></div><div id="p-libro"></div></div><div id="p-hechos"></div>';
+  const cod = $('#p-cod'), info = $('#p-libro');
+  api('prestamosYReservas').then(d => { reservas = d.reservas; if (lector) pintarReservas(); }).catch(() => {});
+
+  const pintarReservas = () => {
+    const r = reservas.filter(x => lector && x.lector === lector.id);
+    $('#p-res').innerHTML = r.length ? '<div class="msg info" style="margin-top:10px"><b>Tiene reservado:</b> ' + r.map(x => esc(x.titulo) + ' (' + esc(x.codigo) + ') <button class="b ok peq" ' + on(() => { cod.value = x.codigo; hacer(false); }) + '>Entregar ahora</button>').join(' · ') + '</div>' : '';
+  };
+  const elegir = x => {
+    lector = x;
+    $('#p-lector').innerHTML = '<div class="elegido"><div><b>' + esc(x.nombre) + '</b> · ' + esc(x.curso) +
+      '<div class="peq suave">' + x.libros + ' libro(s) en préstamo o reservados · máximo ' + S.info.ajustes.max_libros_alumno + '</div></div>' +
+      '<button class="b sec peq" ' + on(() => { lector = null; $('#p-res').innerHTML = ''; selectorLector($('#p-lector'), elegir); }) + '>Cambiar</button></div>';
+    pintarReservas();
+    cod.focus();
+  };
+  selectorLector($('#p-lector'), elegir);
+
+  const mostrarLibro = async v => {
+    try {
+      const l = await api('verLibro', v);
+      if (cod.value.trim() === v) info.innerHTML = '<p>' + etiqueta(l.estado) + ' <b>' + esc(l.titulo) + '</b> <span class="suave">· ' + esc(l.autor) + '</span>' + (l.reserva ? '<br><span class="peq">Reservado para ' + esc(l.reserva.nombre) + '</span>' : '') + (l.prestamo ? '<br><span class="peq">Prestado a ' + esc(l.prestamo.nombre) + '</span>' : '') + '</p>';
+    } catch (e) { if (cod.value.trim() === v) info.innerHTML = '<p class="peq suave">' + esc(textoError(e)) + '</p>'; }
+  };
+  const busc = buscadorLibros(cod, $('#p-lista'), async q => {
+    const cat = await cargarCatalogo();
+    const r = [];
+    cat.forEach(g => g.ejemplares.forEach(x => { if (x.codigo && x.estado !== 'Baja' && coincide(x.codigo + ' ' + x.titulo + ' ' + x.autor, q)) r.push(x); }));
+    r.sort((a, b) => (a.estado === 'Disponible' ? 0 : 1) - (b.estado === 'Disponible' ? 0 : 1));
+    return r.map(x => Object.assign({ html: libroEnLista(x) }, x));
+  }, x => { cod.value = x.codigo; info.innerHTML = '<p>' + etiqueta(x.estado) + ' <b>' + esc(x.titulo) + '</b> <span class="suave">· ' + esc(x.autor) + '</span></p>'; $('#p-btn').focus(); });
+
+  const hacer = async (forzar) => {
+    const v = codigoDeLectura(cod.value);
+    if (!lector) { aviso('Primero elige quién se lo lleva.'); return; }
+    if (!v) { cod.focus(); return; }
+    const btn = $('#p-btn');
+    try {
+      const r = await conBoton(btn, () => api('prestar', v, lector.id, !!forzar));
+      if (r.aviso) {
+        if (await confirmar(esc(r.aviso) + '<br><br>¿Prestar igualmente?', 'Prestar igualmente')) return hacer(true);
+        return;
+      }
+      lector.libros++;
+      reservas = reservas.filter(x => !(x.lector === lector.id && claveCod(x.codigo) === claveCod(r.codigo)));
+      elegir(lector);
+      hechos.unshift(r);
+      cod.value = ''; info.innerHTML = '';
+      cambiosHechos();
+      $('#p-hechos').innerHTML = '<h3>Préstamos hechos ahora</h3>' + hechos.map(h => msg('ok', '✓ <b>' + esc(h.titulo) + '</b> (' + esc(h.codigo) + ') → ' + esc(h.nombre) + '. Devolver antes del <b>' + fecha(h.limite) + '</b>')).join('');
+      aviso('Prestado a ' + r.nombre);
+    } catch (e) { info.innerHTML = msg('error', esc(textoError(e))); }
+  };
+  $('#p-btn').onclick = () => hacer(false);
+  $('#p-qr').onclick = () => escanearQR(c => { cod.value = c; busc.cerrar(); if (lector) hacer(false); else { mostrarLibro(c); aviso('Ahora elige quién se lo lleva.'); } });
+  cod.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); if (!busc.elegidoConIntro()) hacer(false); } });
+}
+function claveCod(c) { c = String(c || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); const m = c.match(/^([A-Z]+)0*(\d+)$/); return m ? m[1] + Number(m[2]) : c; }
+
+// ═════════════════════ Devolver ═════════════════════
+function vistaDevolver() {
+  const hechos = [];
+  let prestados = [];
+  $('#app').innerHTML = '<h2>Devolver un libro</h2><div class="tarjeta"><label>Código, título, autor o nombre del alumno · o escanea el QR</label>' +
+    '<div class="fila"><input id="d-cod" class="grande crece" placeholder="Código, título, autor o alumno…" autocomplete="off">' +
+    '<button class="b sec" id="d-qr">📷 Escanear QR</button><button class="b" id="d-btn">Devolver</button></div>' +
+    '<div class="lista-res" id="d-lista" style="display:none"></div><div id="d-msg"></div>' +
+    '<p class="peq suave" style="margin:8px 0 0">Con «Escanear QR» la cámara se queda abierta: puedes ir pasando los libros uno detrás de otro.</p></div><div id="d-hechos"></div>';
+  const cod = $('#d-cod');
+  const cargar = () => api('prestamosYReservas').then(d => { prestados = d.prestamos; }).catch(() => {});
+  cargar();
+  setTimeout(() => cod.focus(), 30);
+  const pintarHechos = () => {
+    $('#d-hechos').innerHTML = '<h3>Devueltos ahora (' + hechos.length + ')</h3>' + hechos.map(h => msg(h.retraso ? 'aviso' : 'ok', '✓ <b>' + esc(h.titulo) + '</b> (' + esc(h.codigo) + ') — ' + esc(h.nombre) + ', ' + esc(h.curso) + (h.retraso ? ' · <b>' + h.retraso + ' días de retraso</b>' : ''))).join('');
+  };
+  const devolver = async v => {
+    v = codigoDeLectura(v); if (!v) return;
+    try {
+      const r = await api('devolver', v);
+      hechos.unshift(r); cod.value = ''; $('#d-msg').innerHTML = ''; cambiosHechos();
+      prestados = prestados.filter(p => claveCod(p.codigo) !== claveCod(r.codigo));
+      pintarHechos();
+      aviso('Devuelto: ' + r.titulo);
+      return '<span style="color:var(--ok)">✓ Devuelto: <b>' + esc(r.titulo) + '</b> (' + esc(r.nombre) + ')</span>';
+    } catch (e) { $('#d-msg').innerHTML = msg('error', esc(textoError(e))); return '<span style="color:var(--error)">' + esc(textoError(e)) + '</span>'; }
+  };
+  const busc = buscadorLibros(cod, $('#d-lista'), async q => prestados.filter(p => coincide(p.codigo + ' ' + p.titulo + ' ' + p.nombre + ' ' + p.curso, q)).map(p =>
+    Object.assign({ html: '<b>' + esc(p.titulo) + '</b> <span class="peq">(' + esc(p.codigo) + ')</span><br><span class="peq suave">' + esc(p.nombre) + ' · ' + esc(p.curso) + ' · hasta el ' + fecha(p.limite) + (p.retraso ? ' · <b style="color:var(--error)">' + p.retraso + ' días tarde</b>' : '') + '</span>' }, p)),
+    p => devolver(p.codigo));
+  $('#d-btn').onclick = async () => { await conBoton($('#d-btn'), () => devolver(cod.value)); cod.focus(); };
+  $('#d-qr').onclick = () => escanearQR(c => devolver(c), true);
+  cod.addEventListener('keydown', async e => { if (e.key === 'Enter') { e.preventDefault(); if (!busc.elegidoConIntro()) await devolver(cod.value); cod.focus(); } });
+}
+
+// ═════════════════════ En préstamo y reservas ═════════════════════
+async function vistaPrestamos() {
+  $('#app').innerHTML = '<h2>Libros en préstamo</h2><div class="cargando">Cargando…</div>';
+  let d;
+  try { d = await api('prestamosYReservas'); } catch (e) { $('#app').innerHTML = msg('error', esc(textoError(e))); return; }
+  let filtro = '', soloRetraso = false;
+  const pintar = () => {
+    const ps = d.prestamos.filter(p => (!soloRetraso || p.retraso) && coincide(p.titulo + ' ' + p.codigo + ' ' + p.nombre + ' ' + p.curso, filtro));
+    const rs = d.reservas.filter(r => coincide(r.titulo + ' ' + r.codigo + ' ' + r.nombre + ' ' + r.curso, filtro));
+    const retrasados = d.prestamos.filter(p => p.retraso).length;
+    $('#pr-lista').innerHTML =
+      '<h3>Reservas pendientes de recoger (' + d.reservas.length + ')</h3>' +
+      (rs.length ? '<div class="tabla"><table><tr><th>Libro</th><th>Para</th><th class="ocultar-movil">Recoger antes del</th><th></th></tr>' + rs.map(r =>
+        '<tr><td><b>' + esc(r.titulo) + '</b><div class="peq suave">' + esc(r.codigo) + '</div></td><td>' + esc(r.nombre) + '<div class="peq suave">' + esc(r.curso) + '</div></td><td class="ocultar-movil">' + fecha(r.caduca) + '</td><td><div class="fila">' +
+        '<button class="b ok peq" ' + on(async (e, b) => { try { await conBoton(b, () => api('prestar', r.codigo, r.lector, true)); cambiosHechos(); aviso('Entregado a ' + r.nombre); vistaPrestamos(); } catch (er) { aviso(textoError(er)); } }) + '>✓ Recogido · prestar</button>' +
+        '<button class="b peligro peq" ' + on(async (e, b) => { if (await confirmar('¿Cancelar la reserva de «' + esc(r.titulo) + '» para ' + esc(r.nombre) + '?', 'Cancelar reserva')) { try { await api('cancelarReserva', r.id); cambiosHechos(); vistaPrestamos(); } catch (er) { aviso(textoError(er)); } } }) + '>Cancelar</button>' +
+        '</div></td></tr>').join('') + '</table></div>' : '<p class="suave">No hay reservas pendientes.</p>') +
+      '<h3>Préstamos (' + d.prestamos.length + (retrasados ? ', <span style="color:var(--error)">' + retrasados + ' con retraso</span>' : '') + ')</h3>' +
+      (ps.length ? '<div class="tabla"><table><tr><th>Libro</th><th>Lector</th><th class="ocultar-movil">Prestado</th><th>Devolver antes del</th><th></th></tr>' + ps.map(p =>
+        '<tr><td><b>' + esc(p.titulo) + '</b><div class="peq suave">' + esc(p.codigo) + '</div></td><td>' + esc(p.nombre) + '<div class="peq suave">' + esc(p.curso) + '</div></td><td class="ocultar-movil">' + fecha(p.desde) + '</td><td>' + fecha(p.limite) + (p.retraso ? '<br><span class="etq Prestado">' + p.retraso + ' días tarde</span>' : '') + '</td><td><div class="fila">' +
+        '<button class="b peq" ' + on(async (e, b) => { try { await conBoton(b, () => api('devolver', p.codigo)); cambiosHechos(); aviso('Devuelto'); vistaPrestamos(); } catch (er) { aviso(textoError(er)); } }) + '>Devuelto</button>' +
+        '<button class="b sec peq" ' + on(async (e, b) => { try { const f = await conBoton(b, () => api('renovar', p.id)); aviso('Renovado hasta el ' + fecha(f)); vistaPrestamos(); } catch (er) { aviso(textoError(er)); } }) + '>Renovar</button>' +
+        '</div></td></tr>').join('') + '</table></div>' : '<p class="suave">' + (d.prestamos.length ? 'Ningún préstamo coincide con la búsqueda.' : 'No hay libros prestados.') + '</p>');
+  };
+  $('#app').innerHTML = '<h2>Libros en préstamo</h2><div class="fila"><input id="pr-q" class="crece" placeholder="Buscar por libro, alumno o curso…"><label class="fila" style="margin:0"><input type="checkbox" id="pr-r"> Solo con retraso</label></div><div id="pr-lista"></div>';
+  $('#pr-q').addEventListener('input', e => { filtro = e.target.value; pintar(); });
+  $('#pr-r').addEventListener('change', e => { soloRetraso = e.target.checked; pintar(); });
+  pintar();
+}
+
+// ═════════════════════ Catálogo ═════════════════════
+async function vistaCatalogo() {
+  const i = S.info;
+  $('#app').innerHTML = '<h2>Catálogo</h2>' +
+    (i.rol === 'visitante' && !PASE ? msg('info', 'Para reservar un libro, <a href="#" ' + on(e => { e.preventDefault(); mostrarAcceso(); }) + '>entra con tu cuenta del colegio</a>.') : '') +
+    '<div class="tarjeta"><div class="fila"><input id="c-q" class="crece" placeholder="Busca por título, autor, editorial…" autocomplete="off">' +
+    '<select id="c-e" style="width:auto"><option value="">Todas las etapas</option>' + i.etapas.map(e => '<option>' + esc(e) + '</option>').join('') + '</select>' +
+    '<label class="fila" style="margin:0"><input type="checkbox" id="c-d"> Solo disponibles</label>' +
+    '<span class="vistas"><button id="v-l">' + ico('lista') + 'Lista</button><button id="v-e">' + ico('estanteria') + 'Estantería</button></span></div></div><div id="c-res" class="cargando">Cargando catálogo…</div>';
+  let vista = leerPref('vista', 'lista');
+  const marcarVista = () => { $('#v-l').classList.toggle('activo', vista === 'lista'); $('#v-e').classList.toggle('activo', vista === 'estanteria'); };
+  marcarVista();
+  let cat;
+  try { cat = await cargarCatalogo(); } catch (e) { $('#c-res').innerHTML = msg('error', esc(textoError(e))); return; }
+  const pg = crearPaginas(() => { pintar(); $('#c-res').scrollIntoView({ block: 'start' }); });
+  const pintar = () => {
+    const q = $('#c-q').value, et = $('#c-e').value, solo = $('#c-d').checked;
+    const r = cat.filter(g => (!et || g.etapa === et) && (!solo || g.ejemplares.some(x => x.estado === 'Disponible')) &&
+      (!q || coincide(g.titulo + ' ' + g.autor + ' ' + g.editorial + ' ' + g.genero + ' ' + g.ejemplares.map(x => x.codigo).join(' '), q)));
+    const caja = $('#c-res'); caja.className = '';
+    const vis = pg.trozo(r);
+    const cuerpo = !r.length ? '<p class="suave" style="padding:14px 0">No hay resultados.</p>'
+      : vista === 'estanteria' ? estanteria(vis) : vis.map(grupoCatalogo).join('');
+    caja.innerHTML = pg.html() + '<div class="tarjeta" style="padding:' + (vista === 'estanteria' ? '18px 10px' : '0 16px') + '">' + cuerpo + '</div>' + pg.html();
+  };
+  let t; ['#c-q', '#c-e', '#c-d'].forEach(s => $(s).addEventListener(s === '#c-q' ? 'input' : 'change', () => { clearTimeout(t); pg.reset(); t = setTimeout(pintar, 150); }));
+  $('#v-l').onclick = () => { vista = 'lista'; guardarPref('vista', vista); marcarVista(); pintar(); };
+  $('#v-e').onclick = () => { vista = 'estanteria'; guardarPref('vista', vista); marcarVista(); pintar(); };
+  pintar();
+  $('#c-q').focus();
+}
+
+function grupoCatalogo(g) {
+  return '<div class="libro"><div class="izq"><span style="cursor:pointer" ' + on(() => fichaGrupo(g)) + '>' + portadaHtml(g, 'mini') + '</span><div><div class="t">' + esc(g.titulo) + '</div><div class="suave peq">' + esc(g.autor) + (g.editorial ? ' · ' + esc(g.editorial) : '') + '</div>' +
+    '<div style="margin-top:4px">' + (g.etapa ? '<span class="etq">' + esc(g.etapa) + '</span> ' : '') + (g.genero ? '<span class="etq">' + esc(g.genero) + '</span>' : '') + '</div></div></div>' +
+    '<div style="text-align:right;min-width:150px">' + accionesGrupo(g) + '</div></div>';
+}
+
+function fichaGrupo(g) {
+  abrirVentana('<div class="ficha-g">' + portadaHtml(g, 'grande') + '<div><h2>' + esc(g.titulo) + '</h2><p class="suave">' + esc(g.autor) + (g.editorial ? ' · ' + esc(g.editorial) : '') + '</p>' +
+    '<p>' + (g.etapa ? '<span class="etq">' + esc(g.etapa) + '</span> ' : '') + (g.genero ? '<span class="etq">' + esc(g.genero) + '</span>' : '') + '</p>' +
+    '<div id="sinop"></div><div style="text-align:left">' + accionesGrupo(g).replace(/justify-content:flex-end/g, 'justify-content:flex-start').replace(/text-align:right/g, 'text-align:left') + '</div></div></div>');
+  const codigos = g.ejemplares.map(x => x.codigo).filter(String);
+  if (codigos.length) api('sinopsisDe', codigos).then(t => { const d = $('#sinop'); if (d && t) d.innerHTML = '<div class="sinopsis">' + esc(t) + '</div>'; }).catch(() => {});
+}
+
+function accionesGrupo(g) {
+  const disp = g.ejemplares.filter(x => x.estado === 'Disponible').length;
+  const total = g.ejemplares.filter(x => x.estado !== 'Baja').length;
+  let derecha = '';
+  if (esGestor()) {
+    derecha = '<div class="ejemplares">' + g.ejemplares.map(x =>
+      '<div class="fila" style="justify-content:flex-end"><span class="peq">' + esc(x.codigo || 'sin código') + '</span> ' + etiqueta(x.estado) +
+      '<button class="b sec peq" ' + on(() => fichaLibro(x.codigo, x)) + '>Ficha</button></div>' +
+      (x.prestamo ? '<div class="peq suave" style="text-align:right">' + esc(x.prestamo.nombre) + ' · hasta ' + fecha(x.prestamo.limite) + '</div>' : '') +
+      (x.reserva ? '<div class="peq suave" style="text-align:right">Reservado: ' + esc(x.reserva.nombre) + '</div>' : '')).join('') + '</div>';
+  } else {
+    const vuelve = g.ejemplares.filter(x => x.vuelve).map(x => x.vuelve).sort()[0];
+    derecha = disp ? '<span class="etq Disponible">' + disp + ' de ' + total + ' disponible' + (disp > 1 ? 's' : '') + '</span>'
+      : '<span class="etq Prestado">No disponible</span>' + (vuelve ? '<div class="peq suave">Vuelve hacia el ' + fecha(vuelve) + '</div>' : '');
+    if (S.info.rol === 'visitante' && !PASE && disp) {
+      derecha += '<div style="margin-top:6px"><button class="b sec peq" ' + on(() => { cerrarVentana(); mostrarAcceso(); }) + '>Entra para reservar</button></div>';
+    }
+    if (S.info.rol === 'lector' && S.info.ajustes.reservas_alumnado && disp) {
+      derecha += '<div style="margin-top:6px"><button class="b peq" ' + on((e, b) => { cerrarVentana(); reservarGrupo(g, b); }) + '>Reservar</button></div>';
+    }
+  }
+  return derecha;
+}
+
+async function reservarGrupo(g, btn) {
+  if (S.vistaPrevia) {
+    abrirVentana('<h2>Vista previa</h2>' + msg('info', 'Aquí el alumno confirmaría la reserva de <b>' + esc(g.titulo) + '</b> y tendría ' + S.info.ajustes.dias_reserva + ' días para recogerlo. En la vista previa no se reserva de verdad.'));
+    return;
+  }
+  if (!await confirmar('¿Reservar «' + esc(g.titulo) + '»? Tendrás ' + S.info.ajustes.dias_reserva + ' días para recogerlo en la biblioteca.', 'Reservar')) return;
+  try {
+    const r = await api('reservar', g.ejemplares.filter(x => x.estado === 'Disponible').map(x => x.codigo));
+    cambiosHechos();
+    abrirVentana('<h2>¡Reservado!</h2>' + msg('ok', 'Has reservado <b>' + esc(r.titulo) + '</b>.') + '<p>Pasa por la biblioteca a recogerlo antes del <b>' + fecha(r.caduca) + '</b>. Si no, la reserva se anulará.</p><div class="acciones"><button class="b" ' + on(() => { cerrarVentana(); ir('mis'); }) + '>Ver mis libros</button></div>');
+  } catch (e) { abrirVentana('<h2>No se ha podido reservar</h2>' + msg('error', esc(textoError(e)))); }
+  if (S.pestana === 'catalogo') vistaCatalogo();
+  if (S.pestana === 'inicio') vistaInicio();
+}
+
+// ═════════════════════ Ficha de un libro (también al escanear el QR) ═════════════════════
+async function fichaLibro(codigo) {
+  abrirVentana('<div class="cargando">Buscando el libro…</div>');
+  let l;
+  try { l = await api('verLibro', codigo); if (S.vistaPrevia) { delete l.prestamo; delete l.reserva; delete l.revisar; delete l.observaciones; } } catch (e) { $('#contenido').innerHTML = '<h2>Libro</h2>' + msg('error', esc(textoError(e))); return; }
+  let html = '<div class="ficha-g">' + portadaHtml({ titulo: l.titulo, autor: l.autor, etapa: l.etapa, portada: l.portada, ejemplares: [l] }, 'grande') + '<div><h2>' + esc(l.titulo) + '</h2><p class="suave">' + esc(l.autor) + (l.editorial ? ' · ' + esc(l.editorial) : '') + '</p>' +
+    '<p>' + etiqueta(l.estado) + ' <span class="etq">' + esc(l.codigo) + '</span> ' + (l.etapa ? '<span class="etq">' + esc(l.etapa) + '</span>' : '') + '</p>' +
+    (l.sinopsis ? '<div class="sinopsis">' + esc(l.sinopsis) + '</div>' : '') + '</div></div>';
+  if (!esGestor()) {
+    if (l.estado === 'Disponible' && S.info.rol === 'visitante' && !PASE) {
+      html += '<div class="acciones"><button class="b" ' + on(() => { cerrarVentana(); mostrarAcceso(); }) + '>Entra para reservarlo</button></div>';
+    } else if (l.estado === 'Disponible' && S.info.rol === 'lector' && S.info.ajustes.reservas_alumnado) {
+      html += '<div class="acciones"><button class="b" ' + on((e, b) => { cerrarVentana(); reservarGrupo({ titulo: l.titulo, ejemplares: [l] }, b); }) + '>Reservar este libro</button></div>';
+    } else if (l.estado !== 'Disponible') {
+      html += '<p>Ahora mismo no está disponible' + (l.vuelve ? '; debería volver hacia el ' + fecha(l.vuelve) : '') + '.</p>';
+    }
+    $('#contenido').innerHTML = html; return;
+  }
+  if (l.prestamo) html += msg('aviso', 'Prestado a <b>' + esc(l.prestamo.nombre) + '</b> (' + esc(l.prestamo.curso) + ') desde el ' + fecha(l.prestamo.desde) + '. Devolver antes del <b>' + fecha(l.prestamo.limite) + '</b>.');
+  if (l.reserva) html += msg('info', 'Reservado para <b>' + esc(l.reserva.nombre) + '</b> (' + esc(l.reserva.curso) + ') hasta el ' + fecha(l.reserva.caduca) + '.');
+  if (l.revisar) html += msg('aviso', '⚠ ' + esc(l.revisar));
+  html += '<div class="acciones">';
+  if (l.estado === 'Prestado') {
+    html += '<button class="b" ' + on(async (e, b) => { try { await conBoton(b, () => api('devolver', l.codigo)); cambiosHechos(); aviso('Devuelto'); fichaLibro(l.codigo); } catch (er) { aviso(textoError(er)); } }) + '>Registrar devolución</button>';
+    html += '<button class="b sec" ' + on(async (e, b) => { try { const f = await conBoton(b, () => api('renovar', l.prestamo.id)); aviso('Renovado hasta el ' + fecha(f)); fichaLibro(l.codigo); } catch (er) { aviso(textoError(er)); } }) + '>Renovar</button>';
+  }
+  if (l.estado === 'Reservado') {
+    html += '<button class="b ok" ' + on(async (e, b) => { try { await conBoton(b, () => api('prestar', l.codigo, l.reserva.lector, true)); cambiosHechos(); aviso('Entregado a ' + l.reserva.nombre); fichaLibro(l.codigo); } catch (er) { aviso(textoError(er)); } }) + '>Entregar a ' + esc(l.reserva.nombre.split(' ')[0]) + '</button>';
+    html += '<button class="b peligro" ' + on(async () => { try { await api('cancelarReserva', l.reserva.id); cambiosHechos(); fichaLibro(l.codigo); } catch (er) { aviso(textoError(er)); } }) + '>Cancelar reserva</button>';
+  }
+  if (l.estado === 'Disponible') {
+    html += '<button class="b" ' + on(() => elegirParaLibro(l, 'prestar')) + '>Prestar…</button>';
+    html += '<button class="b sec" ' + on(() => elegirParaLibro(l, 'reservar')) + '>Reservar para…</button>';
+  }
+  html += '<button class="b sec" ' + on(() => editarLibro(l)) + '>Editar</button>';
+  html += '<button class="b sec" ' + on(() => ventanaQR(l)) + '>Etiqueta QR</button></div><div id="f-extra"></div>';
+  $('#contenido').innerHTML = html;
+}
+
+function elegirParaLibro(l, que) {
+  $('#f-extra').innerHTML = '<label>' + (que === 'prestar' ? '¿A quién se lo prestas?' : '¿Para quién es la reserva?') + '</label><div id="f-sel"></div>';
+  selectorLector($('#f-sel'), async x => {
+    try {
+      if (que === 'prestar') {
+        let r = await api('prestar', l.codigo, x.id, false);
+        if (r.aviso) { if (!await confirmar(esc(r.aviso) + '<br><br>¿Prestar igualmente?', 'Prestar igualmente')) return; r = await api('prestar', l.codigo, x.id, true); }
+        aviso('Prestado a ' + x.nombre + ' hasta el ' + fecha(r.limite));
+      } else {
+        const r = await api('reservarPara', l.codigo, x.id);
+        aviso('Reservado para ' + x.nombre + ' hasta el ' + fecha(r.caduca));
+      }
+      cambiosHechos(); fichaLibro(l.codigo);
+    } catch (e) { $('#f-extra').insertAdjacentHTML('beforeend', msg('error', esc(textoError(e)))); }
+  });
+}
+
+// ═════════════════════ Ayuda ═════════════════════
+function vistaAyuda(cual) {
+  const gestor = esGestor();
+  cual = cual || (gestor ? 'gestion' : 'alumnado');
+  const pdf = cual === 'gestion' ? 'guia-gestion.pdf' : 'guia-alumnado.pdf';
+  $('#app').innerHTML = '<h2>Ayuda</h2>' +
+    (gestor ? '<div class="subnav"><button class="' + (cual === 'gestion' ? 'activo' : '') + '" ' + on(() => vistaAyuda('gestion')) + '>Guía de gestión</button>' +
+      '<button class="' + (cual === 'alumnado' ? 'activo' : '') + '" ' + on(() => vistaAyuda('alumnado')) + '>Guía del alumnado</button></div>' : '') +
+    '<p><button class="b sec" ' + on(() => window.open(pdf, '_blank', 'noopener')) + '>' + ico('marcador') + ' Descargar en PDF</button></p>' +
+    '<div class="guia">' + $('#t-guia-' + cual).innerHTML + '</div>';
+}
+
+// ═════════════════════ Mis libros (alumnado) ═════════════════════
+async function vistaMisLibros() {
+  $('#app').innerHTML = '<h2>Mis libros</h2><div class="cargando">Cargando…</div>';
+  let d;
+  try { d = S.vistaPrevia ? { prestamos: [], reservas: [] } : await api('misLibros'); } catch (e) { $('#app').innerHTML = msg('error', esc(textoError(e))); return; }
+  $('#app').innerHTML = '<h2>Mis libros</h2>' +
+    '<div class="tarjeta"><h3 style="margin-top:0">Libros que tengo</h3>' + (d.prestamos.length ? d.prestamos.map(p =>
+      '<div class="libro"><div><div class="t">' + esc(p.titulo) + '</div><div class="peq suave">Desde el ' + fecha(p.desde) + '</div></div><div style="text-align:right">' +
+      (p.retraso ? '<span class="etq Prestado">Tenías que devolverlo el ' + fecha(p.limite) + '</span>' : '<span class="etq">Devolver antes del ' + fecha(p.limite) + '</span>') + '</div></div>').join('') : '<p class="suave">No tienes ningún libro ahora mismo.</p>') + '</div>' +
+    '<div class="tarjeta"><h3 style="margin-top:0">Mis reservas</h3>' + (d.reservas.length ? d.reservas.map(r =>
+      '<div class="libro"><div><div class="t">' + esc(r.titulo) + '</div><div class="peq suave">Recógelo en la biblioteca antes del ' + fecha(r.caduca) + '</div></div>' +
+      '<div><button class="b peligro peq" ' + on(async () => { if (await confirmar('¿Anular tu reserva de «' + esc(r.titulo) + '»?', 'Anular')) { try { await api('cancelarReserva', r.id); cambiosHechos(); vistaMisLibros(); } catch (e) { aviso(textoError(e)); } } }) + '>Anular</button></div></div>').join('') : '<p class="suave">No tienes reservas.</p>') + '</div>' +
+    '<p class="suave peq">Puedes tener hasta ' + S.info.ajustes.max_libros_alumno + ' libros a la vez entre préstamos y reservas. Cada préstamo dura ' + S.info.ajustes.dias_prestamo + ' días.</p>';
+}
+
+// ═════════════════════ Administración ═════════════════════
+function vistaAdmin() {
+  const subs = [['lectores', 'Alumnado'], ['ajustes', 'Ajustes'], ['historial', 'Historial']];
+  const titulo = { libros: 'Libros', etiquetas: 'Etiquetas y tejuelos', revision: 'Revisión por título' }[S.sub];
+  $('#app').innerHTML = '<h2>' + (titulo || 'Administración') + '</h2>' +
+    (titulo ? '' : '<div class="subnav">' + subs.map(s => '<button class="' + (S.sub === s[0] ? 'activo' : '') + '" ' + on(() => { S.sub = s[0]; vistaAdmin(); }) + '>' + s[1] + '</button>').join('') + '</div>') +
+    '<div id="adm"><div class="cargando">Cargando…</div></div>';
+  ({ libros: admLibros, etiquetas: admEtiquetas, revision: admRevision, lectores: admLectores, gestores: admGestores, ajustes: admAjustes, historial: admHistorial })[S.sub]();
+  marcarMenu();
+}
+
+// ───── Libros ─────
+async function admLibros() {
+  let cat;
+  try { cat = await cargarCatalogo(); } catch (e) { $('#adm').innerHTML = msg('error', esc(textoError(e))); return; }
+  const ejemplares = [];
+  cat.forEach(g => g.ejemplares.forEach(x => ejemplares.push(x)));
+  const nAvisos = ejemplares.filter(x => x.revisar).length;
+  $('#adm').innerHTML =
+    '<div class="tarjeta"><div class="fila"><input id="al-q" class="crece" placeholder="Buscar por código, título, autor, ISBN…" autocomplete="off">' +
+    '<select id="al-e" style="width:auto"><option value="">Todas las etapas</option>' + S.info.etapas.map(e => '<option>' + esc(e) + '</option>').join('') + '<option value="-">Sin etapa</option></select>' +
+    '<select id="al-f" style="width:auto"><option value="">Todos</option><option value="avisos">Con avisos (' + nAvisos + ')</option><option value="provisional">Código provisional</option><option value="tejuelo">Pendientes de tejuelo</option><option value="baja">Dados de baja</option></select></div>' +
+    '<div class="fila" style="margin-top:10px"><button class="b" ' + on(() => editarLibro(null)) + '>+ Nuevo libro</button></div></div>' +
+    '<div class="cuadros">' +
+    '<div class="tarjeta"><h3 class="nivel-t" style="--c:#009abb">Búsqueda automática</h3><p class="peq suave" style="margin-top:0">Busca por ISBN en Google Books y Open Library los datos que falten.</p>' +
+    '<div class="fila"><button class="b sec" id="al-por">' + ico('estanteria') + ' Buscar portadas</button><button class="b sec" id="al-sin">' + ico('lista') + ' Buscar sinopsis</button></div></div>' +
+    '<div class="tarjeta"><h3 class="nivel-t" style="--c:#8a9400">Revisión por título</h3><p class="peq suave" style="margin-top:0">Para los libros sin ISBN o sin datos: busca por título y autor, y tú eliges la opción buena con un clic.</p>' +
+    '<div class="fila"><button class="b" ' + on(() => irAdmin('revision')) + '>' + ico('buscar') + ' Empezar la revisión</button></div></div>' +
+    '<div class="tarjeta"><h3 class="nivel-t" style="--c:#ee712a">Etiquetas y tejuelos</h3><p class="peq suave" style="margin-top:0">Para imprimir los QR y los tejuelos hay una pantalla propia.</p>' +
+    '<div class="fila"><button class="b sec" ' + on(() => irAdmin('etiquetas')) + '>' + ico('qr') + ' Ir a Etiquetas y tejuelos</button></div></div>' +
+    '</div><div id="al-res"></div>';
+  if (S.filtroLibros) { $('#al-f').value = S.filtroLibros; S.filtroLibros = ''; }
+  $('#al-por').onclick = () => busquedaAutomatica($('#al-por'), 'buscarPortadas', 'portadas', 'Los libros sin portada se ven con una portada dibujada. Puedes poner una a mano al editar el libro.');
+  $('#al-sin').onclick = () => busquedaAutomatica($('#al-sin'), 'buscarSinopsis', 'sinopsis', 'Puedes escribir o pegar la sinopsis a mano al editar el libro.');
+
+  const pg = crearPaginas(() => { pintar(); $('#al-res').scrollIntoView({ block: 'start' }); });
+  const filtrar = () => {
+    const q = $('#al-q').value, et = $('#al-e').value, f = $('#al-f').value;
+    return ejemplares.filter(x =>
+      (!et || (et === '-' ? !x.etapa : x.etapa === et)) &&
+      (!f || (f === 'avisos' && x.revisar) || (f === 'provisional' && /PROVISIONAL/i.test(x.revisar)) || (f === 'tejuelo' && pendienteTejuelo(x)) || (f === 'baja' && x.estado === 'Baja')) &&
+      (!q || coincide(x.codigo + ' ' + x.titulo + ' ' + x.autor + ' ' + x.editorial + ' ' + x.isbn + ' ' + x.revisar, q)));
+  };
+  const pintar = () => {
+    const r = filtrar(), vis = pg.trozo(r);
+    $('#al-res').innerHTML = '<p class="suave peq" style="margin-bottom:0">' + r.length + ' ejemplar(es). Pulsa en uno para verlo o corregirlo.</p>' + pg.html() + '<div class="tabla"><table><tr><th>Código</th><th>Título</th><th class="ocultar-movil">Autor</th><th class="ocultar-movil">Etapa</th><th>Estado</th></tr>' +
+      vis.map(x => '<tr class="clic" ' + on(() => editarLibro(x)) + '><td style="white-space:nowrap">' + esc(x.codigo || '—') + '</td><td>' + esc(x.titulo) + (x.revisar ? '<div><span class="etq aviso">⚠ ' + esc(x.revisar.length > 70 ? x.revisar.slice(0, 70) + '…' : x.revisar) + '</span></div>' : '') + '</td><td class="ocultar-movil">' + esc(x.autor) + '</td><td class="ocultar-movil">' + esc(x.etapa) + '</td><td>' + etiqueta(x.estado) + '</td></tr>').join('') +
+      '</table></div>' + pg.html();
+  };
+  let t; ['#al-q', '#al-e', '#al-f'].forEach(s => $(s).addEventListener(s === '#al-q' ? 'input' : 'change', () => { clearTimeout(t); pg.reset(); t = setTimeout(pintar, 150); }));
+  pintar();
+}
+
+async function busquedaAutomatica(b, funcion, que, nota) {
+  const texto = b.innerHTML;
+  let ok = 0, total = 0, saltar = [], error = '';
+  b.disabled = true;
+  try {
+    for (let vuelta = 0; vuelta < 80; vuelta++) {
+      b.textContent = 'Buscando ' + que + '… ' + ok + ' encontradas de ' + total;
+      const r = await api(funcion, vuelta === 0, saltar);
+      ok += r.encontrados; total += r.buscados; saltar = saltar.concat(r.fallidas || []);
+      if (r.error) { error = r.error; break; }
+      if (!r.quedan || !r.buscados) break;
+    }
+    cambiosHechos();
+    abrirVentana('<h2>Búsqueda de ' + que + '</h2>' + (error && !total ? msg('error', esc(error)) :
+      msg('ok', '<b>' + ok + '</b> ' + que + ' encontradas de <b>' + total + '</b> libros con ISBN.') +
+      (saltar.length ? msg('aviso', saltar.length + ' libros no se han podido consultar ahora; pulsa el botón otra vez más tarde para reintentarlos.') : '')) +
+      '<p class="peq suave">' + nota + '</p>');
+  } catch (e) { aviso(textoError(e)); }
+  finally { b.disabled = false; b.innerHTML = texto; }
+}
+
+function pendienteTejuelo(x) { return /poner tejuelo/i.test(x.revisar || '') && !/PROVISIONAL/i.test(x.revisar || ''); }
+function numCodigo(c) { const m = String(c || '').match(/(\d+)\s*$/); return m ? Number(m[1]) : null; }
+
+async function admEtiquetas() {
+  let cat;
+  try { cat = await cargarCatalogo(); } catch (e) { $('#adm').innerHTML = msg('error', esc(textoError(e))); return; }
+  const todos = [];
+  cat.forEach(g => g.ejemplares.forEach(x => { if (x.codigo && x.estado !== 'Baja') todos.push(x); }));
+  todos.sort((a, b) => String(a.codigo).localeCompare(String(b.codigo), 'es', { numeric: true }));
+  const nPend = todos.filter(pendienteTejuelo).length;
+  const nProv = todos.filter(x => /PROVISIONAL/i.test(x.revisar || '')).length;
+  const quitados = new Set();
+  $('#adm').innerHTML =
+    '<div class="tarjeta"><h3 class="nivel-t" style="--c:#ee712a">1 · Elige los libros</h3>' +
+    '<div class="fila"><select id="et-que" style="width:auto"><option value="pend">Pendientes de tejuelo (' + nPend + ')</option><option value="todos">Todos los libros</option></select>' +
+    '<select id="et-e" style="width:auto"><option value="">Todas las etapas</option>' + S.info.etapas.map(e => '<option>' + esc(e) + '</option>').join('') + '</select>' +
+    '<span class="fila" style="gap:6px">Del nº <input id="et-d" type="number" min="0" style="width:90px"> al <input id="et-h" type="number" min="0" style="width:90px"></span>' +
+    '<input id="et-q" class="crece" placeholder="Buscar título o código…"></div>' +
+    (nProv ? '<p class="peq suave" style="margin:10px 0 0">Los ' + nProv + ' libros con código <b>provisional</b> no aparecen como pendientes: confirma antes su etapa en Libros.</p>' : '') + '</div>' +
+    '<div class="tarjeta"><h3 class="nivel-t" style="--c:#009abb">2 · Imprime</h3><p class="peq suave" style="margin-top:0">En papel de pegatinas A4. Al imprimir, elige «Tamaño real / 100 %».</p>' +
+    '<div class="fila"><button class="b" id="et-qr">' + ico('qr') + ' Etiquetas QR</button><button class="b" id="et-tej">' + ico('marcador') + ' Tejuelos</button></div></div>' +
+    '<div class="tarjeta"><h3 class="nivel-t" style="--c:#8a9400">3 · Cuando estén pegados</h3><p class="peq suave" style="margin-top:0">Así dejan de salir como pendientes.</p>' +
+    '<div class="fila"><button class="b ok" id="et-ok">✓ Marcar como puestos</button></div></div>' +
+    '<div id="et-res"></div>';
+  const filtrar = () => {
+    const que = $('#et-que').value, e = $('#et-e').value, d = $('#et-d').value, h = $('#et-h').value, q = $('#et-q').value;
+    return todos.filter(x => (que === 'todos' || pendienteTejuelo(x)) && (!e || x.etapa === e) &&
+      (d === '' || (numCodigo(x.codigo) !== null && numCodigo(x.codigo) >= Number(d))) && (h === '' || (numCodigo(x.codigo) !== null && numCodigo(x.codigo) <= Number(h))) &&
+      (!q || coincide(x.codigo + ' ' + x.titulo, q)));
+  };
+  const elegidos = () => filtrar().filter(x => !quitados.has(x.fila));
+  const pintar = () => {
+    const r = filtrar(), n = r.filter(x => !quitados.has(x.fila)).length;
+    $('#et-qr').innerHTML = ico('qr') + ' Etiquetas QR (' + n + ')';
+    $('#et-tej').innerHTML = ico('marcador') + ' Tejuelos (' + n + ')';
+    $('#et-ok').textContent = '✓ Marcar como puestos (' + n + ')';
+    $('#et-res').innerHTML = '<p class="suave peq">' + n + ' de ' + r.length + ' libros marcados. Quita la marca a los que no quieras imprimir.</p>' +
+      '<div class="tabla"><table><tr><th style="width:36px"><input type="checkbox" id="et-todos" ' + (n === r.length && n ? 'checked' : '') + '></th><th>Código</th><th>Título</th><th class="ocultar-movil">Etapa</th></tr>' +
+      r.slice(0, 500).map(x => '<tr><td><input type="checkbox" data-f="' + x.fila + '" ' + (quitados.has(x.fila) ? '' : 'checked') + '></td><td style="white-space:nowrap">' + tejueloHtml(x, 'mini-tej') + ' ' + esc(x.codigo) + '</td><td>' + esc(x.titulo) + '</td><td class="ocultar-movil">' + esc(x.etapa) + '</td></tr>').join('') +
+      '</table></div>' + (r.length > 500 ? '<p class="peq suave">Se muestran los 500 primeros; usa los filtros para afinar.</p>' : '');
+  };
+  $('#et-res').addEventListener('change', e => {
+    const c = e.target;
+    if (c.id === 'et-todos') { filtrar().forEach(x => c.checked ? quitados.delete(x.fila) : quitados.add(x.fila)); }
+    else if (c.dataset.f) { const f = Number(c.dataset.f); c.checked ? quitados.delete(f) : quitados.add(f); }
+    pintar();
+  });
+  let t; ['#et-que', '#et-e', '#et-d', '#et-h', '#et-q'].forEach(sel => $(sel).addEventListener('input', () => { clearTimeout(t); t = setTimeout(pintar, 150); }));
+  const comprobar = max => { const r = elegidos(); if (!r.length) { aviso('No hay ningún libro marcado.'); return null; } if (r.length > max) { aviso('Son ' + r.length + '. Imprime como máximo ' + max + ' de una vez (usa el rango de números).'); return null; } return r; };
+  $('#et-qr').onclick = () => { const r = comprobar(300); if (r) imprimirEtiquetas(r); };
+  $('#et-tej').onclick = () => { const r = comprobar(500); if (r) imprimirTejuelos(r); };
+  $('#et-ok').onclick = async () => {
+    const r = elegidos().filter(pendienteTejuelo);
+    if (!r.length) return aviso('Ninguno de los marcados estaba pendiente.');
+    if (!await confirmar('¿Marcar ' + r.length + ' libro(s) como «tejuelo puesto»? Dejarán de salir como pendientes.', 'Marcar como puestos')) return;
+    try { await api('marcarTejuelosPuestos', r.map(x => x.fila)); aviso(r.length + ' libros marcados como puestos'); await cambiosHechos(); admEtiquetas(); }
+    catch (e) { aviso(textoError(e)); }
+  };
+  pintar();
+}
+
+function isbnOk(i) {
+  i = String(i || '').replace(/[^0-9Xx]/g, '').toUpperCase();
+  if (/^\d{9}[\dX]$/.test(i)) { let s = 0; for (let k = 0; k < 10; k++) s += (10 - k) * (i[k] === 'X' ? 10 : +i[k]); return s % 11 === 0; }
+  if (/^\d{13}$/.test(i)) { let s = 0; for (let k = 0; k < 13; k++) s += +i[k] * (k % 2 ? 3 : 1); return s % 10 === 0; }
+  return false;
+}
+
+async function admRevision() {
+  let cat;
+  try { cat = await cargarCatalogo(); } catch (e) { $('#adm').innerHTML = msg('error', esc(textoError(e))); return; }
+  const info = g => {
+    const v = g.ejemplares.filter(x => x.estado !== 'Baja');
+    return { g, x: v[0] || g.ejemplares[0], activos: v.length,
+      faltaPortada: !g.portada && v.every(x => x.estadoPortada !== 'no'),
+      faltaSinopsis: v.every(x => x.estadoSinopsis === ''),
+      faltaIsbn: !v.some(x => isbnOk(x.isbn)) };
+  };
+  const cache = {}, saltados = new Set();
+  let pos = 0, cola = [];
+  $('#adm').innerHTML = '<div class="tarjeta"><div class="fila"><select id="rv-f" style="width:auto"><option value="cualquiera">Les falta portada o sinopsis</option><option value="portada">Les falta la portada</option><option value="sinopsis">Les falta la sinopsis</option><option value="isbn">No tienen ISBN válido</option></select>' +
+    '<select id="rv-e" style="width:auto"><option value="">Todas las etapas</option>' + S.info.etapas.map(e => '<option>' + esc(e) + '</option>').join('') + '</select>' +
+    '<span id="rv-prog" class="suave peq"></span><button class="b sec peq" style="margin-left:auto" ' + on(() => irAdmin('libros')) + '>Terminar</button></div></div><div id="rv-libro"></div><div id="rv-cand"></div>';
+  const armarCola = () => {
+    const f = $('#rv-f').value, e = $('#rv-e').value;
+    cola = cat.map(info).filter(i => i.activos && (!e || i.g.etapa === e) && !saltados.has(i.x.fila) &&
+      (f === 'portada' ? i.faltaPortada : f === 'sinopsis' ? i.faltaSinopsis : f === 'isbn' ? i.faltaIsbn : (i.faltaPortada || i.faltaSinopsis)));
+    pos = 0; mostrar();
+  };
+  const pedir = (fila, otro) => {
+    const k = fila + '|' + (otro || '');
+    if (!cache[k]) cache[k] = api('candidatosLibro', fila, otro || '').catch(e => { delete cache[k]; throw e; });
+    return cache[k];
+  };
+  const siguiente = () => { pos++; mostrar(); };
+  async function mostrar(otro) {
+    if (pos >= cola.length) {
+      $('#rv-prog').textContent = '';
+      $('#rv-libro').innerHTML = msg('ok', '¡No quedan libros en esta lista! Cambia el filtro de arriba o pulsa «Terminar».'); $('#rv-cand').innerHTML = ''; return;
+    }
+    const it = cola[pos], g = it.g, x = it.x;
+    $('#rv-prog').textContent = 'Libro ' + (pos + 1) + ' de ' + cola.length;
+    $('#rv-libro').innerHTML = '<div class="tarjeta"><div class="ficha-g">' + portadaHtml(g, 'grande') + '<div><h2 style="margin-top:0">' + esc(g.titulo) + '</h2>' +
+      '<p class="suave" style="margin:0 0 6px">' + esc(g.autor || 'Autor desconocido') + (g.editorial ? ' · ' + esc(g.editorial) : '') + '</p>' +
+      '<p class="peq">' + (g.etapa ? '<span class="etq">' + esc(g.etapa) + '</span> ' : '') + '<span class="etq">' + it.activos + ' ejemplar(es): ' + esc(g.ejemplares.map(e => e.codigo).filter(String).slice(0, 4).join(', ')) + '</span> ' +
+      (isbnOk(x.isbn) ? '<span class="etq">ISBN ' + esc(x.isbn) + '</span>' : '<span class="etq aviso">Sin ISBN válido</span>') + '</p>' +
+      '<div class="rev-op"><b style="font-size:14px">Rellenar:</b>' +
+      '<label><input type="checkbox" id="rv-p" ' + (it.faltaPortada ? 'checked' : '') + '> Portada</label>' +
+      '<label><input type="checkbox" id="rv-s" ' + (it.faltaSinopsis ? 'checked' : '') + '> Sinopsis</label>' +
+      '<label><input type="checkbox" id="rv-i" ' + (it.faltaIsbn ? 'checked' : '') + '> ISBN</label></div>' +
+      '<div class="fila"><button class="b sec" id="rv-saltar">Saltar</button><button class="b peligro" id="rv-no">Ninguna sirve</button>' +
+      '<input id="rv-otro" class="crece" placeholder="Buscar con otro título…" value="' + esc(otro || '') + '" style="max-width:320px"><button class="b sec" id="rv-buscar">' + ico('buscar') + '</button></div>' +
+      '</div></div></div>';
+    $('#rv-saltar').onclick = () => { saltados.add(x.fila); siguiente(); };
+    $('#rv-no').onclick = async () => { try { await api('descartarCandidatos', x.fila); g.ejemplares.forEach(e => { if (e.estadoPortada === '') e.estadoPortada = 'no'; if (e.estadoSinopsis === '') e.estadoSinopsis = 'no'; }); siguiente(); } catch (e) { aviso(textoError(e)); } };
+    const buscarOtro = () => { const v = $('#rv-otro').value.trim(); if (v) mostrar(v); };
+    $('#rv-buscar').onclick = buscarOtro;
+    $('#rv-otro').addEventListener('keydown', e => { if (e.key === 'Enter') buscarOtro(); });
+    $('#rv-cand').innerHTML = '<div class="cargando">Buscando en Google Books y Open Library…</div>';
+    let cands;
+    try { cands = await pedir(x.fila, otro); } catch (e) { $('#rv-cand').innerHTML = msg('error', esc(textoError(e))); return; }
+    if (cola[pos] !== it) return;   // ya se ha pasado a otro libro
+    if (cola[pos + 1]) pedir(cola[pos + 1].x.fila).catch(() => {});   // adelantar el siguiente
+    $('#rv-cand').innerHTML = !cands.length ? msg('aviso', 'No se ha encontrado nada con este título. Prueba «Buscar con otro título» (por ejemplo, solo una parte del título) o pulsa «Ninguna sirve».') :
+      '<h3>Elige la que corresponda a este libro</h3><div class="cand-grid">' + cands.map((c, n) =>
+        '<div class="cand"><div class="arriba">' + (c.portada ? '<img src="' + esc(c.portada) + '" alt="" referrerpolicy="no-referrer" loading="lazy">' : '<span class="sinimg">sin portada</span>') +
+        '<div><b>' + esc(c.titulo) + '</b><div class="dat">' + esc(c.autor) + '<br>' + esc([c.editorial, c.anio].filter(String).join(' · ')) + (c.isbn ? '<br>ISBN ' + esc(c.isbn) : '') + '</div></div></div>' +
+        (c.sinopsis ? '<div class="sin" title="' + esc(c.sinopsis) + '">' + esc(c.sinopsis) + '</div>' : '<div class="dat">Sin sinopsis</div>') +
+        '<span class="fuente">' + esc(c.fuente) + '</span><button class="b" data-n="' + n + '">Usar esta</button></div>').join('') + '</div>';
+    $('#rv-cand').querySelectorAll('button[data-n]').forEach(b => b.onclick = async () => {
+      const c = cands[+b.dataset.n];
+      const op = { portada: $('#rv-p').checked && !!c.portada, sinopsis: $('#rv-s').checked && !!c.sinopsis, isbn: $('#rv-i').checked && !!c.isbn };
+      if (!op.portada && !op.sinopsis && !op.isbn) return aviso('Esa opción no trae nada de lo marcado en «Rellenar».');
+      try {
+        await conBoton(b, () => api('aplicarCandidato', x.fila, c, op));
+        g.ejemplares.forEach(e => { if (op.portada) { e.portada = c.portada; e.estadoPortada = 'si'; } if (op.sinopsis) e.estadoSinopsis = 'si'; if (op.isbn && !isbnOk(e.isbn)) e.isbn = c.isbn; });
+        if (op.portada) g.portada = c.portada;
+        aviso('Guardado: ' + [op.portada && 'portada', op.sinopsis && 'sinopsis', op.isbn && 'ISBN'].filter(Boolean).join(', '));
+        siguiente();
+      } catch (e) { aviso(textoError(e)); }
+    });
+  }
+  ['#rv-f', '#rv-e'].forEach(sel => $(sel).addEventListener('change', armarCola));
+  armarCola();
+}
+
+function editarLibro(l) {
+  const nuevo = !l;
+  l = l || { codigo: '', etapa: '', titulo: '', autor: '', editorial: '', isbn: '', genero: '', observaciones: '', revisar: '' };
+  const campo = (id, txt, valor, extra) => '<div class="' + (extra || '') + '"><label>' + txt + '</label><input id="el-' + id + '" value="' + esc(valor) + '"></div>';
+  abrirVentana('<h2>' + (nuevo ? 'Nuevo libro' : 'Editar libro') + '</h2>' +
+    (nuevo ? '<div class="fila"><div class="crece"><label>ISBN (si lo tiene, rellena el resto solo)</label><input id="el-isbn" placeholder="978…"></div><button class="b sec" id="el-buscar" style="align-self:flex-end">Buscar datos</button></div><div id="el-isbn-msg"></div>' : '') +
+    '<div class="rejilla">' +
+    campo('titulo', 'Título *', l.titulo, 'ancho') + campo('autor', 'Autor', l.autor) + campo('editorial', 'Editorial', l.editorial) +
+    '<div><label>Etapa</label><select id="el-etapa"><option value="">—</option>' + S.info.etapas.map(e => '<option' + (e === l.etapa ? ' selected' : '') + '>' + esc(e) + '</option>').join('') + '</select></div>' +
+    (nuevo ? campo('codigo', 'Código (vacío = siguiente libre)', l.codigo) : '<div><label>Código</label><div class="fila" style="flex-wrap:nowrap"><input id="el-codigo" value="' + esc(l.codigo) + '"><button class="b sec peq" id="el-sig" title="Pone el siguiente número libre de la etapa elegida">Siguiente libre</button></div></div>') +
+    (nuevo ? '' : campo('isbn', 'ISBN', l.isbn)) + campo('genero', 'Género', l.genero) +
+    (nuevo ? '<div><label>Nº de ejemplares iguales</label><input id="el-n" type="number" min="1" max="50" value="1"></div>' : '') +
+    '<div class="ancho"><label>Portada (dirección de la imagen)</label><div class="fila" style="flex-wrap:nowrap;align-items:flex-start"><input id="el-portada" value="' + esc(/^https?:/.test(l.portada || '') ? l.portada : '') + '" placeholder="Vacío = portada dibujada automáticamente">' +
+      '<span id="el-prev">' + portadaHtml({ titulo: l.titulo || 'Título', autor: l.autor, etapa: l.etapa, portada: l.portada, ejemplares: [] }, 'mini') + '</span></div>' +
+      '<div class="peq suave" style="margin-top:4px">Para poner una portada a mano: búscala en Google Imágenes, haz clic derecho sobre ella → «Copiar dirección de imagen» y pégala aquí.</div></div>' +
+    '<div class="ancho"><label>Sinopsis</label><textarea id="el-sinopsis" style="min-height:110px"' + (nuevo ? '' : ' disabled placeholder="Cargando…"') + '></textarea></div>' +
+    '<div class="ancho"><label>Observaciones</label><textarea id="el-observaciones">' + esc(l.observaciones) + '</textarea></div>' +
+    (nuevo ? '' : '<div class="ancho"><label>Avisos para revisar</label><textarea id="el-revisar" placeholder="Sin avisos">' + esc(l.revisar) + '</textarea></div>') +
+    '</div><div id="el-msg"></div><div class="acciones"><button class="b" id="el-guardar">Guardar</button>' +
+    (nuevo ? '' : (l.revisar ? '<button class="b ok" id="el-rev">✓ Marcar como revisado</button>' : '') +
+      '<button class="b sec" ' + on(() => ventanaQR(l)) + '>Etiqueta QR</button>' +
+      '<button class="b sec" ' + on(() => historialLibro(l)) + '>Préstamos de este libro</button>' +
+      (l.estado === 'Baja' ? '<button class="b sec" id="el-recu">Recuperar (quitar la baja)</button>' : '<button class="b peligro" id="el-baja">Dar de baja</button>')) +
+    '</div>');
+  const val = id => { const e = $('#el-' + id); return e ? e.value : undefined; };
+  const recogida = () => { const d = {}; ['titulo', 'autor', 'editorial', 'etapa', 'codigo', 'isbn', 'genero', 'observaciones', 'revisar', 'portada'].forEach(k => { const v = val(k); if (v !== undefined) d[k] = v; });
+    if (!$('#el-sinopsis').disabled) d.sinopsis = val('sinopsis');
+    return d; };
+  if (!nuevo) api('leerSinopsis', l.fila).then(t => { const e = $('#el-sinopsis'); if (e) { e.value = t; e.disabled = false; e.placeholder = 'Sin sinopsis'; } }).catch(() => {});
+  if ($('#el-sig')) $('#el-sig').onclick = async () => {
+    const e = val('etapa');
+    if (!e) return aviso('Elige primero la etapa.');
+    try { $('#el-codigo').value = await conBoton($('#el-sig'), () => api('siguienteCodigo', e)); aviso('Recuerda poner el tejuelo nuevo al libro.'); } catch (er) { aviso(textoError(er)); }
+  };
+  $('#el-portada').addEventListener('input', () => { $('#el-prev').innerHTML = portadaHtml({ titulo: val('titulo') || 'Título', autor: val('autor'), etapa: val('etapa'), portada: val('portada'), ejemplares: [] }, 'mini'); });
+  const tras = async (texto) => { cerrarVentana(); aviso(texto); await cambiosHechos(); if (S.pestana === 'admin') vistaAdmin(); else if (S.pestana === 'catalogo') vistaCatalogo(); };
+  if (nuevo) {
+    const sugerir = async () => { const e = val('etapa'); $('#el-codigo').placeholder = e ? 'Se asignará ' + await api('siguienteCodigo', e).catch(() => '') : 'Elige la etapa'; };
+    $('#el-etapa').addEventListener('change', sugerir);
+    $('#el-buscar').onclick = async () => {
+      try {
+        const r = await conBoton($('#el-buscar'), () => api('buscarISBN', val('isbn')));
+        if (r.noEncontrado) { $('#el-isbn-msg').innerHTML = msg('aviso', 'No he encontrado ese ISBN. Rellena los datos a mano.'); return; }
+        ['titulo', 'autor', 'editorial', 'portada', 'sinopsis'].forEach(k => { if (r[k]) $('#el-' + k).value = r[k]; });
+        $('#el-portada').dispatchEvent(new Event('input'));
+        $('#el-isbn-msg').innerHTML = msg('ok', 'Datos encontrados. Revísalos antes de guardar.');
+      } catch (e) { $('#el-isbn-msg').innerHTML = msg('error', esc(textoError(e))); }
+    };
+    $('#el-isbn').addEventListener('keydown', e => { if (e.key === 'Enter') $('#el-buscar').click(); });
+  }
+  $('#el-guardar').onclick = async () => {
+    try {
+      const r = await conBoton($('#el-guardar'), () => api('guardarLibro', nuevo ? null : l.fila, recogida(), nuevo ? val('n') : null));
+      tras(r.nuevos ? 'Libro dado de alta: ' + r.nuevos.join(', ') : r.sinCambios ? 'No había cambios' : 'Cambios guardados');
+    } catch (e) { $('#el-msg').innerHTML = msg('error', esc(textoError(e))); }
+  };
+  if ($('#el-rev')) $('#el-rev').onclick = async () => {
+    try { await conBoton($('#el-rev'), () => api('guardarLibro', l.fila, Object.assign(recogida(), { revisar: '' }))); tras('Marcado como revisado'); }
+    catch (e) { $('#el-msg').innerHTML = msg('error', esc(textoError(e))); }
+  };
+  if ($('#el-baja')) $('#el-baja').onclick = async () => {
+    const motivo = prompt('¿Por qué se da de baja? (perdido, deteriorado…)');
+    if (motivo === null) return;
+    try { await api('bajaLibro', l.fila, motivo); tras('Libro dado de baja'); } catch (e) { $('#el-msg').innerHTML = msg('error', esc(textoError(e))); }
+  };
+  if ($('#el-recu')) $('#el-recu').onclick = async () => {
+    try { await api('recuperarLibro', l.fila); tras('Libro recuperado'); } catch (e) { $('#el-msg').innerHTML = msg('error', esc(textoError(e))); }
+  };
+}
+
+async function historialLibro(l) {
+  abrirVentana('<h2>Préstamos de «' + esc(l.titulo) + '»</h2><div class="cargando">Cargando…</div>');
+  try {
+    const h = await api('historialLibro', l.codigo);
+    $('#contenido').innerHTML = '<h2>Préstamos de «' + esc(l.titulo) + '»</h2>' + (h.length ? '<div class="tabla"><table><tr><th>Lector</th><th>Prestado</th><th>Devuelto</th></tr>' + h.map(p => '<tr><td>' + esc(p.nombre) + '<div class="peq suave">' + esc(p.curso) + '</div></td><td>' + fecha(p.desde) + '</td><td>' + (p.devuelto ? fecha(p.devuelto) : '<span class="etq Prestado">Aún no</span>') + '</td></tr>').join('') + '</table></div>' : '<p class="suave">Este libro no se ha prestado nunca.</p>');
+  } catch (e) { $('#contenido').innerHTML = msg('error', esc(textoError(e))); }
+}
+
+// ───── Etiquetas QR ─────
+function urlLibro(codigo) { return S.info.url ? S.info.url + '?libro=' + encodeURIComponent(codigo) : codigo; }
+
+// Símbolo del colegio (el mismo icono de la web), para el centro de los QR.
+const ICONO_COLEGIO = 'data:image/png;base64,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';
+const iconoImg = new Image();
+const iconoListo = new Promise(ok => { iconoImg.onload = ok; iconoImg.onerror = ok; });
+iconoImg.src = ICONO_COLEGIO;
+
+/** QR con el símbolo del colegio en el centro (corrección de errores alta para que se siga leyendo). */
+function qrDataUrl(texto, tam) {
+  const div = document.createElement('div');
+  new QRCode(div, { text: texto, width: tam, height: tam, correctLevel: QRCode.CorrectLevel.H });
+  const qr = div.querySelector('canvas');
+  if (!qr) return div.querySelector('img').src;
+  const c = document.createElement('canvas'); c.width = tam; c.height = tam;
+  const x = c.getContext('2d');
+  x.drawImage(qr, 0, 0, tam, tam);
+  if (iconoImg.complete && iconoImg.naturalWidth) {
+    const hueco = Math.round(tam * 0.24), ini = Math.round((tam - hueco) / 2), r = hueco * 0.18;
+    x.fillStyle = '#fff';
+    x.beginPath();
+    x.moveTo(ini + r, ini); x.arcTo(ini + hueco, ini, ini + hueco, ini + hueco, r); x.arcTo(ini + hueco, ini + hueco, ini, ini + hueco, r);
+    x.arcTo(ini, ini + hueco, ini, ini, r); x.arcTo(ini, ini, ini + hueco, ini, r); x.closePath(); x.fill();
+    const m = Math.round(hueco * 0.06);
+    x.drawImage(iconoImg, ini + m, ini + m, hueco - 2 * m, hueco - 2 * m);
+  }
+  return c.toDataURL('image/png');
+}
+
+function lineas(ctx, texto, ancho, maxLineas) {
+  const pal = String(texto).split(' '), out = [];
+  let l = '';
+  pal.forEach(p => { const prueba = l ? l + ' ' + p : p; if (ctx.measureText(prueba).width > ancho && l) { out.push(l); l = p; } else l = prueba; });
+  if (l) out.push(l);
+  if (out.length > maxLineas) { out.length = maxLineas; out[maxLineas - 1] += '…'; }
+  return out;
+}
+
+function etiquetaPng(l) {
+  return iconoListo.then(() => new Promise(ok => {
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas'); c.width = 900; c.height = 400;
+      const x = c.getContext('2d');
+      x.fillStyle = '#fff'; x.fillRect(0, 0, 900, 400);
+      x.fillStyle = (COLOR_ETAPA[l.etapa] || ['#64748B'])[0]; x.fillRect(0, 0, 14, 400);
+      x.drawImage(img, 40, 30, 340, 340);
+      let tam = 46;
+      do { x.font = 'bold ' + tam + 'px "Fira Sans", sans-serif'; tam -= 2; } while (x.measureText(l.codigo).width > 470 && tam > 24);
+      x.fillStyle = '#1E293B'; x.fillText(l.codigo, 405, 95);
+      x.font = '28px "Fira Sans", sans-serif'; x.fillStyle = '#334155';
+      lineas(x, l.titulo, 465, 3).forEach((t, i) => x.fillText(t, 405, 145 + i * 36));
+      x.fillStyle = '#E2E8F0'; x.fillRect(405, 286, 465, 2);
+      x.fillStyle = '#009abb'; x.font = 'bold 30px "Fira Sans", sans-serif'; x.fillText('Biblioteca', 405, 328);
+      x.fillStyle = '#64748B'; x.font = '21px "Fira Sans", sans-serif'; x.fillText('Escuelas Salesianas María Auxiliadora', 405, 360);
+      ok(c.toDataURL('image/png'));
+    };
+    img.src = qrDataUrl(urlLibro(l.codigo), 340);
+  }));
+}
+
+async function ventanaQR(l) {
+  if (!l.codigo) { aviso('Este libro no tiene código todavía.'); return; }
+  abrirVentana('<h2>Etiqueta QR</h2><div class="cargando">Generando…</div>');
+  const png = await etiquetaPng(l);
+  $('#contenido').innerHTML = '<h2>Etiqueta QR · ' + esc(l.codigo) + '</h2><div class="qr-vista"><img src="' + png + '" alt="Etiqueta"></div>' +
+    '<p class="peq suave">Al escanearlo con el móvil se abre la ficha de este libro en la web: quien gestiona puede prestarlo o devolverlo, y el alumnado puede reservarlo.' + (S.info.url ? '' : ' (La dirección de la web aparecerá cuando esté publicada.)') + '</p>' +
+    '<div class="acciones"><a class="b" style="text-decoration:none" download="' + esc(l.codigo) + '.png" href="' + png + '"><button class="b">Descargar imagen</button></a>' +
+    '<button class="b sec" ' + on(() => imprimirEtiquetas([l])) + '>Imprimir</button></div>' +
+    '<h3>Tejuelo para el lomo</h3><p>' + tejueloHtml(l, 'muestra-tej') + '</p><div class="acciones"><button class="b sec" ' + on(() => imprimirTejuelos([l])) + '>Imprimir tejuelo</button></div>' +
+    '<p class="peq suave">Si la descarga no empieza, mantén pulsada la imagen (o clic derecho) y elige «Guardar imagen».</p>';
+}
+
+async function imprimirEtiquetas(lista) {
+  aviso('Preparando ' + lista.length + ' etiqueta(s)…');
+  await iconoListo;
+  await new Promise(r => setTimeout(r, 50));
+  $('#imprimir').innerHTML = '<div class="etiquetas">' + lista.map(l =>
+    '<div class="etiqueta" style="--c:' + (COLOR_ETAPA[l.etapa] || ['#64748B'])[0] + '"><img src="' + qrDataUrl(urlLibro(l.codigo), 240) + '"><div class="txt">' +
+    '<div class="c' + (String(l.codigo).length > 11 ? ' largo' : '') + '">' + esc(l.codigo) + '</div><div class="ti">' + esc(l.titulo) + '</div>' +
+    '<div class="pie"><b>Biblioteca</b><span>Escuelas Salesianas María Auxiliadora</span></div></div></div>').join('') + '</div>';
+  setTimeout(() => window.print(), 300);
+}
+
+// ───── Tejuelos (lomo) ─────
+const COLOR_ETAPA = { 'Infantil': ['#ee712a', 'INFANTIL'], 'Primaria': ['#8a9400', 'PRIMARIA'], 'ESO/Bachillerato': ['#007791', 'ESO-BACH'] };
+function tejueloHtml(l, clase) {
+  const c = COLOR_ETAPA[l.etapa] || ['#777', 'SIN ETAPA'];
+  const m = String(l.codigo || '').match(/(\d+)\s*$/);
+  const num = m ? m[1] : (l.codigo || '?');
+  return '<span class="' + clase + '"><span class="banda" style="background:' + c[0] + '">' + c[1] + '</span><span class="num">' + esc(num) + '</span>' +
+    (clase === 'tejuelo' ? '<span class="pie">' + esc(String(l.codigo)) + '</span>' : '') + '</span>';
+}
+function imprimirTejuelos(lista) {
+  $('#imprimir').innerHTML = '<div class="tejuelos">' + lista.map(l => tejueloHtml(l, 'tejuelo')).join('') + '</div>';
+  setTimeout(() => window.print(), 200);
+}
+
+// ───── Alumnado (lectores) ─────
+const ETAPAS_ALUMNADO = ['Infantil', 'Primaria', 'ESO', 'Bachillerato', 'FP', 'Otros'];
+function etapaDeCurso(c) {
+  c = String(c || '');
+  if (/infantil/i.test(c)) return 'Infantil';
+  if (/primaria/i.test(c)) return 'Primaria';
+  if (/\bESO\b/i.test(c)) return 'ESO';
+  if (/bachiller/i.test(c)) return 'Bachillerato';
+  if (/\bFP\b|ciclo/i.test(c)) return 'FP';
+  return 'Otros';
+}
+/** Orden natural: etapa → número de curso → resto del nombre. */
+function claveCurso(c) {
+  const e = ETAPAS_ALUMNADO.indexOf(etapaDeCurso(c));
+  const n = (String(c).match(/\d+/) || [99])[0];
+  return e + '|' + String(n).padStart(2, '0') + '|' + norm(c);
+}
+
+async function admLectores() {
+  let ls;
+  try { ls = await api('lectoresTodos'); } catch (e) { $('#adm').innerHTML = msg('error', esc(textoError(e))); return; }
+  ls.forEach(x => { x.etapa = etapaDeCurso(x.curso); x._orden = claveCurso(x.curso) + '|' + norm(x.apellidos + ' ' + x.nombre); });
+  ls.sort((a, b) => a._orden < b._orden ? -1 : 1);
+  const activos = ls.filter(x => x.estado === 'Activo').length;
+  const etapasHay = ETAPAS_ALUMNADO.filter(e => ls.some(x => x.etapa === e));
+  $('#adm').innerHTML = '<div class="tarjeta"><div class="fila"><input id="ae-q" class="crece" placeholder="Buscar por nombre o correo…">' +
+    '<select id="ae-e" style="width:auto"><option value="">Todas las etapas</option>' + etapasHay.map(e => '<option>' + e + '</option>').join('') + '</select>' +
+    '<select id="ae-c" style="width:auto"></select>' +
+    '<select id="ae-f" style="width:auto"><option value="Activo">Activos (' + activos + ')</option><option value="Baja">De baja (' + (ls.length - activos) + ')</option><option value="">Todos</option></select></div>' +
+    '<div class="fila" style="margin-top:10px"><button class="b" ' + on(() => editarLector(null)) + '>+ Nuevo lector</button><button class="b sec" ' + on(importarListado) + '>Importar listado de Google (cada curso)</button></div></div><div id="ae-res"></div>';
+  const rellenarCursos = () => {
+    const e = $('#ae-e').value, f = $('#ae-f').value, antes = $('#ae-c').value;
+    const cursos = [...new Set(ls.filter(x => (!e || x.etapa === e) && (!f || x.estado === f)).map(x => x.curso).filter(String))].sort((a, b) => claveCurso(a) < claveCurso(b) ? -1 : 1);
+    const cuenta = c => ls.filter(x => x.curso === c && (!f || x.estado === f)).length;
+    $('#ae-c').innerHTML = '<option value="">Todos los cursos</option>' + cursos.map(c => '<option' + (c === antes ? ' selected' : '') + ' value="' + esc(c) + '">' + esc(c) + ' (' + cuenta(c) + ')</option>').join('');
+  };
+  const pg = crearPaginas(() => { pintar(); $('#ae-res').scrollIntoView({ block: 'start' }); });
+  const pintar = () => {
+    const q = $('#ae-q').value, f = $('#ae-f').value, e = $('#ae-e').value, c = $('#ae-c').value;
+    const r = ls.filter(x => (!f || x.estado === f) && (!e || x.etapa === e) && (!c || x.curso === c) && (!q || coincide(x.nombre + ' ' + x.apellidos + ' ' + x.curso + ' ' + x.correo, q)));
+    const conLibros = r.filter(x => x.libros).length, vis = pg.trozo(r);
+    $('#ae-res').innerHTML = '<p class="suave peq" style="margin-bottom:0">' + r.length + ' lector(es)' + (conLibros ? ' · ' + conLibros + ' con libros ahora mismo' : '') + '</p>' + pg.html() + '<div class="tabla"><table><tr><th>Nombre</th><th>Curso</th><th class="ocultar-movil">Correo</th><th>Libros</th></tr>' +
+      vis.map(x => '<tr class="clic" ' + on(() => editarLector(x)) + '><td>' + esc(x.apellidos ? x.apellidos + ', ' + x.nombre : x.nombre) + (x.estado !== 'Activo' ? ' <span class="etq Baja">baja</span>' : '') + '</td><td>' + esc(x.curso) + '</td><td class="ocultar-movil peq">' + esc(x.correo || '(sin correo)') + '</td><td>' + (x.libros || '') + '</td></tr>').join('') +
+      '</table></div>' + pg.html();
+  };
+  let t; $('#ae-q').addEventListener('input', () => { clearTimeout(t); pg.reset(); t = setTimeout(pintar, 150); });
+  $('#ae-e').addEventListener('change', () => { $('#ae-c').value = ''; rellenarCursos(); pg.reset(); pintar(); });
+  $('#ae-c').addEventListener('change', () => { pg.reset(); pintar(); });
+  $('#ae-f').addEventListener('change', () => { rellenarCursos(); pg.reset(); pintar(); });
+  rellenarCursos();
+  pintar();
+}
+
+async function editarLector(x) {
+  const nuevo = !x;
+  x = x || { nombre: '', apellidos: '', curso: '', correo: '', estado: 'Activo' };
+  abrirVentana('<h2>' + (nuevo ? 'Nuevo lector' : esc(x.nombre + ' ' + x.apellidos)) + '</h2>' +
+    (nuevo ? '<p class="peq suave">Para alumnado sin cuenta del colegio (por ejemplo, Infantil 3 años). Cuando tenga cuenta, añade aquí su correo.</p>' : '') +
+    '<div class="rejilla"><div><label>Nombre *</label><input id="lx-nombre" value="' + esc(x.nombre) + '"></div><div><label>Apellidos</label><input id="lx-apellidos" value="' + esc(x.apellidos) + '"></div>' +
+    '<div><label>Curso</label><input id="lx-curso" value="' + esc(x.curso) + '" placeholder="Ej.: Infantil 3 años"></div><div><label>Correo del colegio</label><input id="lx-correo" value="' + esc(x.correo) + '"></div>' +
+    (nuevo ? '' : '<div><label>Estado</label><select id="lx-estado"><option' + (x.estado === 'Activo' ? ' selected' : '') + '>Activo</option><option' + (x.estado === 'Baja' ? ' selected' : '') + '>Baja</option></select></div>') +
+    '</div><div id="lx-msg"></div><div class="acciones"><button class="b" id="lx-g">Guardar</button></div><div id="lx-h"></div>');
+  $('#lx-g').onclick = async () => {
+    const d = { nombre: $('#lx-nombre').value, apellidos: $('#lx-apellidos').value, curso: $('#lx-curso').value, correo: $('#lx-correo').value, estado: $('#lx-estado') ? $('#lx-estado').value : 'Activo' };
+    try { await conBoton($('#lx-g'), () => api('guardarLector', nuevo ? null : x.id, d)); S.lectores = null; cerrarVentana(); aviso('Guardado'); vistaAdmin(); }
+    catch (e) { $('#lx-msg').innerHTML = msg('error', esc(textoError(e))); }
+  };
+  if (!nuevo) {
+    try {
+      const h = await api('historialLector', x.id);
+      $('#lx-h').innerHTML = '<h3>Libros que ha sacado</h3>' + (h.length ? '<div class="tabla"><table><tr><th>Libro</th><th>Prestado</th><th>Devuelto</th></tr>' + h.map(p => '<tr><td>' + esc(p.titulo) + '<div class="peq suave">' + esc(p.codigo) + '</div></td><td>' + fecha(p.desde) + '</td><td>' + (p.devuelto ? fecha(p.devuelto) : '<span class="etq Prestado">Lo tiene</span>') + '</td></tr>').join('') + '</table></div>' : '<p class="suave">Todavía no ha sacado ningún libro.</p>');
+    } catch (e) {}
+  }
+}
+
+function importarListado() {
+  abrirVentana('<h2>Importar el listado del alumnado</h2>' +
+    '<p class="peq">Descarga los usuarios desde la consola de administración de Google (el archivo <i>Usuarios.xlsx</i> o un .csv) y <b>arrástralo aquí</b> o elígelo con el botón.</p>' +
+    '<label id="im-zona" class="zona"><input type="file" id="im-f" accept=".xlsx,.xls,.csv" hidden><b>Arrastra aquí el archivo</b><br><span class="peq suave">o pulsa para elegirlo</span></label>' +
+    '<div id="im-leido"></div>' +
+    '<details class="peq" style="margin-top:12px"><summary>Para pocos alumnos: pegar filas copiadas de Excel</summary><textarea id="im-t" style="min-height:110px;margin-top:8px" placeholder="Pega aquí las filas (con la fila de títulos)…"></textarea></details>' +
+    '<p class="peq suave">Las cuentas nuevas se dan de alta, las existentes se actualizan de curso y las que estén en un grupo «Baja» o suspendidas pasan a baja (sin perder su historial). El profesorado no se importa.</p>' +
+    '<div id="im-msg"></div><div class="acciones"><button class="b" id="im-b">Importar</button></div>');
+  let texto = '';
+  const zona = $('#im-zona'), f = $('#im-f');
+  const leer = async archivo => {
+    if (!archivo) return;
+    $('#im-leido').innerHTML = '<p class="cargando">Leyendo ' + esc(archivo.name) + '…</p>';
+    try {
+      texto = await archivoATexto(archivo);
+      const filas = texto.split('\n').filter(l => l.trim()).length - 1;
+      $('#im-leido').innerHTML = msg('ok', '✓ <b>' + esc(archivo.name) + '</b>: ' + filas + ' cuentas leídas. Pulsa <b>Importar</b>.');
+    } catch (e) { texto = ''; $('#im-leido').innerHTML = msg('error', 'No he podido leer el archivo: ' + esc(textoError(e))); }
+  };
+  f.addEventListener('change', () => leer(f.files[0]));
+  ['dragenter', 'dragover'].forEach(ev => zona.addEventListener(ev, e => { e.preventDefault(); zona.classList.add('encima'); }));
+  ['dragleave', 'drop'].forEach(ev => zona.addEventListener(ev, e => { e.preventDefault(); zona.classList.remove('encima'); }));
+  zona.addEventListener('drop', e => leer(e.dataTransfer.files[0]));
+  $('#im-b').onclick = async () => {
+    const datos = texto || $('#im-t').value;
+    if (!datos.trim()) { $('#im-msg').innerHTML = msg('aviso', 'Primero elige el archivo (o pega las filas).'); return; }
+    try {
+      const r = await conBoton($('#im-b'), () => api('importarUsuarios', datos));
+      S.lectores = null;
+      $('#contenido').innerHTML = '<h2>Listado importado</h2>' + msg('ok', '<b>' + r.nuevos + '</b> altas nuevas · <b>' + r.actualizados + '</b> actualizados · <b>' + r.bajas + '</b> pasan a baja · ' + r.ignorados + ' cuentas ignoradas (profesorado, etc.)') +
+        (r.pendientes.length ? '<h3>⚠ Alumnado dado de baja que aún tiene libros</h3><div class="tabla"><table><tr><th>Alumno/a</th><th>Libro</th></tr>' + r.pendientes.map(p => '<tr><td>' + esc(p.nombre) + '<div class="peq suave">' + esc(p.curso) + '</div></td><td>' + esc(p.titulo) + '<div class="peq suave">' + esc(p.codigo) + '</div></td></tr>').join('') + '</table></div>' : '') +
+        '<div class="acciones"><button class="b" ' + on(() => { cerrarVentana(); vistaAdmin(); }) + '>Cerrar</button></div>';
+    } catch (e) { $('#im-msg').innerHTML = msg('error', esc(textoError(e))); }
+  };
+}
+
+/** Convierte un .xlsx/.csv en texto separado por tabuladores (lo que espera el servidor). */
+function cargarLectorExcel() {
+  if (window.XLSX) return Promise.resolve();
+  return new Promise((ok, mal) => {
+    const sc = document.createElement('script');
+    sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+    sc.onload = ok; sc.onerror = () => mal(new Error('no se ha podido cargar el lector de Excel; comprueba la conexión'));
+    document.head.appendChild(sc);
+  });
+}
+async function archivoATexto(archivo) {
+  await cargarLectorExcel();
+  const libro = XLSX.read(await archivo.arrayBuffer(), { type: 'array' });
+  const hoja = libro.Sheets[libro.SheetNames[0]];
+  return XLSX.utils.sheet_to_csv(hoja, { FS: '\t', blankrows: false });
+}
+
+// ───── Gestores ─────
+async function admGestores() {
+  const caja = $('#aj-ges') || $('#adm');
+  let g;
+  try { g = await api('listaGestores'); } catch (e) { caja.innerHTML = msg('error', esc(textoError(e))); return; }
+  caja.innerHTML = '<div class="tarjeta"><h3 class="nivel-t" style="--c:#64748B">Quién gestiona la biblioteca</h3><p class="suave peq" style="margin-top:0">Estas personas pueden prestar, devolver y modificar el catálogo. El resto de cuentas del colegio solo ven el catálogo (y el alumnado puede reservar).</p>' +
+    '<div class="tabla"><table><tr><th>Correo</th><th>Nombre</th><th></th></tr>' + g.map(x => '<tr><td>' + esc(x.correo) + '</td><td>' + esc(x.nombre) + '</td><td>' +
+      (x.correo === S.info.correo ? '<span class="peq suave">(tú)</span>' : '<button class="b peligro peq" ' + on(async () => { if (await confirmar('¿Quitar el acceso de gestión a ' + esc(x.correo) + '?', 'Quitar')) { try { await api('quitarGestor', x.correo); admGestores(); } catch (e) { aviso(textoError(e)); } } }) + '>Quitar</button>') + '</td></tr>').join('') + '</table></div>' +
+    '<h3>Añadir a alguien</h3><div class="fila"><input id="ag-c" class="crece" placeholder="correo@nervion.salesianas.org"><input id="ag-n" class="crece" placeholder="Nombre (opcional)"><button class="b" id="ag-b">Añadir</button></div><div id="ag-msg"></div></div>';
+  $('#ag-b').onclick = async () => {
+    try { await conBoton($('#ag-b'), () => api('anadirGestor', $('#ag-c').value, $('#ag-n').value)); aviso('Añadido'); admGestores(); }
+    catch (e) { $('#ag-msg').innerHTML = msg('error', esc(textoError(e))); }
+  };
+}
+
+// ───── Ajustes ─────
+async function admAjustes() {
+  let a;
+  try { a = await api('leerAjustes'); } catch (e) { $('#adm').innerHTML = msg('error', esc(textoError(e))); return; }
+  $('#adm').innerHTML = '<div class="tarjeta"><h3 class="nivel-t" style="--c:#009abb">Normas y configuración</h3>' + a.filter(x => x.clave !== 'id_cliente_google').map(x => '<label>' + esc(x.descripcion || x.clave) + '</label>' +
+    (x.clave === 'reservas_alumnado' ? '<select data-k="' + esc(x.clave) + '"><option' + (/^s/i.test(x.valor) ? ' selected' : '') + '>SÍ</option><option' + (/^s/i.test(x.valor) ? '' : ' selected') + '>NO</option></select>'
+      : '<input data-k="' + esc(x.clave) + '" value="' + esc(x.valor) + '">')).join('') +
+    '<div id="aj-msg"></div><div class="acciones"><button class="b" id="aj-b">Guardar ajustes</button></div></div><div id="aj-ges"><div class="cargando">Cargando…</div></div>';
+  admGestores();
+  $('#aj-b').onclick = async () => {
+    const v = {}; document.querySelectorAll('#adm [data-k]').forEach(e => v[e.dataset.k] = e.value);
+    try { await conBoton($('#aj-b'), () => api('guardarAjustes', v)); S.info = await api('iniciar'); $('#titulo').textContent = S.info.ajustes.nombre_biblioteca; aviso('Ajustes guardados'); }
+    catch (e) { $('#aj-msg').innerHTML = msg('error', esc(textoError(e))); }
+  };
+}
+
+// ───── Historial ─────
+async function admHistorial() {
+  let h;
+  try { h = await api('verHistorial', 1000); } catch (e) { $('#adm').innerHTML = msg('error', esc(textoError(e))); return; }
+  $('#adm').innerHTML = '<input id="ah-q" placeholder="Filtrar (libro, persona, acción…)" style="margin-bottom:12px"><div id="ah-res"></div>';
+  const pintar = () => {
+    const q = $('#ah-q').value;
+    const r = h.filter(x => !q || coincide(x.fecha + ' ' + x.usuario + ' ' + x.accion + ' ' + x.elemento + ' ' + x.detalle, q)).slice(0, 300);
+    $('#ah-res').innerHTML = '<div class="tabla"><table><tr><th>Cuándo</th><th>Qué</th><th>Detalle</th><th class="ocultar-movil">Quién</th></tr>' + r.map(x =>
+      '<tr><td class="peq" style="white-space:nowrap">' + fecha(x.fecha) + ' ' + esc(String(x.fecha).slice(11)) + '</td><td><b>' + esc(x.accion) + '</b><div class="peq suave">' + esc(x.elemento) + '</div></td><td class="peq">' + esc(x.detalle) + '</td><td class="peq ocultar-movil">' + esc(String(x.usuario).split('@')[0]) + '</td></tr>').join('') + '</table></div>';
+  };
+  $('#ah-q').addEventListener('input', pintar);
+  pintar();
+}
+
+// ═════════════════════ App instalable ═════════════════════
+if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); S.instalar = e; refrescarCabecera(); });
+window.addEventListener('appinstalled', () => { S.instalar = null; refrescarCabecera(); aviso('¡App instalada!'); });
+function refrescarCabecera() { if (S.info) montar(false); }
+async function instalarApp() {
+  if (S.instalar === 'ios') {
+    abrirVentana('<h2>Instalar la app</h2><ol><li>Pulsa el botón <b>Compartir</b> de Safari (el cuadrado con una flecha hacia arriba).</li>' +
+      '<li>Elige <b>«Añadir a pantalla de inicio»</b>.</li><li>Pulsa <b>Añadir</b>.</li></ol><p class="suave peq">Aparecerá el icono de la Biblioteca junto a tus apps.</p>');
+    return;
+  }
+  if (S.instalar) { S.instalar.prompt(); await S.instalar.userChoice.catch(() => {}); S.instalar = null; refrescarCabecera(); }
+}
+function esIOS() { return /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); }
+function enApp() { return matchMedia('(display-mode: standalone)').matches || navigator.standalone; }
+if (esIOS() && !enApp()) S.instalar = 'ios';
+
+iniciar();
+</script>
+</body>
+</html>
